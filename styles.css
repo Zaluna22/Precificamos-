@@ -1,0 +1,323 @@
+/* Geral */
+body {
+    font-family: 'Roboto', sans-serif; /* Fonte mais moderna e legível */
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Cinza muito claro */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Garante que o footer fique no final da página */
+}
+
+/* Cabeçalho */
+header {
+    background-color: #00274d; /* Azul escuro */
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 4px solid #004080; /* Borda inferior para um efeito distinto */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em; /* Tamanho maior para o título */
+    font-family: 'Montserrat', sans-serif; /* Fonte moderna */
+}
+
+/* Navegação */
+nav {
+    background-color: #003366; /* Azul mais claro para diferenciar do cabeçalho */
+    padding: 10px 0; /* Espaçamento interno para a área de navegação */
+    border-bottom: 2px solid #004080; /* Borda inferior para separar da área de conteúdo */
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Centraliza os itens de navegação */
+}
+
+nav li {
+    margin: 0 15px; /* Espaçamento horizontal entre os itens */
+}
+
+a {
+    color: #e0e0e0; /* Cor clara para os links */
+    text-decoration: none;
+    font-size: 1.1em; /* Tamanho da fonte ajustado */
+    font-family: 'Roboto', sans-serif; /* Fonte limpa e moderna */
+    padding: 8px 12px; /* Espaçamento interno para os links */
+    border-radius: 5px; /* Bordas arredondadas para um efeito suave */
+}
+
+a:hover {
+    color: #ffffff; /* Cor branca ao passar o mouse */
+    background-color: #004080; /* Cor de fundo ao passar o mouse */
+    transition: background-color 0.3s ease; /* Transição suave para o efeito hover */
+}
+
+/* Títulos H3 */
+h3 {
+    font-size: 1.8em; /* Tamanho ajustado para destaque */
+    margin: 20px 0; /* Margem acima e abaixo */
+    color: #ffffff; /* Cor consistente com o cabeçalho */
+    font-family: 'Montserrat', sans-serif; /* Fonte moderna */
+    font-weight: 500; /* Peso da fonte ajustado para um estilo mais elegante */
+}
+
+
+/* Calculadora e Produtos */
+main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espaçamento entre seções */
+    padding: 20px;
+    flex: 1; /* Permite que o main expanda para preencher o espaço disponível */
+}
+
+#calculadora,
+#produtos-custos {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+}
+
+#calculadora h2,
+#produtos-custos h2 {
+    text-align: center;
+    color: #00274d; /* Azul escuro */
+}
+
+#calculadora label,
+#produtos-custos label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#calculadora input,
+#calculadora button,
+#produtos-custos input,
+#produtos-custos button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#calculadora input,
+#produtos-custos input {
+    width: calc(100% - 22px); /* Ajusta a largura dos campos de entrada */
+}
+
+#calculadora button,
+#produtos-custos button {
+    background-color: #2196f3; /* Azul padrão */
+    color: #fff;
+    cursor: pointer;
+    border: none;
+}
+
+#calculadora button:hover,
+#produtos-custos button:hover {
+    background-color: #1976d2; /* Azul mais escuro */
+}
+
+#calculadora button.calcular {
+    background-color: #4caf50; /* Verde padrão */
+    width: 100%;
+}
+
+#calculadora button.calcular:hover {
+    background-color: #388e3c; /* Verde mais escuro */
+}
+
+#calculadora button.eliminar {
+    background-color: #f44336; /* Vermelho padrão */
+    width: 100%;
+}
+
+#calculadora button.eliminar:hover {
+    background-color: #c62828; /* Vermelho mais escuro */
+}
+
+#calculadora button.guardar {
+    background-color: #1976d2; /* Azul mais escuro */
+        width: 50%;
+}
+
+#calculadora button.guardar:hover {
+    background-color: #1976d2; /* Azul mais escuro */}
+    #calculadora button.guardar {
+    background-color: #1976d2; /* Azul mais escuro */
+        width: 49.5%;
+}
+
+#calculadora button.guardar:hover {
+    background-color: #1976d2; /* Azul mais escuro */}
+
+#calculadora button.adicionar {
+        background-color: #1976d2; /* Azul mais escuro */
+            width: 49.5%;
+    }
+    
+#calculadora button.adicionar:hover {
+        background-color: #1976d2; /* Azul mais escuro */}
+    
+
+
+        #resultado {
+            font-weight: bold;
+            font-size: 1.2em; /* Aumenta o tamanho da fonte para destaque */
+            color: #333; /* Cor do texto mais escura para melhor legibilidade */
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f1f8e9; /* Verde claro suave para destaque */
+            border: 1px solid #c5e1a5; /* Verde mais claro para a borda */
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra mais suave e elevada */
+        }
+        
+        #lista-produtos {
+            list-style: none;
+            padding: 0;
+        }
+        
+        #lista-produtos li {
+            margin-bottom: 15px; /* Aumenta o espaçamento entre itens */
+            padding: 15px; /* Aumenta o padding interno para mais espaço */
+            background-color: #ffffff; /* Branco para um visual limpo */
+            border-radius: 8px; /* Bordas arredondadas mais suaves */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra mais proeminente para destaque */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transição suave para efeitos de hover */
+        }
+        
+        #lista-produtos li:hover {
+            background-color: #e3f2fd; /* Azul claro ao passar o mouse */
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada ao passar o mouse */
+        }
+        
+
+
+
+/* Estilo para a seção "Como está composto nosso custo?" */
+#dicas-tutoriais {
+    background-color: #f4f4f4; /* Cor de fundo neutra e suave */
+    border: 1px solid #d0d0d0; /* Borda cinza claro para um efeito discreto */
+    border-radius: 10px; /* Bordas arredondadas sutis */
+    padding: 25px; /* Espaçamento interno moderado */
+    margin: 20px 0; /* Margem superior e inferior ajustada */
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.08); /* Sombra suave e discreta */
+  }
+  
+  #dicas-tutoriais h2 {
+    color: #2c3e50; /* Azul escuro mais sutil para o título */
+    font-size: 26px; /* Tamanho da fonte do título ajustado */
+    margin-bottom: 15px; /* Margem inferior ajustada */
+    font-family: 'Georgia', serif; /* Fonte serifada para um toque clássico */
+    font-weight: 500; /* Fonte em negrito moderado */
+  }
+  
+  #dicas-tutoriais article {
+    font-size: 16px; /* Tamanho da fonte do texto ajustado */
+    line-height: 1.6; /* Espaçamento entre linhas confortável */
+    color: #555; /* Cor do texto mais clara e suave */
+    font-family: 'Arial', sans-serif; /* Fonte sans-serif limpa e moderna */
+  }
+  
+  #dicas-tutoriais p {
+    margin-bottom: 12px; /* Margem inferior dos parágrafos ajustada */
+  }
+  
+  #dicas-tutoriais .destaque {
+    font-weight: 600; /* Negrito moderado */
+    color: #34495e; /* Cor do texto em destaque mais sóbria */
+    background-color: #ecf0f1; /* Cor de fundo leve para destaque sutil */
+    padding: 5px; /* Padding interno para destaque */
+    border-radius: 4px; /* Bordas arredondadas suaves para o destaque */
+  }
+  
+
+
+  /* Rodapé */
+footer {
+    background-color: #00274d; /* Azul escuro */
+    color: #fff;
+    padding: 20px 0; /* Reduzido para 20px */
+    font-family: 'Roboto', sans-serif;
+    width: 100%; /* Largura total */
+    text-align: center;
+    font-size: 14px; /* Fonte menor para um visual mais delicado */
+}
+
+/* Container do Rodapé */
+footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px; /* Reduzido para deixar mais compacto */
+}
+
+/* Layout do Rodapé */
+footer .row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+footer .col {
+    flex: 1;
+    margin: 5px; /* Reduzido o espaçamento */
+    min-width: 150px; /* Diminuído o tamanho mínimo */
+}
+
+footer p {
+    margin: 0 0 5px; /* Menor espaçamento entre parágrafos */
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 14px; /* Fonte menor para links */
+}
+
+footer a:hover {
+    color: #82b1ff; /* Azul claro ao passar o mouse */
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+footer ul li {
+    margin: 3px 0; /* Menor espaçamento nas listas */
+}
+
+footer .social-icons {
+    display: flex;
+    gap: 8px; /* Reduzido o espaçamento entre os ícones */
+}
+
+footer .social-icons a {
+    font-size: 20px; /* Tamanho ligeiramente menor dos ícones */
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+footer .social-icons a:hover {
+    color: #82b1ff; /* Azul claro ao passar o mouse */
+}
+
+footer .copyright {
+    text-align: center;
+    margin-top: 10px; /* Reduzido o espaçamento */
+    font-size: 12px; /* Fonte menor para copyright */
+    border-top: 1px solid #335577; /* Bordas mais suaves */
+    padding-top: 10px;
+}

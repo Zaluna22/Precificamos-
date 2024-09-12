@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu App para Empreendedores</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Eu Empreendo</h1>
+    <h3>O site perfeito para Empreendedores</h3>
+    <nav>
+      <ul>
+        <li><a href="#">Calculadora de Preços</a></li>
+        <li><a href="#">Como está composto nosso custo?</a></li>
+        <li><a href="#">Fórum</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="dicas-tutoriais">
+    <h2>Como está composto nosso custo?</h2>
+    <article>
+      <p>O cálculo realizado pela calculadora leva em conta o preço por quilo dos materiais. Primeiro, calcula-se o preço por grama. Em seguida, multiplica-se por três. Esse valor é dividido da seguinte forma: uma parte é destinada à <span class="destaque">recuperação dos materiais gastos e à compra de novos</span>, outra parte é para a <span class="destaque">mão de obra do produto</span> e a última parte é para o <span class="destaque">crescimento da loja</span>. Além disso, adiciona-se <span class="destaque">20% a mais ao custo dos materiais para embalagem</span> e <span class="destaque">20% a mais para despesas como luz, aluguel e gás</span>, que são custos indiretos.</p>
+    </article>
+  </section>
+  
+  <main>
+    <section id="calculadora">
+      <h2>Calculadora de custos</h2>
+      <p>Calcule o preço de venda ideal para o seu produto!</p>
+      <div>
+        <label for="produto">Nome do Produto:</label>
+        <input type="text" id="produto">
+  
+        <div id="materiais"></div>
+  
+        <button class="adicionar" onclick="adicionarMaterial()">Adicionar Material</button>
+        <button class="guardar" onclick="guardarMateriais()">Guardar Materiais</button><br>
+        <button class="calcular" onclick="calcular()">Calcular</button><br>
+        <button class="eliminar" onclick="limparMateriais()">Eliminar Tudo</button><br>
+  
+        <p id="resultado"></p> <!-- Usar <p> para exibir resultado -->
+      </div>
+    </section>
+
+    <section id="produtos-custos">
+        <h2>Meus produtos e meus custos</h2>
+        <ul id="lista-produtos">
+          <!-- Lista dos produtos e materiais será preenchida aqui -->
+        </ul>
+        <button onclick="gerarPDF()">Exportar para PDF</button>     
+    </section>
+      
+    <footer>
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <p>Informações de contato</p>
+              <p>Endereço: av Brasil 330 - Rio de Janeiro</p>
+              <p>Telefone: 119991118200</p>
+              <p>Email: Euempreendo-33@gmail.com</p>
+            </div>
+            <div class="col">
+              <p>Links úteis</p>
+              <ul>
+                <li><a href="#">Início</a></li>
+                <li><a href="#">Sobre nós</a></li>
+                <li><a href="#">Contato</a></li>
+              </ul>
+            </div>
+            <div class="col">
+              <p>Siga-nos</p>
+              <ul class="social-icons">
+                <li><a href="https://www.instagram.com/GonzaloGabrielRios/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="copyright">
+            <p>&copy; 2024 Sua Empresa. Todos os direitos reservados.</p>
+          </div>
+        </div>
+    </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+@let c = campo();
+@let m = modelo();
+@let err = errores()[clave()];
+
+@switch (c.tipo) {
+  @case ('lista') {
+    <fieldset class="lista">
+      <legend>{{ c.etiqueta }} @if (c.obligatorio) { <span class="obligatorio" aria-hidden="true">*</span> }</legend>
+      @if (c.ayuda) { <p class="ayuda">{{ c.ayuda }}</p> }
+      @for (fila of filas(); track $index; let i = $index) {
+        <div class="fila-lista">
+          <div class="fila-encabezado">
+            <span>#{{ i + 1 }} {{ $any(fila)[c.subcampos?.[0]?.nombre ?? ""] || "" }}</span>
+            <button type="button" class="boton-icono" (click)="quitarFila(i)" [attr.aria-label]="'Quitar fila ' + (i + 1)">✕</button>
+          </div>
+          <div class="fila-campos">
+            @for (sub of c.subcampos ?? []; track sub.nombre) {
+              <app-campo-dinamico [campo]="sub" [modelo]="fila" [clave]="clave() + '[' + i + '].' + sub.nombre" [errores]="errores()" />
+            }
+          </div>
+        </div>
+      } @empty {
+        <p class="vacio">Todavía no agregaste nada.</p>
+      }
+      <button type="button" class="boton boton-secundario" (click)="agregarFila()">+ Agregar</button>
+      @if (err) { <p class="error-campo" role="alert">{{ err }}</p> }
+    </fieldset>
+  }
+  @case ('booleano') {
+    <label class="campo campo-check">
+      <input type="checkbox" [id]="id" [(ngModel)]="m[c.nombre]" [ngModelOptions]="{ standalone: true }" />
+      <span>{{ c.etiqueta }}</span>
+      @if (c.ayuda) { <small class="ayuda">{{ c.ayuda }}</small> }
+    </label>
+  }
+  @case ('seleccion') {
+    <div class="campo" [class.con-error]="err">
+      <label [for]="id">{{ c.etiqueta }} @if (c.obligatorio) { <span class="obligatorio" aria-hidden="true">*</span> }</label>
+      <select [id]="id" [(ngModel)]="m[c.nombre]" [ngModelOptions]="{ standalone: true }" [required]="c.obligatorio">
+        @for (o of c.opciones ?? []; track o.valor) {
+          <option [value]="o.valor">{{ o.etiqueta }}{{ detalleOpcion(o) }}</option>
+        }
+      </select>
+      @if (c.ayuda) { <small class="ayuda">{{ c.ayuda }}</small> }
+      @if (err) { <small class="error-campo" role="alert">{{ err }}</small> }
+    </div>
+  }
+  @case ('texto') {
+    <div class="campo" [class.con-error]="err">
+      <label [for]="id">{{ c.etiqueta }} @if (c.obligatorio) { <span class="obligatorio" aria-hidden="true">*</span> }</label>
+      <input type="text" [id]="id" [(ngModel)]="m[c.nombre]" [ngModelOptions]="{ standalone: true }" [required]="c.obligatorio" autocomplete="off" />
+      @if (c.ayuda) { <small class="ayuda">{{ c.ayuda }}</small> }
+      @if (err) { <small class="error-campo" role="alert">{{ err }}</small> }
+    </div>
+  }
+  @default {
+    <div class="campo" [class.con-error]="err">
+      <label [for]="id">{{ c.etiqueta }} @if (c.obligatorio) { <span class="obligatorio" aria-hidden="true">*</span> }</label>
+      <div class="entrada-numero">
+        @if (c.tipo === 'moneda') { <span class="prefijo" aria-hidden="true">{{ simbolo }}</span> }
+        <input type="number" [id]="id" [(ngModel)]="m[c.nombre]" [ngModelOptions]="{ standalone: true }" [required]="c.obligatorio" min="0" [step]="paso()"
+               [attr.inputmode]="modoTeclado()" />
+        @if (sufijo()) { <span class="sufijo" aria-hidden="true">{{ sufijo() }}</span> }
+      </div>
+      @if (c.ayuda) { <small class="ayuda">{{ c.ayuda }}</small> }
+      @if (err) { <small class="error-campo" role="alert">{{ err }}</small> }
+    </div>
+  }
+}

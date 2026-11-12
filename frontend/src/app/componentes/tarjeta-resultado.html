@@ -1,0 +1,58 @@
+@let r = resultado();
+<article class="tarjeta resultado" aria-live="polite">
+  <header class="resultado-precio">
+    <p class="resultado-etiqueta">Precio sugerido para <strong>{{ r.nombre }}</strong></p>
+    <p class="resultado-valor">{{ r.precioSugerido | fmt }}</p>
+    <p class="resultado-metodo">{{ r.metodo }}</p>
+  </header>
+
+  <dl class="indicadores">
+    <div><dt>Costo por unidad</dt><dd>{{ r.costoTotalUnitario | fmt }}</dd></div>
+    <div><dt>Ganancia por unidad</dt><dd [class.negativo]="r.lucroUnitario < 0">{{ r.lucroUnitario | fmt }}</dd></div>
+    <div><dt>Margen real</dt><dd [class.negativo]="r.margenRealPct < 0">{{ r.margenRealPct | fmt: 'porcentaje' }}</dd></div>
+    <div>
+      <dt>Punto de equilibrio</dt>
+      <dd>
+        @if (r.puntoEquilibrioUnidades !== null) {
+          {{ r.puntoEquilibrioUnidades }} u./mes
+          <small>{{ r.puntoEquilibrioFacturacion | fmt }} de facturación</small>
+        } @else { No se alcanza }
+      </dd>
+    </div>
+    <div class="indicador-ancho"><dt>Ganancia mensual estimada</dt><dd [class.negativo]="r.lucroMensualEstimado < 0">{{ r.lucroMensualEstimado | fmt }}</dd></div>
+  </dl>
+
+  @if (r.avisos.length) {
+    <ul class="avisos">
+      @for (a of r.avisos; track a) { <li>⚠️ {{ a }}</li> }
+    </ul>
+  }
+
+  <details class="desglose" open>
+    <summary>¿De dónde sale el costo?</summary>
+    <table>
+      <tbody>
+        @for (l of r.desglose; track l.clave) {
+          <tr><th scope="row">{{ l.concepto }}</th><td>{{ l.valor | fmt: l.tipo }}</td></tr>
+        }
+        <tr class="subtotal"><th scope="row">Costo variable</th><td>{{ r.costoVariableUnitario | fmt }}</td></tr>
+        <tr><th scope="row">Parte de los costos fijos</th><td>{{ r.rateoCostosFijos | fmt }}</td></tr>
+        <tr><th scope="row">Impuestos y tasas</th><td>{{ r.impuestosYTasasUnitario | fmt }}</td></tr>
+        <tr class="subtotal"><th scope="row">Ganancia</th><td>{{ r.lucroUnitario | fmt }}</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  @if (r.extras.length) {
+    <details class="desglose" open>
+      <summary>Más indicadores</summary>
+      <table>
+        <tbody>
+          @for (l of r.extras; track l.clave) {
+            <tr><th scope="row">{{ l.concepto }}</th><td>{{ l.valor | fmt: l.tipo }}</td></tr>
+          }
+        </tbody>
+      </table>
+    </details>
+  }
+</article>

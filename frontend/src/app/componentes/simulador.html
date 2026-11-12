@@ -1,0 +1,42 @@
+<section class="tarjeta simulador" aria-labelledby="titulo-simulador">
+  <h2 id="titulo-simulador">Simulador: ¿y si cobro otro precio?</h2>
+
+  <div class="campo">
+    <label for="sim-precio">Precio de venta</label>
+    <input id="sim-precio" type="range" [min]="minimo" [max]="maximo" [step]="pasoSlider"
+           [ngModel]="precio()" (ngModelChange)="cambiarPrecio($event)" />
+    <div class="sim-fila">
+      <div class="entrada-numero">
+        <input type="number" inputmode="decimal" min="0" step="any" aria-label="Precio exacto"
+               [ngModel]="precio()" (ngModelChange)="cambiarPrecio($event)" />
+      </div>
+      <button type="button" class="boton boton-secundario" (click)="volverAlSugerido()">Volver al sugerido</button>
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="sim-ventas">Unidades vendidas por mes</label>
+    <div class="entrada-numero">
+      <input id="sim-ventas" type="number" inputmode="numeric" min="1" step="1"
+             [ngModel]="ventas()" (ngModelChange)="cambiarVentas($event)" />
+    </div>
+  </div>
+
+  @if (error()) { <p class="alerta alerta-error" role="alert">{{ error() }}</p> }
+
+  @if (resultado(); as r) {
+    <div class="sim-resultado" [class.sim-perdida]="!r.cubreCostos" [class.sim-cargando]="cargando()" aria-live="polite">
+      <p class="sim-estado">{{ r.cubreCostos ? '✅ A este precio ganás' : '❌ A este precio perdés plata' }}</p>
+      <dl class="indicadores">
+        <div><dt>Ganancia por unidad</dt><dd>{{ r.lucroUnitario | fmt }}</dd></div>
+        <div><dt>Margen</dt><dd>{{ r.margenPct | fmt: 'porcentaje' }}</dd></div>
+        <div><dt>Facturación mensual</dt><dd>{{ r.facturacionMensual | fmt }}</dd></div>
+        <div><dt>Ganancia mensual</dt><dd>{{ r.lucroMensual | fmt }}</dd></div>
+        <div class="indicador-ancho">
+          <dt>Punto de equilibrio</dt>
+          <dd>@if (r.puntoEquilibrioUnidades !== null) { {{ r.puntoEquilibrioUnidades }} unidades por mes } @else { No se alcanza a este precio }</dd>
+        </div>
+      </dl>
+    </div>
+  }
+</section>

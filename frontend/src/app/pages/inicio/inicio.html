@@ -1,0 +1,53 @@
+<section class="hero">
+  <h1>¿Cuánto cobrar por lo que vendés?</h1>
+  <p>Elegí el tipo de negocio que más se parece al tuyo y te guiamos paso a paso hasta un precio que cubra tus costos y te deje ganancia.</p>
+  <label class="buscador">
+    <span class="sr-only">Buscá tu negocio</span>
+    <input type="search" placeholder="Buscá tu negocio: panadería, ropa, peluquería…" [ngModel]="busqueda()"
+           (ngModelChange)="busqueda.set($event)" autocomplete="off" />
+  </label>
+</section>
+
+@if (cargando()) {
+  <div class="grilla-segmentos" aria-busy="true">
+    @for (i of [1, 2, 3, 4, 5]; track i) { <div class="tarjeta esqueleto"></div> }
+  </div>
+} @else if (error()) {
+  <div class="alerta alerta-error" role="alert">
+    <p>{{ error() }}</p>
+    <button type="button" class="boton" (click)="cargar()">Reintentar</button>
+  </div>
+} @else {
+  <div class="grilla-segmentos">
+    @for (item of filtrados(); track item.s.codigo) {
+      <a class="tarjeta tarjeta-segmento" [routerLink]="['/calcular', item.s.codigo]">
+        <span class="segmento-icono" aria-hidden="true">{{ item.s.icono }}</span>
+        <h2>{{ item.s.nombre }}</h2>
+        <p>{{ item.s.descripcion }}</p>
+        <ul class="chips" aria-label="Negocios de ejemplo">
+          @for (e of (item.coincidencias.length ? item.coincidencias : item.s.ejemplos.slice(0, 6)); track e) {
+            <li [class.chip-destacado]="item.coincidencias.length">{{ e }}</li>
+          }
+          @if (!item.coincidencias.length && item.s.ejemplos.length > 6) {
+            <li class="chip-mas">+{{ item.s.ejemplos.length - 6 }} más</li>
+          }
+        </ul>
+        <span class="tarjeta-accion">Empezar →</span>
+      </a>
+    } @empty {
+      <div class="alerta">
+        <p>No encontramos “{{ busqueda() }}”. Pensá en cómo trabajás: ¿lo cocinás, lo fabricás, lo comprás listo, vendés de todo un poco o prestás un servicio?</p>
+        <button type="button" class="boton boton-secundario" (click)="busqueda.set('')">Ver todas las categorías</button>
+      </div>
+    }
+  </div>
+}
+
+<section class="como-funciona">
+  <h2>Cómo funciona</h2>
+  <ol>
+    <li><strong>Elegí tu categoría</strong> y cargá tus costos con ejemplos simples.</li>
+    <li><strong>Sumá tus costos fijos</strong> e impuestos (MEI o Simples) una sola vez.</li>
+    <li><strong>Mirá tu precio sugerido</strong>, tu margen y cuánto tenés que vender para no perder.</li>
+  </ol>
+</section>

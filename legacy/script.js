@@ -1,4 +1,4 @@
-// Função para adicionar material
+// Función para agregar un material
 function adicionarMaterial() {
     const materiaisDiv = document.getElementById('materiais');
   
@@ -16,7 +16,7 @@ function adicionarMaterial() {
     materiaisDiv.appendChild(novoMaterial);
   }
   
-  // Função para calcular o custo total
+  // Función para calcular el costo total
   function calcular() {
       const produto = document.getElementById('produto').value;
       let materiais = [];
@@ -51,7 +51,7 @@ function adicionarMaterial() {
         custoTotal += material.precoPorKg * quantidadeEmKg;
       });
     
-      // Calcula o custo final com 40% a mais e multiplicado por 3
+      // Calcula el costo final con 40 % más y multiplicado por 3
       
       
       const custoFinal = (custoTotal * 1.40) * 3;
@@ -61,21 +61,21 @@ function adicionarMaterial() {
       resultado.textContent = `O custo final do produto "${produto}" é R$ ${custoFinal.toFixed(2)}.`;
     }
     
-  // Função para remover um material individual
+  // Función para quitar un material
   function removerMaterial(button) {
     const materialDiv = button.parentNode;
     materialDiv.remove();
   }
   
-  // Função para eliminar todos os materiais
+  // Función para eliminar todos los materiales
   function limparMateriais() {
     const materiaisDiv = document.getElementById('materiais');
-    materiaisDiv.innerHTML = ''; // Remove todos os elementos visuais de materiais
-    document.getElementById('resultado').textContent = ''; // Limpa o resultado
-    document.getElementById('produto').value = ''; // Limpa o nome do produto
+    materiaisDiv.innerHTML = ''; // Quita todos los elementos visuales de materiales
+    document.getElementById('resultado').textContent = ''; // Limpia el resultado
+    document.getElementById('produto').value = ''; // Limpia el nombre del producto
   }
   
-  // Função para guardar materiais no localStorage
+  // Función para guardar los materiales en localStorage
   function guardarMateriais() {
     const produto = document.getElementById('produto').value;
     const nomesMateriais = document.querySelectorAll('.material-nome');
@@ -101,34 +101,34 @@ function adicionarMaterial() {
       materiais: materiais
     };
   
-    // Recupera produtos existentes
+    // Recupera los productos existentes
     let produtosGuardados = JSON.parse(localStorage.getItem('dadosProdutos')) || [];
     
-    // Adiciona o novo produto à lista
+    // Agrega el nuevo producto a la lista
     produtosGuardados.push(dadosProduto);
   
-    localStorage.setItem('dadosProdutos', JSON.stringify(produtosGuardados)); // Guarda a lista de produtos no localStorage
+    localStorage.setItem('dadosProdutos', JSON.stringify(produtosGuardados)); // Guarda la lista de productos en localStorage
     alert('Materiais guardados com sucesso!');
   
-    // Limpa a calculadora para permitir novo produto
+    // Limpia la calculadora para cargar otro producto
     limparMateriais();
-    exibirProdutos(); // Atualiza a exibição
+    exibirProdutos(); // Actualiza la vista
   }
   
- // Função para exibir produtos salvos
+ // Función para mostrar los productos guardados
 function exibirProdutos() {
     const listaProdutos = document.getElementById('lista-produtos');
-    listaProdutos.innerHTML = ''; // Limpa a lista antes de adicionar novos itens
+    listaProdutos.innerHTML = ''; // Limpia la lista antes de agregar elementos nuevos
   
     const dadosGuardados = JSON.parse(localStorage.getItem('dadosProdutos'));
     if (dadosGuardados) {
       dadosGuardados.forEach((produto, index) => {
-        // Calcula o custo total dos materiais
+        // Calcula el costo total de los materiales
         let custoTotalMateriais = produto.materiais.reduce((total, material) => 
           total + (material.precoPorKg * material.quantidadeEmGramas / 1000), 0
         );
   
-        // Adiciona 40% ao custo total e multiplica o resultado por 3
+        // Suma 40 % al costo total y multiplica el resultado por 3
         const custoAdicional = (custoTotalMateriais * 1.4) 
         const custoFinal = (custoAdicional * 3)
         
@@ -153,27 +153,27 @@ function exibirProdutos() {
   }
   
     
-    // Função para eliminar produto
+    // Función para eliminar un producto
     function eliminarProduto(index) {
       let dadosGuardados = JSON.parse(localStorage.getItem('dadosProdutos'));
       if (dadosGuardados) {
-        dadosGuardados.splice(index, 1); // Remove o produto da lista
+        dadosGuardados.splice(index, 1); // Quita el producto de la lista
         localStorage.setItem('dadosProdutos', JSON.stringify(dadosGuardados));
-        exibirProdutos(); // Atualiza a lista de produtos
+        exibirProdutos(); // Actualiza la lista de productos
       }
     }
     
   
   
   
-  // Carregar e exibir produtos ao carregar a página
+  // Carga y muestra los productos al abrir la página
   window.onload = function() {
     exibirProdutos();
   };
   
 
 
-  // Função para gerar PDF
+  // Función para generar el PDF
 async function gerarPDF() {
   const { jsPDF } = window.jspdf;
 
@@ -199,7 +199,7 @@ async function gerarPDF() {
     doc.text(`Produto ${index + 1}: ${produto.produto}`, 10, y);
     y += 10;
 
-    // Mostra o custo total com os acréscimos corretos
+    // Muestra el costo total con los recargos correctos
     doc.text(`Custo Total: R$ ${custoFinal.toFixed(2)}`, 10, y);
     y += 10;
 
@@ -211,7 +211,7 @@ async function gerarPDF() {
       y += 10;
     });
 
-    y += 10; // Espaço entre produtos
+    y += 10; // Espacio entre productos
   });
 
   doc.save('produtos.pdf');

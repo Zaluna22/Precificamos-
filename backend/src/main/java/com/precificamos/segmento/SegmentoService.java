@@ -94,7 +94,10 @@ public class SegmentoService {
         T entrada = leerEntrada(est, s);
         CostoVariable costo = est.costoVariable(entrada, c);
         PropuestaPrecio p = est.proponerPrecio(entrada, costo, c);
-        Analisis a = analizar(p.precio(), costo.total(), c);
+        // Se analiza el precio ya redondeado a centavos, que es el que se cobra de verdad
+        // (así el resultado coincide con el simulador usando el mismo precio).
+        BigDecimal precio = r(p.precio());
+        Analisis a = analizar(precio, costo.total(), c);
         List<String> avisos = new ArrayList<>(p.avisos());
         if (a.puntoEquilibrioUnidades() != null && a.puntoEquilibrioUnidades() > c.ventasMensualesProducto()
                 && c.unidadesMensualesNegocio() == c.ventasMensualesProducto()) {
@@ -102,7 +105,7 @@ public class SegmentoService {
                     + a.puntoEquilibrioUnidades() + "). Vendé más, bajá costos o subí el precio.");
         }
         return new ResultadoSegmento(est.segmento(), costo.nombre(), r(costo.total()), r(a.rateo()), r(a.costoTotal()),
-                r(p.precio()), p.metodo(), r(a.tasas()), r(a.lucro()), r(a.margenPct()), a.puntoEquilibrioUnidades(),
+                precio, p.metodo(), r(a.tasas()), r(a.lucro()), r(a.margenPct()), a.puntoEquilibrioUnidades(),
                 r(a.puntoEquilibrioFacturacion()), r(a.lucroMensual()), costo.desglose(), p.extras(), avisos);
     }
 

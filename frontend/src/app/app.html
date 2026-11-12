@@ -1,0 +1,25 @@
+<header class="barra">
+  <a routerLink="/" class="marca" aria-label="Precificamos, inicio">
+    <span class="marca-logo" aria-hidden="true">P$</span>
+    <span>Precificamos</span>
+  </a>
+  <nav class="nav-escritorio" aria-label="Principal">
+    <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Calcular precio</a>
+    <a routerLink="/costos-fijos" routerLinkActive="activo">Costos fijos</a>
+    <a routerLink="/configuracion" routerLinkActive="activo">Configuración</a>
+  </nav>
+</header>
+
+<main class="contenido">
+  <router-outlet />
+</main>
+
+<footer class="pie">Precificamos © {{ anio }} · Los resultados son una guía: revisalos con tu contador.</footer>
+
+<nav class="nav-movil" aria-label="Principal">
+  <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">
+    <span aria-hidden="true">🧮</span>Calcular
+  </a>
+  <a routerLink="/costos-fijos" routerLinkActive="activo"><span aria-hidden="true">🏠</span>Costos fijos</a>
+  <a routerLink="/configuracion" routerLinkActive="activo"><span aria-hidden="true">⚙️</span>Ajustes</a>
+</nav>

@@ -1,0 +1,54 @@
+<header class="encabezado-pagina">
+  <span class="segmento-icono" aria-hidden="true">🏠</span>
+  <div>
+    <h1>Costos fijos</h1>
+    <p>Lo que pagás todos los meses aunque no vendas nada. Se reparte entre todo lo que vendés.</p>
+  </div>
+</header>
+
+<section class="tarjeta total-fijos">
+  <p>Total por mes</p>
+  <p class="resultado-valor">{{ total() | fmt }}</p>
+</section>
+
+<form class="tarjeta formulario" (ngSubmit)="agregar()" novalidate>
+  <h2>Agregar costo fijo</h2>
+  <div class="fila-campos">
+    <div class="campo">
+      <label for="costo-nombre">Nombre</label>
+      <input id="costo-nombre" name="nome" type="text" [(ngModel)]="nuevo.nome" placeholder="Ej.: Alquiler" autocomplete="off" />
+    </div>
+    <div class="campo">
+      <label for="costo-valor">Valor mensual</label>
+      <div class="entrada-numero">
+        <span class="prefijo" aria-hidden="true">{{ simbolo }}</span>
+        <input id="costo-valor" name="valorMensal" type="number" inputmode="decimal" min="0" step="any" [(ngModel)]="nuevo.valorMensal" />
+      </div>
+    </div>
+  </div>
+  @if (sugerencias().length) {
+    <ul class="chips" aria-label="Sugerencias">
+      @for (s of sugerencias(); track s) {
+        <li><button type="button" class="chip-boton" (click)="usarSugerencia(s)">+ {{ s }}</button></li>
+      }
+    </ul>
+  }
+  @if (error()) { <p class="alerta alerta-error" role="alert">{{ error() }}</p> }
+  <button type="submit" class="boton" [disabled]="guardando()">{{ guardando() ? 'Guardando…' : 'Agregar' }}</button>
+</form>
+
+@if (cargando()) {
+  <div class="tarjeta esqueleto" aria-busy="true"></div>
+} @else {
+  <ul class="lista-costos">
+    @for (c of costos(); track c.id) {
+      <li class="tarjeta">
+        <span>{{ c.nome }}</span>
+        <strong>{{ c.valorMensal | fmt }}</strong>
+        <button type="button" class="boton-icono" (click)="borrar(c)" [attr.aria-label]="'Borrar ' + c.nome">🗑️</button>
+      </li>
+    } @empty {
+      <li class="vacio">Todavía no cargaste costos fijos.</li>
+    }
+  </ul>
+}

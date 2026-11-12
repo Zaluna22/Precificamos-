@@ -1,0 +1,74 @@
+<header class="encabezado-pagina">
+  <span class="segmento-icono" aria-hidden="true">⚙️</span>
+  <div>
+    <h1>Configuración</h1>
+    <p>Se usa como punto de partida en todos tus cálculos. Podés cambiarla en cada producto.</p>
+  </div>
+</header>
+
+@if (cargando()) {
+  <div class="tarjeta esqueleto alto" aria-busy="true"></div>
+} @else {
+  <form class="tarjeta formulario" (ngSubmit)="guardar()" novalidate>
+    <h2>Tu tiempo</h2>
+    <div class="campo">
+      <label for="cfg-hora">Valor de tu hora de trabajo</label>
+      <div class="entrada-numero">
+        <span class="prefijo" aria-hidden="true">{{ simbolo }}</span>
+        <input id="cfg-hora" name="valorHora" type="number" inputmode="decimal" min="0" step="any" [(ngModel)]="config.valorHora" />
+      </div>
+      <small class="ayuda">¿No sabés? Calculalo abajo con lo que querés ganar por mes.</small>
+    </div>
+    <details class="calculadora-hora">
+      <summary>Calcular mi valor hora</summary>
+      <div class="fila-campos">
+        <div class="campo">
+          <label for="cfg-sueldo">Quiero ganar por mes</label>
+          <div class="entrada-numero">
+            <span class="prefijo" aria-hidden="true">{{ simbolo }}</span>
+            <input id="cfg-sueldo" name="sueldo" type="number" inputmode="decimal" min="0" [(ngModel)]="sueldoDeseado" />
+          </div>
+        </div>
+        <div class="campo">
+          <label for="cfg-horas">Horas que trabajo por mes</label>
+          <div class="entrada-numero">
+            <input id="cfg-horas" name="horas" type="number" inputmode="numeric" min="1" [(ngModel)]="horasMes" />
+          </div>
+        </div>
+      </div>
+      <button type="button" class="boton boton-secundario" (click)="calcularValorHora()">Usar este valor</button>
+    </details>
+
+    <h2>Impuestos y tasas sobre la venta</h2>
+    <div class="fila-campos">
+      <div class="campo">
+        <label for="cfg-imp">Impuestos (%)</label>
+        <div class="entrada-numero"><input id="cfg-imp" name="impostoPct" type="number" inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.impostoPct" /><span class="sufijo">%</span></div>
+        <small class="ayuda">Simples Nacional: tu alícuota. MEI: dejá 0 y cargá el DAS en Costos fijos.</small>
+      </div>
+      <div class="campo">
+        <label for="cfg-tarjeta">Tarjeta / medio de pago (%)</label>
+        <div class="entrada-numero"><input id="cfg-tarjeta" name="taxaCartaoPct" type="number" inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.taxaCartaoPct" /><span class="sufijo">%</span></div>
+      </div>
+      <div class="campo">
+        <label for="cfg-mkt">Marketplace o app (%)</label>
+        <div class="entrada-numero"><input id="cfg-mkt" name="taxaMarketplacePct" type="number" inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.taxaMarketplacePct" /><span class="sufijo">%</span></div>
+      </div>
+      <div class="campo">
+        <label for="cfg-com">Comisión de vendedores (%)</label>
+        <div class="entrada-numero"><input id="cfg-com" name="comissaoPct" type="number" inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.comissaoPct" /><span class="sufijo">%</span></div>
+      </div>
+    </div>
+
+    <h2>Volumen del negocio</h2>
+    <div class="campo">
+      <label for="cfg-unidades">Unidades que vende todo el negocio por mes</label>
+      <div class="entrada-numero"><input id="cfg-unidades" name="totalUnidadesMes" type="number" inputmode="numeric" min="0" step="1" [(ngModel)]="config.totalUnidadesMes" /></div>
+      <small class="ayuda">Sirve para repartir los costos fijos entre todos tus productos. 0 = se pide en cada cálculo.</small>
+    </div>
+
+    @if (mensaje()) { <p class="alerta alerta-ok" role="status">{{ mensaje() }}</p> }
+    @if (error()) { <p class="alerta alerta-error" role="alert">{{ error() }}</p> }
+    <button type="submit" class="boton" [disabled]="guardando()">{{ guardando() ? 'Guardando…' : 'Guardar' }}</button>
+  </form>
+}

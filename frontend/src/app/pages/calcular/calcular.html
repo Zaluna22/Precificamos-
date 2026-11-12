@@ -1,0 +1,63 @@
+@if (cargando()) {
+  <div class="tarjeta esqueleto alto" aria-busy="true"></div>
+} @else if (!definicion()) {
+  <div class="alerta alerta-error" role="alert">
+    <p>{{ errorGeneral() }}</p>
+    <a routerLink="/" class="boton">Volver al inicio</a>
+  </div>
+} @else {
+  @let def = definicion()!;
+  <a routerLink="/" class="volver">← Cambiar categoría</a>
+  <header class="encabezado-pagina">
+    <span class="segmento-icono" aria-hidden="true">{{ def.icono }}</span>
+    <div>
+      <h1>{{ def.nombre }}</h1>
+      <p>{{ def.descripcion }}</p>
+    </div>
+  </header>
+
+  @if (resultado(); as r) {
+    <app-tarjeta-resultado [resultado]="r" />
+    <app-simulador [codigo]="def.codigo" [solicitud]="solicitudEnviada()!" [precioSugerido]="r.precioSugerido"
+                   [ventasIniciales]="ventasDelModelo()" />
+    <div class="acciones">
+      <button type="button" class="boton boton-secundario" (click)="editar()">Editar datos</button>
+      <button type="button" class="boton boton-texto" (click)="empezarDeNuevo()">Calcular otro producto</button>
+    </div>
+  } @else {
+    <div class="progreso" role="progressbar" [attr.aria-valuenow]="progreso()" aria-valuemin="0" aria-valuemax="100"
+         [attr.aria-label]="'Paso ' + (paso() + 1) + ' de ' + totalPasos()">
+      <div class="progreso-barra" [style.width.%]="progreso()"></div>
+    </div>
+    <ol class="pasos-indice">
+      @for (p of def.pasos; track p.titulo; let i = $index) {
+        <li [class.actual]="i === paso()" [class.hecho]="i < paso()">
+          <button type="button" (click)="irAPaso(i)" [attr.aria-current]="i === paso() ? 'step' : null">
+            <span class="paso-numero">{{ i + 1 }}</span><span class="paso-titulo">{{ p.titulo }}</span>
+          </button>
+        </li>
+      }
+    </ol>
+
+    @if (pasoActual(); as p) {
+      <form class="tarjeta formulario" (ngSubmit)="siguiente()" novalidate>
+        <p class="paso-contador">Paso {{ paso() + 1 }} de {{ totalPasos() }}</p>
+        <h2>{{ p.titulo }}</h2>
+        <p class="paso-descripcion">{{ p.descripcion }}</p>
+
+        @for (c of p.campos; track c.nombre) {
+          <app-campo-dinamico [campo]="c" [modelo]="destino(c)" [clave]="c.grupo + '.' + c.nombre" [errores]="errores()" />
+        }
+
+        @if (errorGeneral()) { <p class="alerta alerta-error" role="alert">{{ errorGeneral() }}</p> }
+
+        <div class="navegacion-pasos">
+          <button type="button" class="boton boton-secundario" (click)="anterior()" [disabled]="paso() === 0">Anterior</button>
+          <button type="submit" class="boton" [disabled]="enviando()">
+            {{ esUltimo() ? (enviando() ? 'Calculando…' : 'Calcular precio') : 'Siguiente' }}
+          </button>
+        </div>
+      </form>
+    }
+  }
+}

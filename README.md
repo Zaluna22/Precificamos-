@@ -1,75 +1,123 @@
+# Precificamos
 
-# Calculadora de Custos de Produtos
+Calculadora de precios para emprendedores: a partir de tus costos, impuestos y tasas te dice
+**cuánto cobrar**, **cuánto ganás** y **cuánto tenés que vender para no perder** (punto de equilibrio).
+Sirve para cualquier negocio porque trabaja con **categorías amplias**, según cómo obtenés lo que vendés.
 
-## Descrição
+| Categoría (`codigo`) | Para quién es | Qué pide |
+|---|---|---|
+| `PRODUCCION_ALIMENTOS` | Gastronomía y alimentos/bebidas elaborados (confitería, viandas, pizzería, heladería…) | Receta/ficha técnica, ingredientes con cantidad y unidad, rendimiento en porciones, merma %, gas/luz por tiempo de preparación, CMV objetivo % |
+| `FABRICACION` | Fabricación propia (ropa, artesanías, cosmética, muebles, bijouterie…) | Materias primas con unidad y consumo por pieza, insumos/avíos, minutos de mano de obra × costo por minuto, merma %, margen minorista y mayorista |
+| `REVENTA` | Comercio minorista de productos comprados listos (tienda, e-commerce, catálogo…) | Costo de compra, flete, impuestos de entrada, markup, margen mínimo de liquidación, stock para rotación |
+| `VENTA_MASIVA` | Supermercado, almacén, autoservicio, kiosco | Margen por categoría de góndola (configurable), pérdida por vencimiento/rotura %, redondeo a x,99, promociones "lleve N pague M" |
+| `SERVICIOS` | Servicios profesionales o técnicos (peluquería, electricista, diseño, clases…) | Horas por servicio × valor hora, materiales, desplazamiento, margen |
 
-Este é um projeto pessoal desenvolvido para ajudar empreendedores a calcular o custo de seus produtos com base em materiais. O sistema permite adicionar materiais, calcular o custo total, guardar produtos e exportar relatórios em PDF.
+Todas comparten la misma base: **costos fijos**, **impuestos** (Simples Nacional %, o MEI como
+costo fijo), **tasas de tarjeta y marketplace**, **comisiones**, **punto de equilibrio** y **simulador**.
 
-## Funcionalidades
+## Estructura del repositorio
 
-1. **Adicionar Material**: Permite adicionar múltiplos materiais com nome, preço por kg e quantidade em gramas.
-2. **Calcular Custo Total**: Calcula o custo final do produto com base nos materiais inseridos, adicionando 40% ao custo total e multiplicando o resultado por 3.
-3. **Remover Material**: Permite remover materiais individuais.
-4. **Limpar Materiais**: Limpa todos os materiais e o resultado da calculadora.
-5. **Guardar Materiais**: Armazena produtos e materiais no `localStorage` do navegador.
-6. **Exibir Produtos**: Mostra a lista de produtos salvos com seus custos e detalhes dos materiais.
-7. **Eliminar Produto**: Remove produtos salvos do `localStorage`.
-8. **Gerar PDF**: Exporta a lista de produtos e seus detalhes em um arquivo PDF.
-
-## Instruções de Uso
-
-1. **Adicionar Material**:
-   - Clique no botão "Adicionar Material" para criar um novo campo de material.
-   - Preencha os campos de nome, preço por kg e quantidade em gramas.
-   - Clique em "Remover" para excluir um material específico.
-
-2. **Calcular Custo Total**:
-   - Insira o nome do produto e preencha os campos de material.
-   - Clique no botão "Calcular" para visualizar o custo final do produto.
-
-3. **Guardar Materiais**:
-   - Após preencher todos os materiais e o nome do produto, clique em "Guardar Materiais".
-   - Os dados serão salvos no `localStorage` e exibidos na lista de produtos.
-
-4. **Exibir Produtos**:
-   - A lista de produtos salvos é atualizada automaticamente e pode ser visualizada na tela principal.
-
-5. **Eliminar Produto**:
-   - Na lista de produtos, clique no botão "Eliminar Produto" para remover um produto específico.
-
-6. **Gerar PDF**:
-   - Clique no botão "Gerar PDF" para baixar um relatório com todos os produtos salvos em formato PDF.
-
-## Código
-
-O projeto utiliza JavaScript para manipulação DOM e `localStorage` para armazenamento. O código principal é dividido nas seguintes funções:
-
-- **adicionarMaterial()**: Adiciona um novo campo de material ao formulário.
-- **calcular()**: Calcula o custo total do produto com base nos materiais.
-- **removerMaterial(button)**: Remove um material específico.
-- **limparMateriais()**: Limpa todos os materiais e o resultado da calculadora.
-- **guardarMateriais()**: Salva os dados do produto no `localStorage`.
-- **exibirProdutos()**: Exibe os produtos salvos e seus detalhes.
-- **eliminarProduto(index)**: Remove um produto salvo do `localStorage`.
-- **gerarPDF()**: Gera um relatório em PDF com os produtos salvos.
-
-## Dependências
-
-- [jsPDF](https://github.com/eKoopmans/html2pdf) para geração de PDF.
-
-## Instalação
-
-Inclua o script `jsPDF` em seu HTML para suporte à geração de PDF:
-
-```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+```
+backend/    API REST en Java 17 + Spring Boot 3 + MySQL (H2 en las pruebas)
+frontend/   Aplicación web en Angular 22 (componentes standalone), mobile-first, en español
+legacy/     Primera versión estática (HTML/CSS/JS), conservada como referencia
+.github/    CI: pruebas del backend y compilación del frontend
 ```
 
-## Contribuição
+## Ejecutar en local
 
-Este é um projeto pessoal e não aceita contribuições externas no momento.
+```bash
+# Base MySQL + API en http://localhost:8080
+docker compose up --build
 
-## Licença
+# Frontend en http://localhost:4200 (usa la API local)
+cd frontend && npm ci && npm start
+```
 
-Este projeto é de domínio público e pode ser utilizado, modificado e distribuído livremente.
+Pruebas del backend: `cd backend && mvn verify` (usa H2 en memoria, no hace falta MySQL).
 
+## API
+
+| Método | Ruta | Qué hace |
+|---|---|---|
+| GET | `/api/segmentos` | Categorías con negocios de ejemplo y los pasos/campos del formulario |
+| GET | `/api/segmentos/{segmento}` | Una categoría |
+| POST | `/api/segmentos/{segmento}/calcular` | Precio sugerido, costo, margen, punto de equilibrio, desglose y avisos |
+| POST | `/api/segmentos/{segmento}/simular` | Ganancia, margen y punto de equilibrio a un precio elegido |
+| GET/POST/DELETE | `/api/custos-fixos` | Costos fijos mensuales |
+| GET/PUT | `/api/configuracao` | Valor hora, impuestos, tasas y unidades por mes |
+| GET/POST/PUT/DELETE | `/api/produtos`, `/api/produtos/{id}/preco`, `/api/produtos/{id}/simulacao` | API original de productos (se mantiene por compatibilidad) |
+
+Ejemplo de cálculo:
+
+```bash
+curl -X POST http://localhost:8080/api/segmentos/SERVICIOS/calcular \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "comun": {"costosFijosMensuales": 1000, "impuestoPct": 6, "tarjetaPct": 4, "ventasMensualesProducto": 100, "unidadesMensualesNegocio": 500},
+        "datos": {"nombreServicio": "Coloración", "horasPorServicio": 1.5, "valorHora": 30,
+                  "materiales": [{"nombre": "Tintura", "costo": 18}],
+                  "kmDesplazamiento": 20, "costoPorKm": 1, "otrosGastosDesplazamiento": 5, "margenPct": 30}
+      }'
+# → precioSugerido 150.00, margenRealPct 30.00, puntoEquilibrioUnidades 22
+```
+
+Los campos de `comun` que no se envían se completan con `/api/configuracao` y con la suma de
+`/api/custos-fixos`. Para `/simular` se agrega `"precio": 120` al mismo cuerpo.
+
+### Cómo se agrega una categoría nueva
+
+Cada categoría es una estrategia (patrón *Strategy*): una clase que implementa
+`EstrategiaPrecificacion<T>` en `backend/src/main/java/com/precificamos/segmento/estrategia/`, con
+su DTO de entrada en `segmento/dto/`. Se registra sola por ser un `@Component`; solo hay que sumar
+el valor al enum `Segmento` con su nombre, descripción y ejemplos. El formulario del frontend se
+dibuja a partir de los pasos que declara la estrategia, así que no hace falta tocar Angular.
+
+## Despliegue
+
+### Backend en Render (Docker) + MySQL
+
+1. En Render: **New → Web Service**, conectá este repositorio y elegí **Docker**.
+   - **Root Directory**: `backend` (Render usa `backend/Dockerfile`).
+   - O bien usá **New → Blueprint** con el `render.yaml` de la raíz.
+2. **MySQL**: Render no ofrece MySQL administrado. Usá un MySQL externo (Aiven, Railway, PlanetScale
+   compatible, el de tu hosting, etc.) o un servicio privado de Render con la imagen `mysql:8` y un
+   disco persistente (planes pagos).
+3. Variables de entorno del servicio:
+
+   | Variable | Ejemplo |
+   |---|---|
+   | `DB_URL` | `jdbc:mysql://HOST:PUERTO/precificamos?useSSL=true&requireSSL=true&serverTimezone=America/Sao_Paulo` |
+   | `DB_USER` | usuario de la base |
+   | `DB_PASSWORD` | contraseña de la base |
+   | `FRONTEND_URL` | `https://tu-app.vercel.app` (varios separados por coma; admite comodines, ej. `https://tu-app-*.vercel.app` para las vistas previas) |
+
+   `PORT` la define Render y la API la usa automáticamente. Las tablas se crean solas al arrancar
+   (`spring.jpa.hibernate.ddl-auto=update`).
+4. En el plan gratuito el servicio se duerme cuando no se usa: la primera solicitud puede tardar
+   alrededor de un minuto. El frontend muestra un aviso si no logra conectar.
+
+### Frontend en Vercel
+
+| Opción en Vercel | Valor |
+|---|---|
+| Root Directory | `frontend` |
+| Framework Preset | Angular |
+| Install Command | `npm ci` |
+| Build Command | `npm run build` |
+| Output Directory | `dist/precificamos` |
+| Variable de entorno | `API_URL` = URL pública del backend en Render, sin barra final (ej. `https://precificamos-api.onrender.com`) |
+
+`frontend/vercel.json` ya trae estos valores y la regla de *rewrite* para que las rutas de Angular
+(`/calcular/...`, `/costos-fijos`) funcionen al recargar la página.
+
+## Hoja de ruta
+
+- Login con Spring Security + JWT y datos por usuario
+- Guardar productos calculados por categoría e historial de precios
+- Exportar a PDF
+- Comparación con precios de la competencia
+
+## Licencia
+
+Proyecto de dominio público: se puede usar, modificar y distribuir libremente.

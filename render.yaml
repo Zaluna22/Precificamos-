@@ -1,0 +1,19 @@
+# Blueprint de Render para la API (opcional: también se puede crear el servicio a mano).
+# La base MySQL es externa (Render no ofrece MySQL administrado): completá las variables en el panel.
+services:
+  - type: web
+    name: precificamos-api
+    runtime: docker
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    plan: free
+    healthCheckPath: /api/segmentos
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: FRONTEND_URL
+        sync: false

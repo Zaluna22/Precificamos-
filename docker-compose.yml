@@ -11,5 +11,6 @@ services:
       DB_URL: jdbc:mysql://db:3306/precificamos?useSSL=false&allowPublicKeyRetrieval=true
       DB_USER: root
       DB_PASSWORD: root
+      FRONTEND_URL: http://localhost:4200
     ports: ["8080:8080"]
     depends_on: [db]

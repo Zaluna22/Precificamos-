@@ -3,7 +3,11 @@ package com.precificamos.model;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 
-/** Parâmetros do negócio: valor da hora e percentuais cobrados sobre o preço de venda. */
+/**
+ * Parámetros generales del negocio: valor de la hora de trabajo y porcentajes que se
+ * descuentan sobre el precio de venta (impuestos, tarjeta, marketplace y comisión).
+ * Existe un único registro (id = 1).
+ */
 @Entity
 public class ConfiguracaoNegocio {
     @Id
@@ -13,9 +17,10 @@ public class ConfiguracaoNegocio {
     private BigDecimal taxaCartaoPct = BigDecimal.ZERO;
     private BigDecimal taxaMarketplacePct = BigDecimal.ZERO;
     private BigDecimal comissaoPct = BigDecimal.ZERO;
-    /** 0 = usa a soma das vendas previstas de todos os produtos. */
+    /** Unidades vendidas por mes en todo el negocio. 0 = usa la suma de las ventas previstas de los productos. */
     private Integer totalUnidadesMes = 0;
 
+    /** Suma de los porcentajes sobre la venta, expresada como fracción (ej.: 0,10 = 10 %). */
     public BigDecimal percentuaisSobreVenda() {
         return impostoPct.add(taxaCartaoPct).add(taxaMarketplacePct).add(comissaoPct)
                 .divide(BigDecimal.valueOf(100));

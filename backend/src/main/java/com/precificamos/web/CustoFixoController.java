@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/** CRUD de costos fijos mensuales. */
 @RestController
 @RequestMapping("/api/custos-fixos")
-@CrossOrigin
 public class CustoFixoController {
     private final CustoFixoRepository repo;
 
@@ -26,7 +26,7 @@ public class CustoFixoController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long id) {
-        if (!repo.existsById(id)) throw new RecursoNaoEncontradoException("Custo fixo " + id + " não encontrado");
+        if (!repo.existsById(id)) throw new RecursoNaoEncontradoException("Custo fixo " + id + " no encontrado");
         repo.deleteById(id);
     }
 }

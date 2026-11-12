@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+/** Orquesta el cálculo de precios de productos guardados usando la configuración y los costos fijos. */
 @Service
 public class PrecificacaoService {
     private final ProdutoRepository produtos;
@@ -43,13 +44,15 @@ public class PrecificacaoService {
     }
 
     public Produto buscar(Long id) {
-        return produtos.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Produto " + id + " não encontrado"));
+        return produtos.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Produto " + id + " no encontrado"));
     }
 
-    private BigDecimal totalFixo() {
+    /** Suma de todos los costos fijos mensuales registrados. */
+    public BigDecimal totalFixo() {
         return custosFixos.findAll().stream().map(CustoFixo::getValorMensal).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    /** Unidades mensuales usadas para prorratear los costos fijos. */
     private int totalUnidades(ConfiguracaoNegocio c) {
         if (c.getTotalUnidadesMes() != null && c.getTotalUnidadesMes() > 0) return c.getTotalUnidadesMes();
         return produtos.findAll().stream().mapToInt(Produto::getVendasMensaisPrevistas).sum();

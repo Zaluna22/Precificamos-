@@ -4,9 +4,9 @@ import com.precificamos.model.ConfiguracaoNegocio;
 import com.precificamos.service.PrecificacaoService;
 import org.springframework.web.bind.annotation.*;
 
+/** Lectura y guardado de la configuración general del negocio. */
 @RestController
 @RequestMapping("/api/configuracao")
-@CrossOrigin
 public class ConfiguracaoController {
     private final PrecificacaoService service;
 

@@ -3,7 +3,7 @@ package com.precificamos.model;
 import jakarta.persistence.Embeddable;
 import java.math.BigDecimal;
 
-/** Matéria-prima usada em um produto: preço por kg e quantidade em gramas. */
+/** Materia prima usada en un producto: precio por kg y cantidad utilizada en gramos. */
 @Embeddable
 public class Material {
     private String nome;
@@ -18,6 +18,7 @@ public class Material {
         this.quantidadeGramas = quantidadeGramas;
     }
 
+    /** Costo del material en el producto: precio por kg x gramos / 1000. */
     public BigDecimal custo() {
         return precoPorKg.multiply(quantidadeGramas).divide(BigDecimal.valueOf(1000));
     }

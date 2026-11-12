@@ -2,6 +2,7 @@ package com.precificamos.dto;
 
 import java.math.BigDecimal;
 
+/** Resultado del cálculo de precio de un producto guardado. */
 public record ResultadoPreco(
         BigDecimal custoMateriais,
         BigDecimal custoVariavel,

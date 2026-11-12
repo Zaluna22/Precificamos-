@@ -3,6 +3,7 @@ package com.precificamos.model;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 
+/** Costo fijo mensual del negocio (alquiler, internet, contador, DAS del MEI, etc.). */
 @Entity
 public class CustoFixo {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

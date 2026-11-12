@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+/** CRUD de productos y cálculo de precio/simulación (API original, se mantiene por compatibilidad). */
 @RestController
 @RequestMapping("/api/produtos")
-@CrossOrigin
 public class ProdutoController {
     private final ProdutoRepository repo;
     private final PrecificacaoService service;

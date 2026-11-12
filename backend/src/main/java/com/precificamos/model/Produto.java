@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Producto genérico con materiales, costos variables y mano de obra (API original de productos). */
 @Entity
 public class Produto {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,11 +16,12 @@ public class Produto {
     @CollectionTable(name = "produto_material", joinColumns = @JoinColumn(name = "produto_id"))
     private List<Material> materiais = new ArrayList<>();
 
-    /** Embalagem, etiqueta, frete por unidade. */
+    /** Embalaje, etiqueta, flete por unidad. */
     private BigDecimal outrosCustosVariaveis = BigDecimal.ZERO;
     private BigDecimal horasMaoDeObra = BigDecimal.ZERO;
     private Integer vendasMensaisPrevistas = 1;
 
+    /** Suma del costo de todos los materiales del producto. */
     public BigDecimal custoMateriais() {
         return materiais.stream().map(Material::custo).reduce(BigDecimal.ZERO, BigDecimal::add);
     }

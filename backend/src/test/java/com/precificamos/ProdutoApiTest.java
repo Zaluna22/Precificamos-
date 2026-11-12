@@ -30,7 +30,7 @@ class ProdutoApiTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.precoSugerido").isNumber());
 
-        mvc.perform(get("/api/produtos/" + id + "/preco").param("valor", "99"))
+        mvc.perform(get("/api/produtos/" + id + "/preco").param("valor", "100"))
                 .andExpect(status().isUnprocessableEntity());
     }
 

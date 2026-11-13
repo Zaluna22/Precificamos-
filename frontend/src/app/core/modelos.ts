@@ -104,3 +104,17 @@ export interface ErrorApi {
   erro: string;
   campos?: Record<string, string>;
 }
+
+/** Usuario logueado (respuesta de /api/auth/yo). */
+export interface Usuario {
+  id: number;
+  email: string;
+  nombre: string;
+  fechaCreacion?: string;
+}
+
+/** Respuesta de /api/auth/registro y /api/auth/login. */
+export interface RespuestaAuth {
+  token: string;
+  usuario: Usuario;
+}

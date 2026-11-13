@@ -45,6 +45,13 @@ button, input, select { font: inherit; }
 .nav-escritorio { display: none; gap: .25rem; }
 .nav-escritorio a { color: #e6fffb; text-decoration: none; padding: .4rem .8rem; border-radius: 999px; }
 .nav-escritorio a.activo, .nav-escritorio a:hover { background: rgb(255 255 255 / 18%); color: #fff; }
+.cuenta { display: flex; align-items: center; gap: .5rem; min-width: 0; }
+.cuenta-nombre { max-width: 9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; font-size: .9rem; }
+.cuenta-boton {
+  display: inline-flex; align-items: center; min-height: 36px; padding: .3rem .85rem; border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / 55%); background: transparent; color: #fff; text-decoration: none; font-weight: 600; font-size: .9rem; cursor: pointer;
+}
+.cuenta-boton:hover { background: rgb(255 255 255 / 18%); }
 .contenido { max-width: 960px; margin: 0 auto; padding: 1rem 1rem calc(var(--alto-nav-movil) + 1.5rem); }
 .pie { text-align: center; color: var(--color-texto-suave); font-size: .8rem; padding: 0 1rem calc(var(--alto-nav-movil) + 1rem); }
 .nav-movil {
@@ -122,11 +129,11 @@ button, input, select { font: inherit; }
 .paso-descripcion { color: var(--color-texto-suave); }
 .campo { display: flex; flex-direction: column; gap: .3rem; margin-bottom: 1rem; }
 .campo label { font-weight: 600; }
-.campo input[type="text"], .campo select, .entrada-numero {
+.campo input[type="text"], .campo input[type="email"], .campo input[type="password"], .campo select, .entrada-numero {
   width: 100%; min-height: 48px; border: 2px solid var(--color-borde); border-radius: 12px; background: #fff;
 }
-.campo input[type="text"], .campo select { padding: .6rem .8rem; }
-.campo input[type="text"]:focus, .campo select:focus, .entrada-numero:focus-within { border-color: var(--color-primario); outline: none; }
+.campo input[type="text"], .campo input[type="email"], .campo input[type="password"], .campo select { padding: .6rem .8rem; }
+.campo input[type="text"]:focus, .campo input[type="email"]:focus, .campo input[type="password"]:focus, .campo select:focus, .entrada-numero:focus-within { border-color: var(--color-primario); outline: none; }
 .entrada-numero { display: flex; align-items: center; overflow: hidden; }
 .entrada-numero input { flex: 1; min-width: 0; min-height: 44px; border: 0; padding: .6rem .8rem; background: transparent; outline: none; }
 .prefijo, .sufijo { padding: 0 .75rem; color: var(--color-texto-suave); font-weight: 600; }
@@ -137,7 +144,7 @@ button, input, select { font: inherit; }
 .campo-check .ayuda { flex-basis: 100%; font-weight: 400; }
 .ayuda { color: var(--color-texto-suave); font-size: .85rem; }
 .obligatorio { color: var(--color-error); }
-.con-error input[type="text"], .con-error select, .con-error .entrada-numero { border-color: var(--color-error); }
+.con-error input[type="text"], .con-error input[type="email"], .con-error input[type="password"], .con-error select, .con-error .entrada-numero { border-color: var(--color-error); }
 .error-campo { color: var(--color-error); font-size: .85rem; font-weight: 600; margin: 0; }
 .lista { border: 0; padding: 0; margin: 0 0 1rem; }
 .lista legend { font-weight: 700; margin-bottom: .25rem; }
@@ -189,6 +196,14 @@ button, input, select { font: inherit; }
 .calculadora-hora summary { cursor: pointer; font-weight: 600; color: var(--color-primario); }
 .calculadora-hora[open] summary { margin-bottom: .75rem; }
 .formulario h2:not(:first-child) { margin-top: 1.25rem; }
+
+/* ---------- Cuenta (entrar y registro) ---------- */
+.pagina-auth { max-width: 440px; margin: 0 auto; }
+.boton-ancho { width: 100%; }
+.auth-alternativa { text-align: center; color: var(--color-texto-suave); }
+.auth-alternativa a { font-weight: 600; }
+.pista-sesion { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; }
+.pista-sesion p { margin: 0; flex: 1 1 14rem; }
 
 /* ---------- Pantallas más grandes ---------- */
 @media (min-width: 640px) {

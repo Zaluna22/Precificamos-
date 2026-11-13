@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../core/api.service';
 import { DefinicionSegmento } from '../../core/modelos';
+import { PistaSesion } from '../../componentes/pista-sesion';
 
 /** Normaliza texto para buscar sin acentos ni mayúsculas. */
 const normalizar = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -10,7 +11,7 @@ const normalizar = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g,
 /** Inicio: el usuario elige la categoría reconociendo su negocio entre los ejemplos. */
 @Component({
   selector: 'app-inicio',
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, PistaSesion],
   templateUrl: './inicio.html',
 })
 export class Inicio {

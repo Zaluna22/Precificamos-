@@ -1,0 +1,30 @@
+<section class="pagina-auth">
+  <header class="encabezado-pagina">
+    <span class="segmento-icono" aria-hidden="true">👋</span>
+    <div>
+      <h1>Entrar</h1>
+      <p>Con tu cuenta, tus costos fijos y tu configuración quedan guardados y se usan en cada cálculo.</p>
+    </div>
+  </header>
+
+  @if (vencida()) { <p class="alerta" role="status">Tu sesión venció. Entrá de nuevo para seguir.</p> }
+
+  <form class="tarjeta formulario" (ngSubmit)="entrar()" novalidate>
+    <div class="campo">
+      <label for="entrar-email">Email</label>
+      <input id="entrar-email" name="email" type="email" inputmode="email" autocomplete="email" [(ngModel)]="email" required />
+    </div>
+    <div class="campo">
+      <label for="entrar-password">Contraseña</label>
+      <input id="entrar-password" name="password" type="password" autocomplete="current-password" [(ngModel)]="password" required />
+    </div>
+    @if (error()) { <p class="alerta alerta-error" role="alert">{{ error() }}</p> }
+    <button type="submit" class="boton boton-ancho" [disabled]="enviando()">{{ enviando() ? 'Entrando…' : 'Entrar' }}</button>
+  </form>
+
+  <p class="auth-alternativa">
+    ¿Todavía no tenés cuenta?
+    <a routerLink="/registro" [queryParams]="{ volver: volver() || null }">Creala gratis</a>
+  </p>
+  <p class="auth-alternativa"><a routerLink="/">Seguir sin cuenta</a></p>
+</section>

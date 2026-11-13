@@ -62,16 +62,20 @@ export class ApiService {
     this.segmentos$ = undefined;
   }
 
-  /** Normaliza cualquier error HTTP a {@link ErrorApi} con un mensaje entendible. */
   private error(e: HttpErrorResponse): Observable<never> {
-    let err: ErrorApi;
-    if (e.status === 0) {
-      err = { erro: 'No pudimos conectar con el servidor. Revisá tu conexión o probá de nuevo en un minuto (el servidor gratuito puede tardar en despertar).' };
-    } else if (e.error && typeof e.error === 'object' && 'erro' in e.error) {
-      err = e.error as ErrorApi;
-    } else {
-      err = { erro: `Ocurrió un error inesperado (${e.status}).` };
-    }
-    return throwError(() => err);
+    return errorApi(e);
   }
+}
+
+/** Normaliza cualquier error HTTP a {@link ErrorApi} con un mensaje entendible. */
+export function errorApi(e: HttpErrorResponse): Observable<never> {
+  let err: ErrorApi;
+  if (e.status === 0) {
+    err = { erro: 'No pudimos conectar con el servidor. Revisá tu conexión o probá de nuevo en un minuto (el servidor gratuito puede tardar en despertar).' };
+  } else if (e.error && typeof e.error === 'object' && 'erro' in e.error) {
+    err = e.error as ErrorApi;
+  } else {
+    err = { erro: `Ocurrió un error inesperado (${e.status}).` };
+  }
+  return throwError(() => err);
 }

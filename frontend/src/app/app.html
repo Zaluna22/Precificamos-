@@ -8,6 +8,14 @@
     <a routerLink="/costos-fijos" routerLinkActive="activo">Costos fijos</a>
     <a routerLink="/configuracion" routerLinkActive="activo">Configuración</a>
   </nav>
+  <div class="cuenta">
+    @if (auth.logueado()) {
+      <span class="cuenta-nombre" [title]="auth.usuario()?.email ?? ''">{{ primerNombre() || 'Mi cuenta' }}</span>
+      <button type="button" class="cuenta-boton" (click)="salir()">Salir</button>
+    } @else {
+      <a routerLink="/entrar" class="cuenta-boton">Entrar</a>
+    }
+  </div>
 </header>
 
 <main class="contenido">

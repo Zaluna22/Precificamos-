@@ -7,6 +7,7 @@ import { CampoFormulario, DefinicionSegmento, ResultadoSegmento, SolicitudCalcul
 import { CampoDinamico, filaVacia } from '../../componentes/campo-dinamico';
 import { TarjetaResultado } from '../../componentes/tarjeta-resultado';
 import { Simulador } from '../../componentes/simulador';
+import { PistaSesion } from '../../componentes/pista-sesion';
 
 interface Modelo {
   datos: Record<string, unknown>;
@@ -21,7 +22,7 @@ const vacio = (v: unknown) => v === null || v === undefined || (typeof v === 'st
  */
 @Component({
   selector: 'app-calcular',
-  imports: [FormsModule, RouterLink, CampoDinamico, TarjetaResultado, Simulador],
+  imports: [FormsModule, RouterLink, CampoDinamico, TarjetaResultado, Simulador, PistaSesion],
   templateUrl: './calcular.html',
 })
 export class Calcular implements OnInit {

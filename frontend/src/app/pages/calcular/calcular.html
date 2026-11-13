@@ -16,6 +16,8 @@
     </div>
   </header>
 
+  <app-pista-sesion />
+
   @if (resultado(); as r) {
     <app-tarjeta-resultado [resultado]="r" />
     <app-simulador [codigo]="def.codigo" [solicitud]="solicitudEnviada()!" [precioSugerido]="r.precioSugerido"

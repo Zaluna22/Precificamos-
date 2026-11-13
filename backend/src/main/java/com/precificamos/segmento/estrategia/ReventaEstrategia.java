@@ -1,5 +1,6 @@
 package com.precificamos.segmento.estrategia;
 
+import com.precificamos.i18n.Textos;
 import com.precificamos.segmento.*;
 import com.precificamos.segmento.dto.CampoFormulario;
 import com.precificamos.segmento.dto.EntradaReventa;
@@ -12,6 +13,7 @@ import java.math.RoundingMode;
 import java.util.List;
 
 import static com.precificamos.segmento.CalculadoraBase.*;
+import static com.precificamos.i18n.Textos.t;
 
 /**
  * Reventa / comercio minorista de productos comprados listos.
@@ -71,8 +73,8 @@ public class ReventaEstrategia implements EstrategiaPrecificacion<EntradaReventa
         // En una liquidación los costos fijos ya están pagos: solo se exige cubrir el costo variable y el margen mínimo.
         BigDecimal liquidacion = precioPorMargen(costo.total(), c.porcentajeSobreVenta(), e.margenMinimoLiquidacionPct());
 
-        PropuestaPrecio p = new PropuestaPrecio(precio, "Markup de "
-                + e.markup().stripTrailingZeros().toPlainString() + "× sobre el costo total, más impuestos y tasas");
+        PropuestaPrecio p = new PropuestaPrecio(precio,
+                t("Markup de {0}× sobre el costo total, más impuestos y tasas", Textos.numero(e.markup())));
         p.extras().add(LineaDesglose.moneda("precioLiquidacion", "Precio mínimo de liquidación", r(liquidacion)));
         p.extras().add(LineaDesglose.porcentaje("descuentoMaximoPct", "Descuento máximo posible",
                 r(BigDecimal.ONE.subtract(liquidacion.divide(precio, MC)).multiply(CIEN))));
@@ -83,12 +85,12 @@ public class ReventaEstrategia implements EstrategiaPrecificacion<EntradaReventa
             p.extras().add(new LineaDesglose("diasStock", "Días de stock (rotación)", dias, "dias"));
             p.extras().add(LineaDesglose.moneda("capitalInmovilizado", "Capital inmovilizado en stock", r(capital)));
             if (dias.intValue() > DIAS_STOCK_ALERTA) {
-                p.avisos().add("Tenés stock para " + dias + " días. Considerá una promoción o liquidación hasta "
-                        + r(liquidacion).toPlainString() + " para liberar capital.");
+                p.avisos().add(t("Tenés stock para {0} días. Considerá una promoción o liquidación hasta {1} para liberar capital.",
+                        dias, Textos.moneda(r(liquidacion))));
             }
         }
         if (e.markup().compareTo(BigDecimal.ONE) <= 0) {
-            p.avisos().add("Con un markup de 1 o menos vendés al costo o perdés plata.");
+            p.avisos().add(t("Con un markup de 1 o menos vendés al costo o perdés plata."));
         }
         return p;
     }

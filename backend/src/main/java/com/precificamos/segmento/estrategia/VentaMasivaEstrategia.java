@@ -1,5 +1,6 @@
 package com.precificamos.segmento.estrategia;
 
+import com.precificamos.i18n.Textos;
 import com.precificamos.segmento.*;
 import com.precificamos.segmento.dto.CampoFormulario;
 import com.precificamos.segmento.dto.CampoFormulario.Opcion;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.precificamos.segmento.CalculadoraBase.*;
+import static com.precificamos.i18n.Textos.t;
 
 /**
  * Venta masiva multi-categoría de alto giro (supermercado, almacén, autoservicio).
@@ -94,11 +96,11 @@ public class VentaMasivaEstrategia implements EstrategiaPrecificacion<EntradaVen
         BigDecimal margen = margenDe(e);
         BigDecimal base = precioPorMargen(costo.total().add(rateo(c)), c.porcentajeSobreVenta(), margen);
         BigDecimal precio = Boolean.TRUE.equals(e.redondeoPsicologico()) ? redondearA99(base) : base;
-        String categoria = NOMBRES.getOrDefault(e.categoria().toUpperCase(), e.categoria());
+        String categoria = t(NOMBRES.getOrDefault(e.categoria().toUpperCase(), e.categoria()));
 
-        PropuestaPrecio p = new PropuestaPrecio(precio, "Margen de " + margen.stripTrailingZeros().toPlainString()
-                + " % para la categoría " + categoria
-                + (Boolean.TRUE.equals(e.redondeoPsicologico()) ? ", redondeado a ,99" : ""));
+        PropuestaPrecio p = new PropuestaPrecio(precio, Boolean.TRUE.equals(e.redondeoPsicologico())
+                ? t("Margen de {0} % para la categoría {1}, redondeado a ,99", Textos.numero(margen), categoria)
+                : t("Margen de {0} % para la categoría {1}", Textos.numero(margen), categoria));
         p.extras().add(LineaDesglose.porcentaje("margenCategoriaPct", "Margen de la categoría", r(margen)));
         p.extras().add(LineaDesglose.moneda("precioSinRedondeo", "Precio sin redondeo", r(base)));
 
@@ -111,18 +113,18 @@ public class VentaMasivaEstrategia implements EstrategiaPrecificacion<EntradaVen
     private void analizarPromo(EntradaVentaMasiva e, CostoVariable costo, ComunesResueltos c,
                                BigDecimal precio, PropuestaPrecio p) {
         if (e.promoLleva() == null || e.promoPaga() == null || e.promoPaga() >= e.promoLleva()) {
-            throw new RegraDeNegocioException("En la promoción 'lleve N pague M', M tiene que ser menor que N");
+            throw new RegraDeNegocioException(t("En la promoción 'lleve N pague M', M tiene que ser menor que N"));
         }
         BigDecimal efectivo = precio.multiply(BigDecimal.valueOf(e.promoPaga()))
                 .divide(BigDecimal.valueOf(e.promoLleva()), MC);
         CalculadoraBase.Analisis a = analizar(efectivo, costo.total(), c);
         p.extras().add(LineaDesglose.moneda("precioUnitarioPromo",
-                "Precio por unidad en promo " + e.promoLleva() + "x" + e.promoPaga(), r(efectivo)));
+                t("Precio por unidad en promo {0}x{1}", e.promoLleva(), e.promoPaga()), r(efectivo)));
         p.extras().add(LineaDesglose.porcentaje("margenPromoPct", "Margen en la promoción", r(a.margenPct())));
         p.extras().add(LineaDesglose.moneda("lucroPromoUnidad", "Ganancia por unidad en la promoción", r(a.lucro())));
         if (a.lucro().signum() < 0) {
-            p.avisos().add("La promoción " + e.promoLleva() + "x" + e.promoPaga()
-                    + " da pérdida. Probá una promo más chica o negociá el costo con el proveedor.");
+            p.avisos().add(t("La promoción {0}x{1} da pérdida. Probá una promo más chica o negociá el costo con el proveedor.",
+                    e.promoLleva(), e.promoPaga()));
         }
     }
 

@@ -6,6 +6,8 @@ import com.precificamos.service.RegraDeNegocioException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
+import static com.precificamos.i18n.Textos.t;
+
 /**
  * Unidades de medida para ingredientes y materias primas. Cada unidad pertenece a una
  * dimensión (masa, volumen, longitud, área o unidades) y tiene un factor hacia la unidad base
@@ -39,7 +41,7 @@ public enum UnidadMedida {
         try {
             return valueOf(valor.trim().toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Unidad de medida desconocida: " + valor);
+            throw new IllegalArgumentException(t("Unidad de medida desconocida: {0}", valor));
         }
     }
 
@@ -50,8 +52,8 @@ public enum UnidadMedida {
      */
     public BigDecimal convertir(BigDecimal cantidad, UnidadMedida destino, String concepto) {
         if (destino.dimension != dimension) {
-            throw new RegraDeNegocioException("No se puede convertir " + name().toLowerCase() + " a "
-                    + destino.name().toLowerCase() + " en '" + concepto + "'");
+            throw new RegraDeNegocioException(t("No se puede convertir {0} a {1} en '{2}'",
+                    name().toLowerCase(), destino.name().toLowerCase(), concepto));
         }
         return cantidad.multiply(factorBase).divide(destino.factorBase, MathContext.DECIMAL64);
     }
@@ -63,7 +65,7 @@ public enum UnidadMedida {
     public BigDecimal costoProporcional(BigDecimal precioCompra, BigDecimal cantidadCompra,
                                         BigDecimal cantidadUsada, UnidadMedida unidadUsada, String concepto) {
         if (cantidadCompra.signum() <= 0) {
-            throw new RegraDeNegocioException("La cantidad comprada de '" + concepto + "' debe ser mayor que cero");
+            throw new RegraDeNegocioException(t("La cantidad comprada de '{0}' debe ser mayor que cero", concepto));
         }
         BigDecimal usadaEnUnidadCompra = unidadUsada.convertir(cantidadUsada, this, concepto);
         return precioCompra.multiply(usadaEnUnidadCompra).divide(cantidadCompra, MathContext.DECIMAL64);

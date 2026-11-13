@@ -1,5 +1,6 @@
 package com.precificamos.segmento.estrategia;
 
+import com.precificamos.i18n.Textos;
 import com.precificamos.segmento.*;
 import com.precificamos.segmento.dto.CampoFormulario;
 import com.precificamos.segmento.dto.EntradaFabricacion;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static com.precificamos.segmento.CalculadoraBase.*;
+import static com.precificamos.i18n.Textos.t;
 
 /**
  * Fabricación o confección propia (ropa, artesanías, cosméticos, muebles…).
@@ -69,7 +71,7 @@ public class FabricacionEstrategia implements EstrategiaPrecificacion<EntradaFab
     @Override
     public CostoVariable costoVariable(EntradaFabricacion e, ComunesResueltos c) {
         if (e.materiasPrimas().isEmpty() && e.insumos().isEmpty() && e.minutosManoObra().signum() == 0) {
-            throw new RegraDeNegocioException("Cargá al menos una materia prima, un insumo o minutos de mano de obra");
+            throw new RegraDeNegocioException(t("Cargá al menos una materia prima, un insumo o minutos de mano de obra"));
         }
         BigDecimal materias = BigDecimal.ZERO;
         for (MateriaPrima m : e.materiasPrimas()) {
@@ -99,18 +101,18 @@ public class FabricacionEstrategia implements EstrategiaPrecificacion<EntradaFab
         BigDecimal minorista = precioPorMargen(costoTotal, c.porcentajeSobreVenta(), e.margenMinoristaPct());
         BigDecimal mayorista = precioPorMargen(costoTotal, c.porcentajeSobreVenta(), e.margenMayoristaPct());
 
-        PropuestaPrecio p = new PropuestaPrecio(minorista, "Margen minorista de "
-                + e.margenMinoristaPct().stripTrailingZeros().toPlainString() + " % sobre el precio");
+        PropuestaPrecio p = new PropuestaPrecio(minorista,
+                t("Margen minorista de {0} % sobre el precio", Textos.numero(e.margenMinoristaPct())));
         p.extras().add(LineaDesglose.moneda("precioMayorista", "Precio mayorista", r(mayorista)));
         p.extras().add(LineaDesglose.porcentaje("descuentoMayoristaPct", "Descuento mayorista sobre el minorista",
                 r(BigDecimal.ONE.subtract(mayorista.divide(minorista, MC)).multiply(CIEN))));
         p.extras().add(LineaDesglose.numero("markupMinorista", "Markup minorista (precio ÷ costo)",
                 r(minorista.divide(costoTotal, MC))));
         if (e.margenMayoristaPct().compareTo(e.margenMinoristaPct()) >= 0) {
-            p.avisos().add("El margen mayorista debería ser menor que el minorista para que el revendedor gane.");
+            p.avisos().add(t("El margen mayorista debería ser menor que el minorista para que el revendedor gane."));
         }
         if (e.minutosManoObra().signum() > 0 && e.costoPorMinuto() == null && c.valorHora().signum() == 0) {
-            p.avisos().add("Tu mano de obra quedó en cero: cargá tu valor hora en Configuración.");
+            p.avisos().add(t("Tu mano de obra quedó en cero: cargá tu valor hora en Configuración."));
         }
         return p;
     }

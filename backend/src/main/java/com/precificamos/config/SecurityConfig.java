@@ -3,6 +3,8 @@ package com.precificamos.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.precificamos.auth.FiltroJwt;
 import com.precificamos.auth.JwtService;
+import com.precificamos.i18n.IdiomaLocaleResolver;
+import com.precificamos.i18n.Textos;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -56,14 +58,18 @@ public class SecurityConfig {
                 .build();
     }
 
-    /** Respuesta 401 en JSON con el mismo formato que el resto de los errores ({@code erro}). */
+    /**
+     * Respuesta 401 en JSON con el mismo formato que el resto de los errores ({@code erro}).
+     * Corre antes de Spring MVC, así que el idioma se resuelve acá mismo.
+     */
     @Bean
     public AuthenticationEntryPoint entradaNoAutenticada(ObjectMapper mapper) {
         return (req, res, ex) -> {
             res.setStatus(HttpStatus.UNAUTHORIZED.value());
             res.setContentType(MediaType.APPLICATION_JSON_VALUE);
             res.setCharacterEncoding("UTF-8");
-            mapper.writeValue(res.getOutputStream(), Map.of("erro", "Tenés que iniciar sesión para usar esta función"));
+            String mensaje = Textos.t(IdiomaLocaleResolver.idioma(req), "Tenés que iniciar sesión para usar esta función");
+            mapper.writeValue(res.getOutputStream(), Map.of("erro", mensaje));
         };
     }
 

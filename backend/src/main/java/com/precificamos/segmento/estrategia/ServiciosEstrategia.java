@@ -1,5 +1,6 @@
 package com.precificamos.segmento.estrategia;
 
+import com.precificamos.i18n.Textos;
 import com.precificamos.segmento.*;
 import com.precificamos.segmento.dto.CampoFormulario;
 import com.precificamos.segmento.dto.EntradaServicios;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static com.precificamos.segmento.CalculadoraBase.*;
+import static com.precificamos.i18n.Textos.t;
 
 /**
  * Servicios profesionales o técnicos.
@@ -65,13 +67,13 @@ public class ServiciosEstrategia implements EstrategiaPrecificacion<EntradaServi
     @Override
     public PropuestaPrecio proponerPrecio(EntradaServicios e, CostoVariable costo, ComunesResueltos c) {
         BigDecimal precio = precioPorMargen(costo.total().add(rateo(c)), c.porcentajeSobreVenta(), e.margenPct());
-        PropuestaPrecio p = new PropuestaPrecio(precio, "Margen de "
-                + e.margenPct().stripTrailingZeros().toPlainString() + " % sobre el precio");
+        PropuestaPrecio p = new PropuestaPrecio(precio,
+                t("Margen de {0} % sobre el precio", Textos.numero(e.margenPct())));
         p.extras().add(LineaDesglose.moneda("precioPorHora", "Precio equivalente por hora",
                 r(precio.divide(e.horasPorServicio(), MC))));
         BigDecimal valorHora = e.valorHora() != null ? e.valorHora() : c.valorHora();
         if (valorHora.signum() == 0) {
-            p.avisos().add("Tu hora quedó en cero: cargá cuánto vale tu hora para no trabajar gratis.");
+            p.avisos().add(t("Tu hora quedó en cero: cargá cuánto vale tu hora para no trabajar gratis."));
         }
         return p;
     }

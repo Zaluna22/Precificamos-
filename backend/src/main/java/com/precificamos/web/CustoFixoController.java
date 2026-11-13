@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.precificamos.i18n.Textos.t;
+
 /** CRUD de costos fijos mensuales del usuario logueado. */
 @RestController
 @RequestMapping("/api/custos-fixos")
@@ -37,7 +39,7 @@ public class CustoFixoController {
     public void remover(@PathVariable Long id) {
         // Un costo de otro usuario responde 404, igual que uno inexistente.
         CustoFixo c = repo.findByIdAndUsuarioId(id, actual.requerido())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Custo fixo " + id + " no encontrado"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException(t("Costo fijo {0} no encontrado", id)));
         repo.delete(c);
     }
 }

@@ -17,6 +17,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import static com.precificamos.i18n.Textos.t;
+
 /** Traduce las excepciones de la aplicación a respuestas JSON con el campo {@code erro}. */
 @RestControllerAdvice
 public class ApiExceptionHandler {
@@ -40,8 +42,9 @@ public class ApiExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> validacion(MethodArgumentNotValidException e) {
         Map<String, String> campos = new TreeMap<>();
-        e.getBindingResult().getFieldErrors().forEach(f -> campos.putIfAbsent(f.getField(), f.getDefaultMessage()));
-        String general = campos.size() == 1 ? campos.values().iterator().next() : "Revisá los datos ingresados";
+        // Los mensajes de los DTO están en español y se traducen acá; los de Hibernate ya llegan traducidos.
+        e.getBindingResult().getFieldErrors().forEach(f -> campos.putIfAbsent(f.getField(), t(f.getDefaultMessage())));
+        String general = campos.size() == 1 ? campos.values().iterator().next() : t("Revisá los datos ingresados");
         return conCampos(general, campos);
     }
 
@@ -57,7 +60,7 @@ public class ApiExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> jsonInvalido(HttpMessageNotReadableException e) {
-        return Map.of("erro", "El cuerpo de la solicitud no es un JSON válido");
+        return Map.of("erro", t("El cuerpo de la solicitud no es un JSON válido"));
     }
 
     private static Map<String, Object> conCampos(String erro, Map<String, String> campos) {

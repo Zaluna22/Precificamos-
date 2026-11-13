@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+import static com.precificamos.i18n.Textos.t;
+
 /**
  * Orquesta el cálculo de precios de productos guardados usando la configuración y los costos fijos.
  * Todos los métodos reciben el id del usuario dueño; {@code null} significa anónimo
@@ -52,7 +54,7 @@ public class PrecificacaoService {
     /** Producto del usuario; uno ajeno responde 404 igual que uno inexistente. */
     public Produto buscar(Long usuarioId, Long id) {
         return produtos.findByIdAndUsuarioId(id, usuarioId)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Produto " + id + " no encontrado"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException(t("Producto {0} no encontrado", id)));
     }
 
     /** Suma de los costos fijos mensuales del usuario (0 si es anónimo). */

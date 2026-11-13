@@ -131,14 +131,35 @@ class SegmentoApiTest {
 
     @Test
     void usaConfiguracionGuardadaCuandoFaltanComunes() throws Exception {
-        mvc.perform(put("/api/configuracao").contentType(MediaType.APPLICATION_JSON)
+        String auth = Sesiones.bearer(Sesiones.registrar(mvc));
+        mvc.perform(put("/api/configuracao").header("Authorization", auth).contentType(MediaType.APPLICATION_JSON)
                 .content("{\"valorHora\":60,\"totalUnidadesMes\":50}")).andExpect(status().isOk());
-        mvc.perform(post("/api/segmentos/SERVICIOS/calcular").contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(post("/api/segmentos/SERVICIOS/calcular").header("Authorization", auth).contentType(MediaType.APPLICATION_JSON)
                         .content("{\"comun\":{\"costosFijosMensuales\":0},\"datos\":{\"nombreServicio\":\"Clase\",\"horasPorServicio\":1,\"margenPct\":40}}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.costoVariableUnitario").value(60.00))
                 .andExpect(jsonPath("$.precioSugerido").value(100.00));
-        mvc.perform(put("/api/configuracao").contentType(MediaType.APPLICATION_JSON).content("{}"))
+    }
+
+    @Test
+    void anonimoNoUsaLaConfiguracionDeNadie() throws Exception {
+        String auth = Sesiones.bearer(Sesiones.registrar(mvc));
+        mvc.perform(put("/api/configuracao").header("Authorization", auth).contentType(MediaType.APPLICATION_JSON)
+                .content("{\"valorHora\":60,\"totalUnidadesMes\":50}")).andExpect(status().isOk());
+        // Sin token, el valor hora guardado por el otro usuario no se aplica (queda en 0).
+        mvc.perform(post("/api/segmentos/SERVICIOS/calcular").contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"comun\":{\"costosFijosMensuales\":0,\"ventasMensualesProducto\":10},"
+                                + "\"datos\":{\"nombreServicio\":\"Clase\",\"horasPorServicio\":1,\"margenPct\":40,"
+                                + "\"materiales\":[{\"nombre\":\"Hoja\",\"costo\":6}]}}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.costoVariableUnitario").value(6.00));
+    }
+
+    @Test
+    void tokenInvalidoEnCalculoSigueComoAnonimo() throws Exception {
+        String datos = "{\"nombreServicio\":\"Corte\",\"horasPorServicio\":1,\"valorHora\":40}";
+        mvc.perform(post("/api/segmentos/SERVICIOS/calcular").header("Authorization", "Bearer no-es-un-token")
+                        .contentType(MediaType.APPLICATION_JSON).content("{" + COMUN + ",\"datos\":" + datos + "}"))
                 .andExpect(status().isOk());
     }
 }

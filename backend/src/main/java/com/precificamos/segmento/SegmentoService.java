@@ -2,6 +2,7 @@ package com.precificamos.segmento;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.precificamos.auth.UsuarioActual;
 import com.precificamos.model.ConfiguracaoNegocio;
 import com.precificamos.segmento.dto.*;
 import com.precificamos.service.DatosInvalidosException;
@@ -28,15 +29,18 @@ public class SegmentoService {
     private final Map<Segmento, EstrategiaPrecificacion<?>> estrategias = new EnumMap<>(Segmento.class);
     private final PrecificacaoService precificacao;
     private final ObjectMapper mapper;
+    private final UsuarioActual usuario;
     /** Validador con mensajes en español. */
     private final Validator validador = Validation.byProvider(HibernateValidator.class).configure()
             .defaultLocale(Locale.forLanguageTag("es"))
             .buildValidatorFactory().getValidator();
 
-    public SegmentoService(List<EstrategiaPrecificacion<?>> lista, PrecificacaoService precificacao, ObjectMapper mapper) {
+    public SegmentoService(List<EstrategiaPrecificacion<?>> lista, PrecificacaoService precificacao, ObjectMapper mapper,
+                           UsuarioActual usuario) {
         lista.forEach(e -> estrategias.put(e.segmento(), e));
         this.precificacao = precificacao;
         this.mapper = mapper;
+        this.usuario = usuario;
     }
 
     /** Todas las categorías con ejemplos y pasos del formulario, en el orden del enum. */
@@ -57,7 +61,9 @@ public class SegmentoService {
 
     /** Último paso de todos los formularios: ventas, costos fijos, impuestos y tasas. */
     private PasoFormulario pasoComun() {
-        ConfiguracaoNegocio c = precificacao.configuracao();
+        // Con sesión, los valores por defecto salen de la configuración del usuario; anónimo, vacíos.
+        Long usuarioId = usuario.oNull();
+        ConfiguracaoNegocio c = precificacao.configuracao(usuarioId);
         return new PasoFormulario("Ventas, costos fijos e impuestos",
                 "Lo que comparte todo tu negocio. Se completa con tu Configuración y tus Costos fijos.", List.of(
                 CampoFormulario.de("ventasMensualesProducto", "¿Cuántas unidades de esto vendés por mes?", "entero", true,
@@ -66,7 +72,7 @@ public class SegmentoService {
                         "Sirve para repartir los costos fijos entre todos tus productos. Vacío = igual al anterior",
                         c.getTotalUnidadesMes() != null && c.getTotalUnidadesMes() > 0 ? c.getTotalUnidadesMes() : null).comun(),
                 CampoFormulario.de("costosFijosMensuales", "Costos fijos del mes", "moneda", false,
-                        "Alquiler, luz, internet, contador, DAS del MEI…", r(precificacao.totalFixo())).comun(),
+                        "Alquiler, luz, internet, contador, DAS del MEI…", r(precificacao.totalFixo(usuarioId))).comun(),
                 CampoFormulario.de("impuestoPct", "Impuestos sobre la venta (%)", "porcentaje", false,
                         "Simples Nacional: tu alícuota (ej.: 6 %). MEI: 0 y sumá el DAS en costos fijos", c.getImpostoPct()).comun(),
                 CampoFormulario.de("tarjetaPct", "Tasa de tarjeta / medio de pago (%)", "porcentaje", false,
@@ -138,8 +144,9 @@ public class SegmentoService {
     private ComunesResueltos resolverComunes(SolicitudCalculo s) {
         ParametrosComunes p = s == null || s.comun() == null ? ParametrosComunes.vacios() : s.comun();
         validar(p, "comun.");
-        ConfiguracaoNegocio cfg = precificacao.configuracao();
-        BigDecimal fijos = p.costosFijosMensuales() != null ? p.costosFijosMensuales() : precificacao.totalFixo();
+        Long usuarioId = usuario.oNull();
+        ConfiguracaoNegocio cfg = precificacao.configuracao(usuarioId);
+        BigDecimal fijos = p.costosFijosMensuales() != null ? p.costosFijosMensuales() : precificacao.totalFixo(usuarioId);
         BigDecimal pct = fraccion(primero(p.impuestoPct(), cfg.getImpostoPct()))
                 .add(fraccion(primero(p.tarjetaPct(), cfg.getTaxaCartaoPct())))
                 .add(fraccion(primero(p.marketplacePct(), cfg.getTaxaMarketplacePct())))

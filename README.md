@@ -44,9 +44,39 @@ Pruebas del backend: `cd backend && mvn verify` (usa H2 en memoria, no hace falt
 | GET | `/api/segmentos/{segmento}` | Una categoría |
 | POST | `/api/segmentos/{segmento}/calcular` | Precio sugerido, costo, margen, punto de equilibrio, desglose y avisos |
 | POST | `/api/segmentos/{segmento}/simular` | Ganancia, margen y punto de equilibrio a un precio elegido |
-| GET/POST/DELETE | `/api/custos-fixos` | Costos fijos mensuales |
-| GET/PUT | `/api/configuracao` | Valor hora, impuestos, tasas y unidades por mes |
-| GET/POST/PUT/DELETE | `/api/produtos`, `/api/produtos/{id}/preco`, `/api/produtos/{id}/simulacao` | API original de productos (se mantiene por compatibilidad) |
+| POST | `/api/auth/registro` | Crea una cuenta (`email`, `nombre`, `password` de 8 caracteres o más) y devuelve `token` + `usuario` |
+| POST | `/api/auth/login` | Inicia sesión (`email`, `password`) y devuelve `token` + `usuario` |
+| GET | `/api/auth/yo` | Datos del usuario del token 🔒 |
+| GET/POST/DELETE | `/api/custos-fixos` | Costos fijos mensuales del usuario 🔒 |
+| GET/PUT | `/api/configuracao` | Valor hora, impuestos, tasas y unidades por mes del usuario 🔒 |
+| GET/POST/PUT/DELETE | `/api/produtos`, `/api/produtos/{id}/preco`, `/api/produtos/{id}/simulacao` | API original de productos del usuario (se mantiene por compatibilidad) 🔒 |
+
+🔒 = requiere sesión: enviá la cabecera `Authorization: Bearer <token>`; sin token (o con uno
+vencido) la API responde **401** con `{"erro": "..."}`. Cada usuario ve y modifica solo sus datos.
+
+### Cuentas y sesión (JWT)
+
+```bash
+# Crear cuenta
+curl -X POST http://localhost:8080/api/auth/registro -H 'Content-Type: application/json' \
+  -d '{"email": "ana@ejemplo.com", "nombre": "Ana", "password": "una-clave-segura"}'
+# → 201 {"token": "eyJ...", "usuario": {"id": 1, "email": "ana@ejemplo.com", "nombre": "Ana", "fechaCreacion": "..."}}
+
+# Iniciar sesión
+curl -X POST http://localhost:8080/api/auth/login -H 'Content-Type: application/json' \
+  -d '{"email": "ana@ejemplo.com", "password": "una-clave-segura"}'
+
+# Usar el token
+curl http://localhost:8080/api/custos-fixos -H 'Authorization: Bearer eyJ...'
+```
+
+- Las contraseñas se guardan con hash BCrypt. El token es un JWT firmado con HS256 y dura 7 días
+  (configurable con `JWT_HORAS_EXPIRACION`).
+- Errores: email con formato inválido o contraseña corta → 400 (con detalle en `campos`);
+  email ya registrado → 409; email o contraseña incorrectos → 401.
+- **Calcular y simular siguen siendo públicos.** Sin token se calcula con lo que mandás en `comun`
+  (sin costos fijos ni configuración guardada); con token se completan los datos que faltan con los
+  costos fijos y la configuración de ese usuario.
 
 Ejemplo de cálculo:
 
@@ -62,8 +92,8 @@ curl -X POST http://localhost:8080/api/segmentos/SERVICIOS/calcular \
 # → precioSugerido 150.00, margenRealPct 30.00, puntoEquilibrioUnidades 22
 ```
 
-Los campos de `comun` que no se envían se completan con `/api/configuracao` y con la suma de
-`/api/custos-fixos`. Para `/simular` se agrega `"precio": 120` al mismo cuerpo.
+Los campos de `comun` que no se envían se completan, si hay sesión, con `/api/configuracao` y con
+la suma de `/api/custos-fixos` del usuario. Para `/simular` se agrega `"precio": 120` al mismo cuerpo.
 
 ### Cómo se agrega una categoría nueva
 
@@ -91,9 +121,14 @@ dibuja a partir de los pasos que declara la estrategia, así que no hace falta t
    | `DB_USER` | usuario de la base |
    | `DB_PASSWORD` | contraseña de la base |
    | `FRONTEND_URL` | `https://tu-app.vercel.app` (varios separados por coma; admite comodines, ej. `https://tu-app-*.vercel.app` para las vistas previas) |
+   | `JWT_SECRET` | secreto para firmar los tokens: **obligatorio en producción**, al menos 32 caracteres al azar (ej. `openssl rand -base64 48`). El `render.yaml` lo genera solo (`generateValue: true`). Si lo cambiás, todas las sesiones abiertas se cierran |
+   | `JWT_HORAS_EXPIRACION` | opcional, duración del token en horas (por defecto `168` = 7 días) |
 
    `PORT` la define Render y la API la usa automáticamente. Las tablas se crean solas al arrancar
-   (`spring.jpa.hibernate.ddl-auto=update`).
+   (`spring.jpa.hibernate.ddl-auto=update`): al pasar a la versión con login se agregan la tabla
+   `usuario`, la tabla `configuracao_usuario` y la columna `usuario_id` (nullable) en `custo_fixo`
+   y `produto`. Las filas anteriores al login quedan sin dueño y no las ve ningún usuario (no se
+   borran); la tabla vieja `configuracao_negocio` queda sin uso.
 4. En el plan gratuito el servicio se duerme cuando no se usa: la primera solicitud puede tardar
    alrededor de un minuto. El frontend muestra un aviso si no logra conectar.
 
@@ -113,7 +148,6 @@ dibuja a partir de los pasos que declara la estrategia, así que no hace falta t
 
 ## Hoja de ruta
 
-- Login con Spring Security + JWT y datos por usuario
 - Guardar productos calculados por categoría e historial de precios
 - Exportar a PDF
 - Comparación con precios de la competencia

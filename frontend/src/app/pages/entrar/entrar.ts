@@ -2,11 +2,12 @@ import { Component, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService, rutaSegura } from '../../core/auth.service';
+import { TraducirPipe, t } from '../../core/i18n/i18n';
 
 /** Inicio de sesión con email y contraseña. */
 @Component({
   selector: 'app-entrar',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, TraducirPipe],
   templateUrl: './entrar.html',
 })
 export class Entrar {
@@ -26,7 +27,7 @@ export class Entrar {
   protected entrar(): void {
     const email = this.email.trim();
     if (!email || !this.password) {
-      this.error.set('Completá tu email y tu contraseña.');
+      this.error.set(t('Completá tu email y tu contraseña.'));
       return;
     }
     this.enviando.set(true);

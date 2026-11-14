@@ -1,21 +1,22 @@
 <section class="tarjeta simulador" aria-labelledby="titulo-simulador">
-  <h2 id="titulo-simulador">Simulador: ¿y si cobro otro precio?</h2>
+  <h2 id="titulo-simulador">{{ 'Simulador: ¿y si cobro otro precio?' | t }}</h2>
 
   <div class="campo">
-    <label for="sim-precio">Precio de venta</label>
+    <label for="sim-precio">{{ 'Precio de venta' | t }}</label>
     <input id="sim-precio" type="range" [min]="minimo" [max]="maximo" [step]="pasoSlider"
            [ngModel]="precio()" (ngModelChange)="cambiarPrecio($event)" />
     <div class="sim-fila">
       <div class="entrada-numero">
-        <input type="number" inputmode="decimal" min="0" step="any" aria-label="Precio exacto"
+        <span class="prefijo" aria-hidden="true">{{ simbolo }}</span>
+        <input type="number" inputmode="decimal" min="0" step="any" [attr.aria-label]="'Precio exacto' | t"
                [ngModel]="precio()" (ngModelChange)="cambiarPrecio($event)" />
       </div>
-      <button type="button" class="boton boton-secundario" (click)="volverAlSugerido()">Volver al sugerido</button>
+      <button type="button" class="boton boton-secundario" (click)="volverAlSugerido()">{{ 'Volver al sugerido' | t }}</button>
     </div>
   </div>
 
   <div class="campo">
-    <label for="sim-ventas">Unidades vendidas por mes</label>
+    <label for="sim-ventas">{{ 'Unidades vendidas por mes' | t }}</label>
     <div class="entrada-numero">
       <input id="sim-ventas" type="number" inputmode="numeric" min="1" step="1"
              [ngModel]="ventas()" (ngModelChange)="cambiarVentas($event)" />
@@ -26,15 +27,15 @@
 
   @if (resultado(); as r) {
     <div class="sim-resultado" [class.sim-perdida]="!r.cubreCostos" [class.sim-cargando]="cargando()" aria-live="polite">
-      <p class="sim-estado">{{ r.cubreCostos ? '✅ A este precio ganás' : '❌ A este precio perdés plata' }}</p>
+      <p class="sim-estado">{{ (r.cubreCostos ? '✅ A este precio ganás' : '❌ A este precio perdés plata') | t }}</p>
       <dl class="indicadores">
-        <div><dt>Ganancia por unidad</dt><dd>{{ r.lucroUnitario | fmt }}</dd></div>
-        <div><dt>Margen</dt><dd>{{ r.margenPct | fmt: 'porcentaje' }}</dd></div>
-        <div><dt>Facturación mensual</dt><dd>{{ r.facturacionMensual | fmt }}</dd></div>
-        <div><dt>Ganancia mensual</dt><dd>{{ r.lucroMensual | fmt }}</dd></div>
+        <div><dt>{{ 'Ganancia por unidad' | t }}</dt><dd>{{ r.lucroUnitario | fmt }}</dd></div>
+        <div><dt>{{ 'Margen' | t }}</dt><dd>{{ r.margenPct | fmt: 'porcentaje' }}</dd></div>
+        <div><dt>{{ 'Facturación mensual' | t }}</dt><dd>{{ r.facturacionMensual | fmt }}</dd></div>
+        <div><dt>{{ 'Ganancia mensual' | t }}</dt><dd>{{ r.lucroMensual | fmt }}</dd></div>
         <div class="indicador-ancho">
-          <dt>Punto de equilibrio</dt>
-          <dd>@if (r.puntoEquilibrioUnidades !== null) { {{ r.puntoEquilibrioUnidades }} unidades por mes } @else { No se alcanza a este precio }</dd>
+          <dt>{{ 'Punto de equilibrio' | t }}</dt>
+          <dd>@if (r.puntoEquilibrioUnidades !== null) { {{ '{0} unidades por mes' | t: r.puntoEquilibrioUnidades }} } @else { {{ 'No se alcanza a este precio' | t }} }</dd>
         </div>
       </dl>
     </div>

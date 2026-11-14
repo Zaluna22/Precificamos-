@@ -1,25 +1,25 @@
 <header class="encabezado-pagina">
   <span class="segmento-icono" aria-hidden="true">🏠</span>
   <div>
-    <h1>Costos fijos</h1>
-    <p>Lo que pagás todos los meses aunque no vendas nada. Se reparte entre todo lo que vendés.</p>
+    <h1>{{ 'Costos fijos' | t }}</h1>
+    <p>{{ 'Lo que pagás todos los meses aunque no vendas nada. Se reparte entre todo lo que vendés.' | t }}</p>
   </div>
 </header>
 
 <section class="tarjeta total-fijos">
-  <p>Total por mes</p>
+  <p>{{ 'Total por mes' | t }}</p>
   <p class="resultado-valor">{{ total() | fmt }}</p>
 </section>
 
 <form class="tarjeta formulario" (ngSubmit)="agregar()" novalidate>
-  <h2>Agregar costo fijo</h2>
+  <h2>{{ 'Agregar costo fijo' | t }}</h2>
   <div class="fila-campos">
     <div class="campo">
-      <label for="costo-nombre">Nombre</label>
-      <input id="costo-nombre" name="nome" type="text" [(ngModel)]="nuevo.nome" placeholder="Ej.: Alquiler" autocomplete="off" />
+      <label for="costo-nombre">{{ 'Nombre' | t }}</label>
+      <input id="costo-nombre" name="nome" type="text" [(ngModel)]="nuevo.nome" [placeholder]="'Ej.: Alquiler' | t" autocomplete="off" />
     </div>
     <div class="campo">
-      <label for="costo-valor">Valor mensual</label>
+      <label for="costo-valor">{{ 'Valor mensual' | t }}</label>
       <div class="entrada-numero">
         <span class="prefijo" aria-hidden="true">{{ simbolo }}</span>
         <input id="costo-valor" name="valorMensal" type="number" inputmode="decimal" min="0" step="any" [(ngModel)]="nuevo.valorMensal" />
@@ -27,14 +27,14 @@
     </div>
   </div>
   @if (sugerencias().length) {
-    <ul class="chips" aria-label="Sugerencias">
+    <ul class="chips" [attr.aria-label]="'Sugerencias' | t">
       @for (s of sugerencias(); track s) {
-        <li><button type="button" class="chip-boton" (click)="usarSugerencia(s)">+ {{ s }}</button></li>
+        <li><button type="button" class="chip-boton" (click)="usarSugerencia(s)">+ {{ s | t }}</button></li>
       }
     </ul>
   }
   @if (error()) { <p class="alerta alerta-error" role="alert">{{ error() }}</p> }
-  <button type="submit" class="boton" [disabled]="guardando()">{{ guardando() ? 'Guardando…' : 'Agregar' }}</button>
+  <button type="submit" class="boton" [disabled]="guardando()">{{ (guardando() ? 'Guardando…' : 'Agregar') | t }}</button>
 </form>
 
 @if (cargando()) {
@@ -45,10 +45,10 @@
       <li class="tarjeta">
         <span>{{ c.nome }}</span>
         <strong>{{ c.valorMensal | fmt }}</strong>
-        <button type="button" class="boton-icono" (click)="borrar(c)" [attr.aria-label]="'Borrar ' + c.nome">🗑️</button>
+        <button type="button" class="boton-icono" (click)="borrar(c)" [attr.aria-label]="'Borrar {0}' | t: c.nome">🗑️</button>
       </li>
     } @empty {
-      <li class="vacio">Todavía no cargaste costos fijos.</li>
+      <li class="vacio">{{ 'Todavía no cargaste costos fijos.' | t }}</li>
     }
   </ul>
 }

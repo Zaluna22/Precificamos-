@@ -2,34 +2,34 @@
   <header class="encabezado-pagina">
     <span class="segmento-icono" aria-hidden="true">✨</span>
     <div>
-      <h1>Crear cuenta</h1>
-      <p>Es gratis. Guardá tus costos fijos y tu configuración para no cargarlos cada vez.</p>
+      <h1>{{ 'Crear cuenta' | t }}</h1>
+      <p>{{ 'Es gratis. Guardá tus costos fijos y tu configuración para no cargarlos cada vez.' | t }}</p>
     </div>
   </header>
 
   <form class="tarjeta formulario" (ngSubmit)="registrar()" novalidate>
     <div class="campo" [class.con-error]="errores()['nombre']">
-      <label for="registro-nombre">Tu nombre</label>
+      <label for="registro-nombre">{{ 'Tu nombre' | t }}</label>
       <input id="registro-nombre" name="nombre" type="text" autocomplete="name" [(ngModel)]="nombre" required />
       @if (errores()['nombre']) { <small class="error-campo" role="alert">{{ errores()['nombre'] }}</small> }
     </div>
     <div class="campo" [class.con-error]="errores()['email']">
-      <label for="registro-email">Email</label>
+      <label for="registro-email">{{ 'Email' | t }}</label>
       <input id="registro-email" name="email" type="email" inputmode="email" autocomplete="email" [(ngModel)]="email" required />
       @if (errores()['email']) { <small class="error-campo" role="alert">{{ errores()['email'] }}</small> }
     </div>
     <div class="campo" [class.con-error]="errores()['password']">
-      <label for="registro-password">Contraseña</label>
+      <label for="registro-password">{{ 'Contraseña' | t }}</label>
       <input id="registro-password" name="password" type="password" autocomplete="new-password" minlength="8" [(ngModel)]="password" required />
-      <small class="ayuda">Mínimo 8 caracteres.</small>
+      <small class="ayuda">{{ 'Mínimo 8 caracteres.' | t }}</small>
       @if (errores()['password']) { <small class="error-campo" role="alert">{{ errores()['password'] }}</small> }
     </div>
     @if (error()) { <p class="alerta alerta-error" role="alert">{{ error() }}</p> }
-    <button type="submit" class="boton boton-ancho" [disabled]="enviando()">{{ enviando() ? 'Creando tu cuenta…' : 'Crear cuenta' }}</button>
+    <button type="submit" class="boton boton-ancho" [disabled]="enviando()">{{ (enviando() ? 'Creando tu cuenta…' : 'Crear cuenta') | t }}</button>
   </form>
 
   <p class="auth-alternativa">
-    ¿Ya tenés cuenta?
-    <a routerLink="/entrar" [queryParams]="{ volver: volver() || null }">Entrá</a>
+    {{ '¿Ya tenés cuenta?' | t }}
+    <a routerLink="/entrar" [queryParams]="{ volver: volver() || null }">{{ 'Entrá' | t }}</a>
   </p>
 </section>

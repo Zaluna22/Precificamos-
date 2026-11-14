@@ -3,11 +3,11 @@
 } @else if (!definicion()) {
   <div class="alerta alerta-error" role="alert">
     <p>{{ errorGeneral() }}</p>
-    <a routerLink="/" class="boton">Volver al inicio</a>
+    <a routerLink="/" class="boton">{{ 'Volver al inicio' | t }}</a>
   </div>
 } @else {
   @let def = definicion()!;
-  <a routerLink="/" class="volver">← Cambiar categoría</a>
+  <a routerLink="/" class="volver">{{ '← Cambiar categoría' | t }}</a>
   <header class="encabezado-pagina">
     <span class="segmento-icono" aria-hidden="true">{{ def.icono }}</span>
     <div>
@@ -23,12 +23,12 @@
     <app-simulador [codigo]="def.codigo" [solicitud]="solicitudEnviada()!" [precioSugerido]="r.precioSugerido"
                    [ventasIniciales]="ventasDelModelo()" />
     <div class="acciones">
-      <button type="button" class="boton boton-secundario" (click)="editar()">Editar datos</button>
-      <button type="button" class="boton boton-texto" (click)="empezarDeNuevo()">Calcular otro producto</button>
+      <button type="button" class="boton boton-secundario" (click)="editar()">{{ 'Editar datos' | t }}</button>
+      <button type="button" class="boton boton-texto" (click)="empezarDeNuevo()">{{ 'Calcular otro producto' | t }}</button>
     </div>
   } @else {
     <div class="progreso" role="progressbar" [attr.aria-valuenow]="progreso()" aria-valuemin="0" aria-valuemax="100"
-         [attr.aria-label]="'Paso ' + (paso() + 1) + ' de ' + totalPasos()">
+         [attr.aria-label]="'Paso {0} de {1}' | t: (paso() + 1) : totalPasos()">
       <div class="progreso-barra" [style.width.%]="progreso()"></div>
     </div>
     <ol class="pasos-indice">
@@ -43,7 +43,7 @@
 
     @if (pasoActual(); as p) {
       <form class="tarjeta formulario" (ngSubmit)="siguiente()" novalidate>
-        <p class="paso-contador">Paso {{ paso() + 1 }} de {{ totalPasos() }}</p>
+        <p class="paso-contador">{{ 'Paso {0} de {1}' | t: (paso() + 1) : totalPasos() }}</p>
         <h2>{{ p.titulo }}</h2>
         <p class="paso-descripcion">{{ p.descripcion }}</p>
 
@@ -54,9 +54,9 @@
         @if (errorGeneral()) { <p class="alerta alerta-error" role="alert">{{ errorGeneral() }}</p> }
 
         <div class="navegacion-pasos">
-          <button type="button" class="boton boton-secundario" (click)="anterior()" [disabled]="paso() === 0">Anterior</button>
+          <button type="button" class="boton boton-secundario" (click)="anterior()" [disabled]="paso() === 0">{{ 'Anterior' | t }}</button>
           <button type="submit" class="boton" [disabled]="enviando()">
-            {{ esUltimo() ? (enviando() ? 'Calculando…' : 'Calcular precio') : 'Siguiente' }}
+            {{ (esUltimo() ? (enviando() ? 'Calculando…' : 'Calcular precio') : 'Siguiente') | t }}
           </button>
         </div>
       </form>

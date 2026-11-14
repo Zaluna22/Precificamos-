@@ -9,7 +9,7 @@ import { IDIOMAS, Idioma, TraducirPipe, cambiarIdioma, idioma } from '../core/i1
     @if (variante() === 'barra') {
       <label class="selector-idioma">
         <span class="sr-only">{{ 'Idioma' | t }}</span>
-        <span aria-hidden="true">🌐</span>
+        <span class="selector-idioma-icono" aria-hidden="true">🌐</span>
         <select [value]="idioma()" (change)="cambiar($any($event.target).value)" [attr.aria-label]="'Idioma' | t">
           @for (i of idiomas; track i.codigo) {
             <option [value]="i.codigo" [selected]="i.codigo === idioma()" [attr.lang]="i.codigo">{{ i.corto }}</option>

@@ -37,10 +37,10 @@ button, input, select { font: inherit; }
 /* ---------- Estructura ---------- */
 .barra {
   position: sticky; top: 0; z-index: 10;
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between; gap: .75rem;
   padding: .75rem 1rem; background: var(--color-primario); color: #fff;
 }
-.marca { display: flex; align-items: center; gap: .5rem; color: #fff; text-decoration: none; font-weight: 700; font-size: 1.1rem; }
+.marca { display: flex; flex-shrink: 0; white-space: nowrap; align-items: center; gap: .5rem; color: #fff; text-decoration: none; font-weight: 700; font-size: 1.1rem; }
 .marca-logo { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 10px; background: var(--color-acento); color: #1f2937; font-size: .85rem; }
 .nav-escritorio { display: none; gap: .25rem; }
 .nav-escritorio a { color: #e6fffb; text-decoration: none; padding: .4rem .8rem; border-radius: 999px; }
@@ -52,13 +52,17 @@ button, input, select { font: inherit; }
   border: 1px solid rgb(255 255 255 / 55%); background: transparent; color: #fff; text-decoration: none; font-weight: 600; font-size: .9rem; cursor: pointer;
 }
 .cuenta-boton:hover { background: rgb(255 255 255 / 18%); }
-.selector-idioma { position: relative; display: inline-flex; align-items: center; gap: .15rem; font-size: .85rem; }
+.selector-idioma { position: relative; display: inline-flex; align-items: center; gap: .3rem; font-size: .85rem; }
 .selector-idioma select {
   min-height: 36px; padding: .3rem .4rem; border: 1px solid rgb(255 255 255 / 55%); border-radius: 999px;
   background: transparent; color: #fff; font-weight: 600; cursor: pointer;
 }
 .selector-idioma select option { color: var(--color-texto); }
 .selector-idioma select:hover { background: rgb(255 255 255 / 18%); }
+/* En celulares el globo se oculta (el selector ya dice ES / PT / EN) y el nombre del usuario
+   solo aparece si hay lugar: con sesión, la barra no alcanza para todo en 390 px. */
+.selector-idioma-icono { display: none; }
+@media (max-width: 479px) { .cuenta-nombre { display: none; } }
 .contenido { max-width: 960px; margin: 0 auto; padding: 1rem 1rem calc(var(--alto-nav-movil) + 1.5rem); }
 .pie { text-align: center; color: var(--color-texto-suave); font-size: .8rem; padding: 0 1rem calc(var(--alto-nav-movil) + 1rem); }
 .nav-movil {
@@ -215,6 +219,7 @@ button, input, select { font: inherit; }
 /* ---------- Pantallas más grandes ---------- */
 @media (min-width: 640px) {
   h1 { font-size: 2rem; }
+  .selector-idioma-icono { display: inline; }
   .grilla-segmentos { grid-template-columns: repeat(2, 1fr); }
   .fila-campos { grid-template-columns: repeat(2, 1fr); }
   .indicadores { grid-template-columns: repeat(3, 1fr); }

@@ -19,7 +19,7 @@ costo fijo), **tasas de tarjeta y marketplace**, **comisiones**, **punto de equi
 
 ```
 backend/    API REST en Java 17 + Spring Boot 3 + MySQL (H2 en las pruebas)
-frontend/   Aplicación web en Angular 22 (componentes standalone), mobile-first, en español
+frontend/   Aplicación web en Angular 22 (componentes standalone), mobile-first, en español, portugués e inglés
 legacy/     Primera versión estática (HTML/CSS/JS), conservada como referencia
 .github/    CI: pruebas del backend y compilación del frontend
 ```
@@ -102,6 +102,47 @@ Cada categoría es una estrategia (patrón *Strategy*): una clase que implementa
 su DTO de entrada en `segmento/dto/`. Se registra sola por ser un `@Component`; solo hay que sumar
 el valor al enum `Segmento` con su nombre, descripción y ejemplos. El formulario del frontend se
 dibuja a partir de los pasos que declara la estrategia, así que no hace falta tocar Angular.
+
+## Idiomas
+
+La aplicación y la API están en **español** (idioma por defecto), **portugués de Brasil** e **inglés**.
+
+| Código | Idioma | Moneda en el frontend |
+|---|---|---|
+| `es` | Español (por defecto) | Reales (R$), formato `pt-BR` |
+| `pt-BR` | Português (Brasil) | Reales (R$), formato `pt-BR` |
+| `en` | English | Dólares (US$), formato `en-US` (`$1,234.56`) |
+
+**Frontend**
+
+- Selector de idioma en el encabezado (ES / PT / EN, también en celulares) y en **Configuración → Idioma y moneda**.
+  El cambio es instantáneo, sin recargar, y se recuerda en el navegador (`localStorage`).
+- La primera vez se usa el idioma del navegador (`pt*` → portugués, `en*` → inglés, cualquier otro → español).
+- Los textos están en `frontend/src/app/core/i18n/` (`pt-br.ts`, `en.ts`): la clave es el texto original
+  en español y, si falta una traducción, se muestra el español. En las plantillas se usa el pipe
+  `{{ 'Costos fijos' | t }}` y en el código la función `t('Paso {0} de {1}', paso, total)`.
+- La moneda se decide en un solo lugar, `frontend/src/app/core/formato.ts`: en inglés los montos se
+  muestran en **dólares (USD)**; en español y portugués, en reales. Es solo el formato: los números
+  que calcula la API son los mismos.
+- Cada pedido a la API lleva la cabecera `Accept-Language` con el idioma elegido.
+
+**API**
+
+El idioma de cada solicitud se elige así (el primero que sea válido):
+
+1. Parámetro `?lang=` (`es`, `pt-BR` o `en`; también acepta `pt` o `en-US`).
+2. Cabecera `Accept-Language`, respetando el orden de preferencia.
+3. Si no hay ninguno soportado: **español**.
+
+Se traducen los nombres y descripciones de las categorías, los pasos y campos del formulario, el
+desglose, el método, los avisos y los mensajes de error (validación, reglas de negocio, cuentas y
+el 401). Los montos que la API escribe dentro de los textos siguen la misma regla de moneda: R$ en
+español y portugués, US$ en inglés.
+
+```bash
+curl 'http://localhost:8080/api/segmentos?lang=en'
+curl http://localhost:8080/api/segmentos -H 'Accept-Language: pt-BR'
+```
 
 ## Despliegue
 

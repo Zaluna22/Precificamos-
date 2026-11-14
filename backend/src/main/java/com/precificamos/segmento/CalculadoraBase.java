@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import static com.precificamos.i18n.Textos.t;
+
 /**
  * Fórmulas comunes a todos los segmentos: prorrateo de costos fijos, precio por margen o por
  * markup, y análisis de un precio (ganancia, margen y punto de equilibrio).
@@ -41,21 +43,21 @@ public final class CalculadoraBase {
     public static BigDecimal precioPorMargen(BigDecimal costo, BigDecimal porcentajeSobreVenta, BigDecimal margenPct) {
         BigDecimal divisor = BigDecimal.ONE.subtract(porcentajeSobreVenta).subtract(fraccion(margenPct));
         if (divisor.signum() <= 0) {
-            throw new RegraDeNegocioException("Margen + impuestos/tasas llegan al 100 % o más del precio");
+            throw new RegraDeNegocioException(t("Margen + impuestos/tasas llegan al 100 % o más del precio"));
         }
         return costo.divide(divisor, MC);
     }
 
     /** Precio aplicando un multiplicador sobre el costo y agregando impuestos/tasas encima. */
     public static BigDecimal precioPorMarkup(BigDecimal costo, BigDecimal porcentajeSobreVenta, BigDecimal markup) {
-        if (markup == null || markup.signum() <= 0) throw new RegraDeNegocioException("El markup debe ser positivo");
+        if (markup == null || markup.signum() <= 0) throw new RegraDeNegocioException(t("El markup debe ser positivo"));
         return precioMinimo(costo, porcentajeSobreVenta).multiply(markup, MC);
     }
 
     /** Precio que solo cubre el costo y las tasas (ganancia cero). */
     public static BigDecimal precioMinimo(BigDecimal costo, BigDecimal porcentajeSobreVenta) {
         BigDecimal liquido = BigDecimal.ONE.subtract(porcentajeSobreVenta);
-        if (liquido.signum() <= 0) throw new RegraDeNegocioException("Impuestos/tasas llegan al 100 % o más");
+        if (liquido.signum() <= 0) throw new RegraDeNegocioException(t("Impuestos/tasas llegan al 100 % o más"));
         return costo.divide(liquido, MC);
     }
 
@@ -71,7 +73,7 @@ public final class CalculadoraBase {
      * ítem que habría que vender por mes para pagar todos los costos fijos.
      */
     public static Analisis analizar(BigDecimal precio, BigDecimal costoVariable, ComunesResueltos c) {
-        if (precio == null || precio.signum() <= 0) throw new RegraDeNegocioException("El precio debe ser positivo");
+        if (precio == null || precio.signum() <= 0) throw new RegraDeNegocioException(t("El precio debe ser positivo"));
         BigDecimal rateo = rateo(c);
         BigDecimal tasas = precio.multiply(c.porcentajeSobreVenta(), MC);
         BigDecimal contribucion = precio.subtract(tasas).subtract(costoVariable);
@@ -98,7 +100,7 @@ public final class CalculadoraBase {
     public static BigDecimal factorMerma(BigDecimal pct, String concepto) {
         BigDecimal f = fraccion(pct);
         if (f.signum() < 0 || f.compareTo(BigDecimal.ONE) >= 0) {
-            throw new RegraDeNegocioException(concepto + " debe estar entre 0 y 99,99 %");
+            throw new RegraDeNegocioException(t("{0} debe estar entre 0 y 99,99 %", t(concepto)));
         }
         return BigDecimal.ONE.divide(BigDecimal.ONE.subtract(f), MC);
     }

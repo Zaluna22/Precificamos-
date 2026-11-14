@@ -8,7 +8,13 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
-/** Orquesta el cálculo de precios de productos guardados usando la configuración y los costos fijos. */
+import static com.precificamos.i18n.Textos.t;
+
+/**
+ * Orquesta el cálculo de precios de productos guardados usando la configuración y los costos fijos.
+ * Todos los métodos reciben el id del usuario dueño; {@code null} significa anónimo
+ * (configuración vacía y sin costos fijos).
+ */
 @Service
 public class PrecificacaoService {
     private final ProdutoRepository produtos;
@@ -23,38 +29,44 @@ public class PrecificacaoService {
         this.configuracoes = configuracoes;
     }
 
-    public ConfiguracaoNegocio configuracao() {
-        return configuracoes.findById(1L).orElseGet(ConfiguracaoNegocio::new);
+    /** Configuración del usuario, o una vacía si es anónimo o todavía no guardó nada. */
+    public ConfiguracaoNegocio configuracao(Long usuarioId) {
+        if (usuarioId == null) return new ConfiguracaoNegocio();
+        return configuracoes.findById(usuarioId).orElseGet(ConfiguracaoNegocio::new);
     }
 
-    public ConfiguracaoNegocio salvarConfiguracao(ConfiguracaoNegocio c) {
-        c.setId(1L);
+    public ConfiguracaoNegocio salvarConfiguracao(Long usuarioId, ConfiguracaoNegocio c) {
+        c.setUsuarioId(usuarioId);
         return configuracoes.save(c);
     }
 
-    public ResultadoPreco precoDoProduto(Long id, MetodoPrecificacao metodo, BigDecimal valor) {
-        Produto p = buscar(id);
-        ConfiguracaoNegocio c = configuracao();
-        return engine.calcular(p, c, totalFixo(), totalUnidades(c), metodo, valor);
+    public ResultadoPreco precoDoProduto(Long usuarioId, Long id, MetodoPrecificacao metodo, BigDecimal valor) {
+        Produto p = buscar(usuarioId, id);
+        ConfiguracaoNegocio c = configuracao(usuarioId);
+        return engine.calcular(p, c, totalFixo(usuarioId), totalUnidades(usuarioId, c), metodo, valor);
     }
 
-    public ResultadoSimulacao simular(Long id, BigDecimal preco) {
-        ConfiguracaoNegocio c = configuracao();
-        return engine.simular(buscar(id), c, totalFixo(), totalUnidades(c), preco);
+    public ResultadoSimulacao simular(Long usuarioId, Long id, BigDecimal preco) {
+        ConfiguracaoNegocio c = configuracao(usuarioId);
+        return engine.simular(buscar(usuarioId, id), c, totalFixo(usuarioId), totalUnidades(usuarioId, c), preco);
     }
 
-    public Produto buscar(Long id) {
-        return produtos.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Produto " + id + " no encontrado"));
+    /** Producto del usuario; uno ajeno responde 404 igual que uno inexistente. */
+    public Produto buscar(Long usuarioId, Long id) {
+        return produtos.findByIdAndUsuarioId(id, usuarioId)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(t("Producto {0} no encontrado", id)));
     }
 
-    /** Suma de todos los costos fijos mensuales registrados. */
-    public BigDecimal totalFixo() {
-        return custosFixos.findAll().stream().map(CustoFixo::getValorMensal).reduce(BigDecimal.ZERO, BigDecimal::add);
+    /** Suma de los costos fijos mensuales del usuario (0 si es anónimo). */
+    public BigDecimal totalFixo(Long usuarioId) {
+        if (usuarioId == null) return BigDecimal.ZERO;
+        return custosFixos.findByUsuarioIdOrderByIdAsc(usuarioId).stream()
+                .map(CustoFixo::getValorMensal).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     /** Unidades mensuales usadas para prorratear los costos fijos. */
-    private int totalUnidades(ConfiguracaoNegocio c) {
+    private int totalUnidades(Long usuarioId, ConfiguracaoNegocio c) {
         if (c.getTotalUnidadesMes() != null && c.getTotalUnidadesMes() > 0) return c.getTotalUnidadesMes();
-        return produtos.findAll().stream().mapToInt(Produto::getVendasMensaisPrevistas).sum();
+        return produtos.findByUsuarioIdOrderByIdAsc(usuarioId).stream().mapToInt(Produto::getVendasMensaisPrevistas).sum();
     }
 }

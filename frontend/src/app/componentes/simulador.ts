@@ -3,13 +3,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Subject, catchError, debounceTime, of, switchMap } from 'rxjs';
 import { ApiService } from '../core/api.service';
-import { FormatoPipe } from '../core/formato';
+import { FormatoPipe, simboloMoneda } from '../core/formato';
+import { TraducirPipe } from '../core/i18n/i18n';
 import { ResultadoSimulacion, SolicitudCalculo } from '../core/modelos';
 
 /** Simulador: el usuario mueve el precio y las ventas y ve al instante su ganancia. */
 @Component({
   selector: 'app-simulador',
-  imports: [FormsModule, FormatoPipe],
+  imports: [FormsModule, FormatoPipe, TraducirPipe],
   templateUrl: './simulador.html',
 })
 export class Simulador implements OnInit {
@@ -27,6 +28,9 @@ export class Simulador implements OnInit {
   protected readonly error = signal<string | null>(null);
   protected readonly cargando = signal(false);
   private readonly cambios = new Subject<void>();
+
+  /** Símbolo de la moneda del idioma actual. */
+  protected get simbolo(): string { return simboloMoneda(); }
 
   protected get minimo(): number { return Math.max(0.01, Math.floor(this.precioSugerido() * 0.4 * 100) / 100); }
   protected get maximo(): number { return Math.ceil(this.precioSugerido() * 2); }

@@ -11,7 +11,7 @@
         <div class="fila-lista">
           <div class="fila-encabezado">
             <span>#{{ i + 1 }} {{ $any(fila)[c.subcampos?.[0]?.nombre ?? ""] || "" }}</span>
-            <button type="button" class="boton-icono" (click)="quitarFila(i)" [attr.aria-label]="'Quitar fila ' + (i + 1)">✕</button>
+            <button type="button" class="boton-icono" (click)="quitarFila(i)" [attr.aria-label]="'Quitar fila {0}' | t: (i + 1)">✕</button>
           </div>
           <div class="fila-campos">
             @for (sub of c.subcampos ?? []; track sub.nombre) {
@@ -20,9 +20,9 @@
           </div>
         </div>
       } @empty {
-        <p class="vacio">Todavía no agregaste nada.</p>
+        <p class="vacio">{{ 'Todavía no agregaste nada.' | t }}</p>
       }
-      <button type="button" class="boton boton-secundario" (click)="agregarFila()">+ Agregar</button>
+      <button type="button" class="boton boton-secundario" (click)="agregarFila()">{{ '+ Agregar' | t }}</button>
       @if (err) { <p class="error-campo" role="alert">{{ err }}</p> }
     </fieldset>
   }

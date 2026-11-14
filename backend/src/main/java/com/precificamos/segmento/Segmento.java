@@ -5,6 +5,8 @@ import com.precificamos.service.RecursoNaoEncontradoException;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.precificamos.i18n.Textos.t;
+
 /**
  * Categorías amplias de negocio. Cualquier emprendimiento entra en alguna de ellas según
  * <em>cómo</em> obtiene lo que vende (lo elabora, lo fabrica, lo compra listo, lo vende en
@@ -68,7 +70,7 @@ public enum Segmento {
     public static Segmento desdeCodigo(String codigo) {
         String normalizado = codigo == null ? "" : codigo.trim().toUpperCase().replace('-', '_');
         return Arrays.stream(values()).filter(s -> s.name().equals(normalizado)).findFirst()
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Segmento '" + codigo + "' no existe. Opciones: "
-                        + Arrays.toString(values())));
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        t("Segmento '{0}' no existe. Opciones: {1}", codigo, Arrays.toString(values()))));
     }
 }

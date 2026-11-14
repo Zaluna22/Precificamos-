@@ -17,25 +17,26 @@ class ProdutoApiTest {
 
     @Test
     void criaProdutoECalculaPreco() throws Exception {
-        mvc.perform(post("/api/custos-fixos").contentType(MediaType.APPLICATION_JSON)
+        String auth = Sesiones.bearer(Sesiones.registrar(mvc));
+        mvc.perform(post("/api/custos-fixos").header("Authorization", auth).contentType(MediaType.APPLICATION_JSON)
                 .content("{\"nome\":\"Aluguel\",\"valorMensal\":100}")).andExpect(status().isCreated());
 
-        String body = mvc.perform(post("/api/produtos").contentType(MediaType.APPLICATION_JSON)
+        String body = mvc.perform(post("/api/produtos").header("Authorization", auth).contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nome\":\"Lacinho\",\"vendasMensaisPrevistas\":50," +
                                 "\"materiais\":[{\"nome\":\"Fita\",\"precoPorKg\":50,\"quantidadeGramas\":20}]}"))
                 .andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
         String id = body.replaceAll(".*\"id\":(\\d+).*", "$1");
 
-        mvc.perform(get("/api/produtos/" + id + "/preco"))
+        mvc.perform(get("/api/produtos/" + id + "/preco").header("Authorization", auth))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.precoSugerido").isNumber());
 
-        mvc.perform(get("/api/produtos/" + id + "/preco").param("valor", "100"))
+        mvc.perform(get("/api/produtos/" + id + "/preco").header("Authorization", auth).param("valor", "100"))
                 .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
     void produtoInexistenteRetorna404() throws Exception {
-        mvc.perform(get("/api/produtos/9999")).andExpect(status().isNotFound());
+        mvc.perform(get("/api/produtos/9999").header("Authorization", Sesiones.bearer(Sesiones.registrar(mvc)))).andExpect(status().isNotFound());
     }
 }

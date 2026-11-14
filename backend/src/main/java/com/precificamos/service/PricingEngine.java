@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import static com.precificamos.i18n.Textos.t;
+
 /** Cálculo puro del precio de venta de un {@link Produto}, sin dependencia de base de datos. */
 public class PricingEngine {
     private static final MathContext MC = MathContext.DECIMAL64;
@@ -21,7 +23,7 @@ public class PricingEngine {
      */
     public ResultadoPreco calcular(Produto p, ConfiguracaoNegocio c, BigDecimal totalFixo, int totalUnidades,
                                    MetodoPrecificacao metodo, BigDecimal valor) {
-        if (totalUnidades <= 0) throw new RegraDeNegocioException("El total de unidades por mes debe ser mayor que cero");
+        if (totalUnidades <= 0) throw new RegraDeNegocioException(t("El total de unidades por mes debe ser mayor que cero"));
         BigDecimal custoMat = p.custoMateriais();
         BigDecimal custoVar = custoMat.add(p.getOutrosCustosVariaveis());
         BigDecimal mao = p.getHorasMaoDeObra().multiply(c.getValorHora());
@@ -34,11 +36,11 @@ public class PricingEngine {
         if (metodo == MetodoPrecificacao.MARGEM) {
             BigDecimal divisor = liquido.subtract(valor.divide(CEM, MC));
             if (divisor.signum() <= 0)
-                throw new RegraDeNegocioException("Margen + impuestos/tasas llegan al 100 % o más del precio");
+                throw new RegraDeNegocioException(t("Margen + impuestos/tasas llegan al 100 % o más del precio"));
             preco = custo.divide(divisor, MC);
         } else {
-            if (valor.signum() <= 0) throw new RegraDeNegocioException("El markup debe ser positivo");
-            if (liquido.signum() <= 0) throw new RegraDeNegocioException("Impuestos/tasas llegan al 100 % o más");
+            if (valor.signum() <= 0) throw new RegraDeNegocioException(t("El markup debe ser positivo"));
+            if (liquido.signum() <= 0) throw new RegraDeNegocioException(t("Impuestos/tasas llegan al 100 % o más"));
             preco = custo.multiply(valor).divide(liquido, MC);
         }
 
@@ -53,8 +55,8 @@ public class PricingEngine {
     /** Simula la ganancia unitaria y mensual si el producto se vende a un precio dado. */
     public ResultadoSimulacao simular(Produto p, ConfiguracaoNegocio c, BigDecimal totalFixo, int totalUnidades,
                                       BigDecimal preco) {
-        if (totalUnidades <= 0) throw new RegraDeNegocioException("El total de unidades por mes debe ser mayor que cero");
-        if (preco.signum() <= 0) throw new RegraDeNegocioException("El precio debe ser positivo");
+        if (totalUnidades <= 0) throw new RegraDeNegocioException(t("El total de unidades por mes debe ser mayor que cero"));
+        if (preco.signum() <= 0) throw new RegraDeNegocioException(t("El precio debe ser positivo"));
         BigDecimal custo = p.custoMateriais().add(p.getOutrosCustosVariaveis())
                 .add(p.getHorasMaoDeObra().multiply(c.getValorHora()))
                 .add(totalFixo.divide(BigDecimal.valueOf(totalUnidades), MC));

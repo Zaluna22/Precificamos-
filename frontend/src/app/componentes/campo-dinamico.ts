@@ -1,7 +1,8 @@
 import { Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CampoFormulario, Opcion } from '../core/modelos';
-import { simboloMoneda } from '../core/formato';
+import { formatear, simboloMoneda } from '../core/formato';
+import { TraducirPipe } from '../core/i18n/i18n';
 
 /** Fila vacía de una lista con los valores por defecto de sus columnas. */
 export function filaVacia(campo: CampoFormulario): Record<string, unknown> {
@@ -16,7 +17,7 @@ export function filaVacia(campo: CampoFormulario): Record<string, unknown> {
  */
 @Component({
   selector: 'app-campo-dinamico',
-  imports: [FormsModule, CampoDinamico],
+  imports: [FormsModule, CampoDinamico, TraducirPipe],
   templateUrl: './campo-dinamico.html',
 })
 export class CampoDinamico {
@@ -27,11 +28,12 @@ export class CampoDinamico {
   readonly clave = input.required<string>();
   readonly errores = input<Record<string, string>>({});
 
-  protected readonly simbolo = simboloMoneda();
+  /** Símbolo de la moneda del idioma actual. */
+  protected get simbolo(): string { return simboloMoneda(); }
 
   /** Texto extra de una opción: el margen de referencia de una categoría de góndola. */
   protected detalleOpcion(o: Opcion): string {
-    return typeof o.extra === 'number' ? ` (${o.extra} %)` : '';
+    return typeof o.extra === 'number' ? ` (${formatear(o.extra, 'porcentaje')})` : '';
   }
 
   protected get id(): string {

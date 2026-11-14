@@ -1,8 +1,10 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal, untracked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../core/api.service';
 import { DefinicionSegmento } from '../../core/modelos';
+import { PistaSesion } from '../../componentes/pista-sesion';
+import { TraducirPipe, idioma } from '../../core/i18n/i18n';
 
 /** Normaliza texto para buscar sin acentos ni mayúsculas. */
 const normalizar = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -10,7 +12,7 @@ const normalizar = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g,
 /** Inicio: el usuario elige la categoría reconociendo su negocio entre los ejemplos. */
 @Component({
   selector: 'app-inicio',
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, PistaSesion, TraducirPipe],
   templateUrl: './inicio.html',
 })
 export class Inicio {
@@ -32,7 +34,11 @@ export class Inicio {
   });
 
   constructor() {
-    this.cargar();
+    // Carga al entrar y vuelve a cargar al cambiar el idioma (los textos vienen de la API).
+    effect(() => {
+      idioma();
+      untracked(() => this.cargar());
+    });
   }
 
   protected cargar(): void {

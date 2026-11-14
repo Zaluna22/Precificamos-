@@ -3,21 +3,23 @@ import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../core/api.service';
 import { FormatoPipe, simboloMoneda } from '../../core/formato';
 import { CostoFijo } from '../../core/modelos';
+import { TraducirPipe, t } from '../../core/i18n/i18n';
 
-/** Sugerencias para que el usuario no se olvide de ningún costo fijo. */
+/** Sugerencias para que el usuario no se olvide de ningún costo fijo (en español; se muestran traducidas). */
 const SUGERENCIAS = ['Alquiler', 'Luz', 'Agua', 'Internet y celular', 'Contador', 'DAS del MEI', 'Sistema / app de gestión',
   'Publicidad', 'Sueldos fijos', 'Mantenimiento de equipos'];
 
 /** Lista, alta y baja de costos fijos mensuales. */
 @Component({
   selector: 'app-costos-fijos',
-  imports: [FormsModule, FormatoPipe],
+  imports: [FormsModule, FormatoPipe, TraducirPipe],
   templateUrl: './costos-fijos.html',
 })
 export class CostosFijos {
   private readonly api = inject(ApiService);
 
-  protected readonly simbolo = simboloMoneda();
+  /** Símbolo de la moneda del idioma actual. */
+  protected get simbolo(): string { return simboloMoneda(); }
   protected readonly costos = signal<CostoFijo[]>([]);
   protected readonly cargando = signal(true);
   protected readonly error = signal<string | null>(null);
@@ -25,7 +27,7 @@ export class CostosFijos {
   protected readonly total = computed(() => this.costos().reduce((s, c) => s + Number(c.valorMensal || 0), 0));
   protected readonly sugerencias = computed(() => {
     const usados = new Set(this.costos().map((c) => c.nome.toLowerCase()));
-    return SUGERENCIAS.filter((s) => !usados.has(s.toLowerCase()));
+    return SUGERENCIAS.filter((s) => !usados.has(s.toLowerCase()) && !usados.has(t(s).toLowerCase()));
   });
   protected nuevo: CostoFijo = { nome: '', valorMensal: null as unknown as number };
 
@@ -42,7 +44,7 @@ export class CostosFijos {
   }
 
   protected usarSugerencia(nombre: string): void {
-    this.nuevo = { ...this.nuevo, nome: nombre };
+    this.nuevo = { ...this.nuevo, nome: t(nombre) };
     document.getElementById('costo-valor')?.focus();
   }
 
@@ -50,7 +52,7 @@ export class CostosFijos {
     const nome = this.nuevo.nome?.trim();
     const valor = Number(this.nuevo.valorMensal);
     if (!nome || !(valor >= 0)) {
-      this.error.set('Poné un nombre y un valor mensual.');
+      this.error.set(t('Poné un nombre y un valor mensual.'));
       return;
     }
     this.guardando.set(true);
@@ -67,7 +69,7 @@ export class CostosFijos {
   }
 
   protected borrar(c: CostoFijo): void {
-    if (c.id === undefined || !confirm(`¿Borrar “${c.nome}”?`)) return;
+    if (c.id === undefined || !confirm(t('¿Borrar “{0}”?', c.nome))) return;
     this.api.borrarCostoFijo(c.id).subscribe({
       next: () => { this.costos.update((l) => l.filter((x) => x.id !== c.id)); this.api.refrescarSegmentos(); },
       error: (e) => this.error.set(e.erro),

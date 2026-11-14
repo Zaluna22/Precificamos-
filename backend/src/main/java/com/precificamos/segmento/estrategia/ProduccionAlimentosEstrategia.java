@@ -1,5 +1,6 @@
 package com.precificamos.segmento.estrategia;
 
+import com.precificamos.i18n.Textos;
 import com.precificamos.segmento.*;
 import com.precificamos.segmento.dto.CampoFormulario;
 import com.precificamos.segmento.dto.EntradaProduccionAlimentos;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.precificamos.segmento.CalculadoraBase.*;
+import static com.precificamos.i18n.Textos.t;
 
 /**
  * Producción de alimentos y bebidas elaborados (gastronomía).
@@ -94,12 +96,12 @@ public class ProduccionAlimentosEstrategia implements EstrategiaPrecificacion<En
 
         PropuestaPrecio p;
         if (precioCmv.compareTo(minimo) >= 0) {
-            p = new PropuestaPrecio(precioCmv, "CMV objetivo de " + e.cmvObjetivoPct().stripTrailingZeros().toPlainString()
-                    + " %: mercadería por porción ÷ CMV");
+            p = new PropuestaPrecio(precioCmv,
+                    t("CMV objetivo de {0} %: mercadería por porción ÷ CMV", Textos.numero(e.cmvObjetivoPct())));
         } else {
-            p = new PropuestaPrecio(minimo, "Precio mínimo que cubre costos e impuestos (el CMV objetivo no alcanzaba)");
-            p.avisos().add("Con un CMV de " + e.cmvObjetivoPct().stripTrailingZeros().toPlainString()
-                    + " % no cubrís tus costos fijos y tasas. Bajá el CMV objetivo o revisá tus costos fijos.");
+            p = new PropuestaPrecio(minimo, t("Precio mínimo que cubre costos e impuestos (el CMV objetivo no alcanzaba)"));
+            p.avisos().add(t("Con un CMV de {0} % no cubrís tus costos fijos y tasas. Bajá el CMV objetivo o revisá tus costos fijos.",
+                    Textos.numero(e.cmvObjetivoPct())));
         }
         p.extras().add(LineaDesglose.moneda("costoReceta", "Costo total de la receta",
                 r(costo.total().multiply(porciones))));

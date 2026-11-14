@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, OnInit, signal, untracked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../core/api.service';
@@ -7,6 +7,8 @@ import { CampoFormulario, DefinicionSegmento, ResultadoSegmento, SolicitudCalcul
 import { CampoDinamico, filaVacia } from '../../componentes/campo-dinamico';
 import { TarjetaResultado } from '../../componentes/tarjeta-resultado';
 import { Simulador } from '../../componentes/simulador';
+import { PistaSesion } from '../../componentes/pista-sesion';
+import { TraducirPipe, idioma, t } from '../../core/i18n/i18n';
 
 interface Modelo {
   datos: Record<string, unknown>;
@@ -21,7 +23,7 @@ const vacio = (v: unknown) => v === null || v === undefined || (typeof v === 'st
  */
 @Component({
   selector: 'app-calcular',
-  imports: [FormsModule, RouterLink, CampoDinamico, TarjetaResultado, Simulador],
+  imports: [FormsModule, RouterLink, CampoDinamico, TarjetaResultado, Simulador, PistaSesion, TraducirPipe],
   templateUrl: './calcular.html',
 })
 export class Calcular implements OnInit {
@@ -47,12 +49,23 @@ export class Calcular implements OnInit {
   protected readonly progreso = computed(() =>
     this.totalPasos() ? Math.round(((this.paso() + 1) / this.totalPasos()) * 100) : 0);
 
+  constructor() {
+    // Al cambiar el idioma se piden de nuevo los textos del formulario (vienen de la API) sin
+    // perder lo cargado, y si ya había un resultado se recalcula para traer el desglose traducido.
+    let primera = true;
+    effect(() => {
+      idioma();
+      if (primera) { primera = false; return; }
+      untracked(() => this.recargarPorIdioma());
+    });
+  }
+
   ngOnInit(): void {
     this.api.segmentos().subscribe({
       next: (lista) => {
-        const def = lista.find((s) => s.codigo.toLowerCase() === this.codigo().toLowerCase().replace(/-/g, '_'));
+        const def = this.buscar(lista);
         if (!def) {
-          this.errorGeneral.set('Esa categoría no existe. Volvé al inicio y elegí una.');
+          this.errorGeneral.set(t('Esa categoría no existe. Volvé al inicio y elegí una.'));
         } else {
           this.definicion.set(def);
           this.modelo = this.borradores.leer<Modelo>(def.codigo) ?? this.modeloInicial(def);
@@ -60,6 +73,24 @@ export class Calcular implements OnInit {
         this.cargando.set(false);
       },
       error: (e) => { this.errorGeneral.set(e.erro); this.cargando.set(false); },
+    });
+  }
+
+  private buscar(lista: DefinicionSegmento[]): DefinicionSegmento | undefined {
+    return lista.find((s) => s.codigo.toLowerCase() === this.codigo().toLowerCase().replace(/-/g, '_'));
+  }
+
+  private recargarPorIdioma(): void {
+    if (!this.definicion()) return;
+    this.errores.set({});
+    this.errorGeneral.set(null);
+    this.api.segmentos().subscribe({
+      next: (lista) => {
+        const def = this.buscar(lista);
+        if (def) this.definicion.set(def);
+        if (this.resultado()) this.calcular();
+      },
+      error: (e) => this.errorGeneral.set(e.erro),
     });
   }
 
@@ -128,16 +159,16 @@ export class Calcular implements OnInit {
       const valor = this.destino(c)[c.nombre];
       if (c.tipo === 'lista') {
         const filas = (valor as Record<string, unknown>[]) ?? [];
-        if (c.obligatorio && filas.length === 0) errores[clave] = 'Agregá al menos uno';
+        if (c.obligatorio && filas.length === 0) errores[clave] = t('Agregá al menos uno');
         filas.forEach((fila, i) => {
           for (const s of c.subcampos ?? []) {
-            if (s.obligatorio && vacio(fila[s.nombre])) errores[`${clave}[${i}].${s.nombre}`] = 'Completá este dato';
+            if (s.obligatorio && vacio(fila[s.nombre])) errores[`${clave}[${i}].${s.nombre}`] = t('Completá este dato');
           }
         });
       } else if (c.obligatorio && vacio(valor)) {
-        errores[clave] = 'Completá este dato';
+        errores[clave] = t('Completá este dato');
       } else if (typeof valor === 'number' && valor < 0) {
-        errores[clave] = 'No puede ser negativo';
+        errores[clave] = t('No puede ser negativo');
       }
     }
     this.errores.set(errores);

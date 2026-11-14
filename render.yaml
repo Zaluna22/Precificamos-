@@ -17,3 +17,7 @@ services:
         sync: false
       - key: FRONTEND_URL
         sync: false
+      # Secreto para firmar los JWT: Render genera un valor al azar al crear el servicio con el Blueprint.
+      # Si el servicio ya existe y se creó a mano, agregá JWT_SECRET en el panel (mínimo 32 caracteres).
+      - key: JWT_SECRET
+        generateValue: true

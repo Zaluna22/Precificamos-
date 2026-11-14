@@ -12,5 +12,7 @@ services:
       DB_USER: root
       DB_PASSWORD: root
       FRONTEND_URL: http://localhost:4200
+      # Solo para uso local; en producción usá un secreto propio de al menos 32 caracteres.
+      JWT_SECRET: secreto-local-de-docker-compose-cambiar-en-produccion
     ports: ["8080:8080"]
     depends_on: [db]

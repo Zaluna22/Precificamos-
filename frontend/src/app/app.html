@@ -1,25 +1,34 @@
 <header class="barra">
-  <a routerLink="/" class="marca" aria-label="Precificamos, inicio">
+  <a routerLink="/" class="marca" [attr.aria-label]="'Precificamos, inicio' | t">
     <span class="marca-logo" aria-hidden="true">P$</span>
     <span>Precificamos</span>
   </a>
-  <nav class="nav-escritorio" aria-label="Principal">
-    <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Calcular precio</a>
-    <a routerLink="/costos-fijos" routerLinkActive="activo">Costos fijos</a>
-    <a routerLink="/configuracion" routerLinkActive="activo">Configuración</a>
+  <nav class="nav-escritorio" [attr.aria-label]="'Principal' | t">
+    <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">{{ 'Calcular precio' | t }}</a>
+    <a routerLink="/costos-fijos" routerLinkActive="activo">{{ 'Costos fijos' | t }}</a>
+    <a routerLink="/configuracion" routerLinkActive="activo">{{ 'Configuración' | t }}</a>
   </nav>
+  <div class="cuenta">
+    <app-selector-idioma />
+    @if (auth.logueado()) {
+      <span class="cuenta-nombre" [title]="auth.usuario()?.email ?? ''">{{ primerNombre() || ('Mi cuenta' | t) }}</span>
+      <button type="button" class="cuenta-boton" (click)="salir()">{{ 'Salir' | t }}</button>
+    } @else {
+      <a routerLink="/entrar" class="cuenta-boton">{{ 'Entrar' | t }}</a>
+    }
+  </div>
 </header>
 
 <main class="contenido">
   <router-outlet />
 </main>
 
-<footer class="pie">Precificamos © {{ anio }} · Los resultados son una guía: revisalos con tu contador.</footer>
+<footer class="pie">Precificamos © {{ anio }} · {{ 'Los resultados son una guía: revisalos con tu contador.' | t }}</footer>
 
-<nav class="nav-movil" aria-label="Principal">
+<nav class="nav-movil" [attr.aria-label]="'Principal' | t">
   <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">
-    <span aria-hidden="true">🧮</span>Calcular
+    <span aria-hidden="true">🧮</span>{{ 'Calcular' | t }}
   </a>
-  <a routerLink="/costos-fijos" routerLinkActive="activo"><span aria-hidden="true">🏠</span>Costos fijos</a>
-  <a routerLink="/configuracion" routerLinkActive="activo"><span aria-hidden="true">⚙️</span>Ajustes</a>
+  <a routerLink="/costos-fijos" routerLinkActive="activo"><span aria-hidden="true">🏠</span>{{ 'Costos fijos' | t }}</a>
+  <a routerLink="/configuracion" routerLinkActive="activo"><span aria-hidden="true">⚙️</span>{{ 'Ajustes' | t }}</a>
 </nav>

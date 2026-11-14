@@ -52,6 +52,13 @@ button, input, select { font: inherit; }
   border: 1px solid rgb(255 255 255 / 55%); background: transparent; color: #fff; text-decoration: none; font-weight: 600; font-size: .9rem; cursor: pointer;
 }
 .cuenta-boton:hover { background: rgb(255 255 255 / 18%); }
+.selector-idioma { position: relative; display: inline-flex; align-items: center; gap: .15rem; font-size: .85rem; }
+.selector-idioma select {
+  min-height: 36px; padding: .3rem .4rem; border: 1px solid rgb(255 255 255 / 55%); border-radius: 999px;
+  background: transparent; color: #fff; font-weight: 600; cursor: pointer;
+}
+.selector-idioma select option { color: var(--color-texto); }
+.selector-idioma select:hover { background: rgb(255 255 255 / 18%); }
 .contenido { max-width: 960px; margin: 0 auto; padding: 1rem 1rem calc(var(--alto-nav-movil) + 1.5rem); }
 .pie { text-align: center; color: var(--color-texto-suave); font-size: .8rem; padding: 0 1rem calc(var(--alto-nav-movil) + 1rem); }
 .nav-movil {

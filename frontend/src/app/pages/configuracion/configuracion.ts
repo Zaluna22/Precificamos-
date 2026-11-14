@@ -3,17 +3,20 @@ import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../core/api.service';
 import { simboloMoneda } from '../../core/formato';
 import { Configuracion } from '../../core/modelos';
+import { TraducirPipe, t } from '../../core/i18n/i18n';
+import { SelectorIdioma } from '../../componentes/selector-idioma';
 
 /** Ajustes generales del negocio que se usan como valores por defecto en todos los cálculos. */
 @Component({
   selector: 'app-configuracion',
-  imports: [FormsModule],
+  imports: [FormsModule, TraducirPipe, SelectorIdioma],
   templateUrl: './configuracion.html',
 })
 export class ConfiguracionPagina {
   private readonly api = inject(ApiService);
 
-  protected readonly simbolo = simboloMoneda();
+  /** Símbolo de la moneda del idioma actual. */
+  protected get simbolo(): string { return simboloMoneda(); }
   protected readonly cargando = signal(true);
   protected readonly guardando = signal(false);
   protected readonly mensaje = signal<string | null>(null);
@@ -55,7 +58,7 @@ export class ConfiguracionPagina {
       next: (c) => {
         this.config = c;
         this.guardando.set(false);
-        this.mensaje.set('Listo, guardamos tu configuración.');
+        this.mensaje.set(t('Listo, guardamos tu configuración.'));
         this.api.refrescarSegmentos();
       },
       error: (e) => { this.error.set(e.erro); this.guardando.set(false); },

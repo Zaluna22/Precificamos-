@@ -1,74 +1,79 @@
 <header class="encabezado-pagina">
   <span class="segmento-icono" aria-hidden="true">⚙️</span>
   <div>
-    <h1>Configuración</h1>
-    <p>Se usa como punto de partida en todos tus cálculos. Podés cambiarla en cada producto.</p>
+    <h1>{{ 'Configuración' | t }}</h1>
+    <p>{{ 'Se usa como punto de partida en todos tus cálculos. Podés cambiarla en cada producto.' | t }}</p>
   </div>
 </header>
+
+<section class="tarjeta formulario">
+  <h2>{{ 'Idioma y moneda' | t }}</h2>
+  <app-selector-idioma variante="campo" />
+</section>
 
 @if (cargando()) {
   <div class="tarjeta esqueleto alto" aria-busy="true"></div>
 } @else {
   <form class="tarjeta formulario" (ngSubmit)="guardar()" novalidate>
-    <h2>Tu tiempo</h2>
+    <h2>{{ 'Tu tiempo' | t }}</h2>
     <div class="campo">
-      <label for="cfg-hora">Valor de tu hora de trabajo</label>
+      <label for="cfg-hora">{{ 'Valor de tu hora de trabajo' | t }}</label>
       <div class="entrada-numero">
         <span class="prefijo" aria-hidden="true">{{ simbolo }}</span>
         <input id="cfg-hora" name="valorHora" type="number" inputmode="decimal" min="0" step="any" [(ngModel)]="config.valorHora" />
       </div>
-      <small class="ayuda">¿No sabés? Calculalo abajo con lo que querés ganar por mes.</small>
+      <small class="ayuda">{{ '¿No sabés? Calculalo abajo con lo que querés ganar por mes.' | t }}</small>
     </div>
     <details class="calculadora-hora">
-      <summary>Calcular mi valor hora</summary>
+      <summary>{{ 'Calcular mi valor hora' | t }}</summary>
       <div class="fila-campos">
         <div class="campo">
-          <label for="cfg-sueldo">Quiero ganar por mes</label>
+          <label for="cfg-sueldo">{{ 'Quiero ganar por mes' | t }}</label>
           <div class="entrada-numero">
             <span class="prefijo" aria-hidden="true">{{ simbolo }}</span>
             <input id="cfg-sueldo" name="sueldo" type="number" inputmode="decimal" min="0" [(ngModel)]="sueldoDeseado" />
           </div>
         </div>
         <div class="campo">
-          <label for="cfg-horas">Horas que trabajo por mes</label>
+          <label for="cfg-horas">{{ 'Horas que trabajo por mes' | t }}</label>
           <div class="entrada-numero">
             <input id="cfg-horas" name="horas" type="number" inputmode="numeric" min="1" [(ngModel)]="horasMes" />
           </div>
         </div>
       </div>
-      <button type="button" class="boton boton-secundario" (click)="calcularValorHora()">Usar este valor</button>
+      <button type="button" class="boton boton-secundario" (click)="calcularValorHora()">{{ 'Usar este valor' | t }}</button>
     </details>
 
-    <h2>Impuestos y tasas sobre la venta</h2>
+    <h2>{{ 'Impuestos y tasas sobre la venta' | t }}</h2>
     <div class="fila-campos">
       <div class="campo">
-        <label for="cfg-imp">Impuestos (%)</label>
+        <label for="cfg-imp">{{ 'Impuestos (%)' | t }}</label>
         <div class="entrada-numero"><input id="cfg-imp" name="impostoPct" type="number" inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.impostoPct" /><span class="sufijo">%</span></div>
-        <small class="ayuda">Simples Nacional: tu alícuota. MEI: dejá 0 y cargá el DAS en Costos fijos.</small>
+        <small class="ayuda">{{ 'Simples Nacional: tu alícuota. MEI: dejá 0 y cargá el DAS en Costos fijos.' | t }}</small>
       </div>
       <div class="campo">
-        <label for="cfg-tarjeta">Tarjeta / medio de pago (%)</label>
+        <label for="cfg-tarjeta">{{ 'Tarjeta / medio de pago (%)' | t }}</label>
         <div class="entrada-numero"><input id="cfg-tarjeta" name="taxaCartaoPct" type="number" inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.taxaCartaoPct" /><span class="sufijo">%</span></div>
       </div>
       <div class="campo">
-        <label for="cfg-mkt">Marketplace o app (%)</label>
+        <label for="cfg-mkt">{{ 'Marketplace o app (%)' | t }}</label>
         <div class="entrada-numero"><input id="cfg-mkt" name="taxaMarketplacePct" type="number" inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.taxaMarketplacePct" /><span class="sufijo">%</span></div>
       </div>
       <div class="campo">
-        <label for="cfg-com">Comisión de vendedores (%)</label>
+        <label for="cfg-com">{{ 'Comisión de vendedores (%)' | t }}</label>
         <div class="entrada-numero"><input id="cfg-com" name="comissaoPct" type="number" inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.comissaoPct" /><span class="sufijo">%</span></div>
       </div>
     </div>
 
-    <h2>Volumen del negocio</h2>
+    <h2>{{ 'Volumen del negocio' | t }}</h2>
     <div class="campo">
-      <label for="cfg-unidades">Unidades que vende todo el negocio por mes</label>
+      <label for="cfg-unidades">{{ 'Unidades que vende todo el negocio por mes' | t }}</label>
       <div class="entrada-numero"><input id="cfg-unidades" name="totalUnidadesMes" type="number" inputmode="numeric" min="0" step="1" [(ngModel)]="config.totalUnidadesMes" /></div>
-      <small class="ayuda">Sirve para repartir los costos fijos entre todos tus productos. 0 = se pide en cada cálculo.</small>
+      <small class="ayuda">{{ 'Sirve para repartir los costos fijos entre todos tus productos. 0 = se pide en cada cálculo.' | t }}</small>
     </div>
 
     @if (mensaje()) { <p class="alerta alerta-ok" role="status">{{ mensaje() }}</p> }
     @if (error()) { <p class="alerta alerta-error" role="alert">{{ error() }}</p> }
-    <button type="submit" class="boton" [disabled]="guardando()">{{ guardando() ? 'Guardando…' : 'Guardar' }}</button>
+    <button type="submit" class="boton" [disabled]="guardando()">{{ (guardando() ? 'Guardando…' : 'Guardar') | t }}</button>
   </form>
 }

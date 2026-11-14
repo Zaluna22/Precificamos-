@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, shareReplay, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { idioma, t } from './i18n/i18n';
 import {
   Configuracion, CostoFijo, DefinicionSegmento, ErrorApi, ResultadoSegmento, ResultadoSimulacion,
   SolicitudCalculo,
@@ -13,9 +14,15 @@ export class ApiService {
   private readonly http = inject(HttpClient);
   private readonly base = `${environment.apiUrl}/api`;
   private segmentos$?: Observable<DefinicionSegmento[]>;
+  /** Idioma con el que se pidió la caché de categorías (los textos vienen traducidos de la API). */
+  private idiomaSegmentos?: string;
 
-  /** Categorías con ejemplos y formularios (se cachea durante la sesión). */
+  /** Categorías con ejemplos y formularios (se cachea durante la sesión, por idioma). */
   segmentos(): Observable<DefinicionSegmento[]> {
+    if (this.idiomaSegmentos !== idioma()) {
+      this.segmentos$ = undefined;
+      this.idiomaSegmentos = idioma();
+    }
     this.segmentos$ ??= this.http.get<DefinicionSegmento[]>(`${this.base}/segmentos`).pipe(
       catchError((e) => { this.segmentos$ = undefined; return this.error(e); }),
       shareReplay(1),
@@ -71,11 +78,11 @@ export class ApiService {
 export function errorApi(e: HttpErrorResponse): Observable<never> {
   let err: ErrorApi;
   if (e.status === 0) {
-    err = { erro: 'No pudimos conectar con el servidor. Revisá tu conexión o probá de nuevo en un minuto (el servidor gratuito puede tardar en despertar).' };
+    err = { erro: t('No pudimos conectar con el servidor. Revisá tu conexión o probá de nuevo en un minuto (el servidor gratuito puede tardar en despertar).') };
   } else if (e.error && typeof e.error === 'object' && 'erro' in e.error) {
     err = e.error as ErrorApi;
   } else {
-    err = { erro: `Ocurrió un error inesperado (${e.status}).` };
+    err = { erro: t('Ocurrió un error inesperado ({0}).', e.status) };
   }
   return throwError(() => err);
 }

@@ -288,7 +288,7 @@
             "tipo": "moneda",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Alquiler, luz, internet, contador, DAS del MEI…",
+            "ayuda": "Alquiler, luz, internet, contador, impuestos fijos…",
             "valorPorDefecto": 0.00
           },
           {
@@ -297,7 +297,7 @@
             "tipo": "porcentaje",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Simples Nacional: tu alícuota (ej.: 6 %). MEI: 0 y sumá el DAS en costos fijos",
+            "ayuda": "Tu porcentaje de impuestos sobre la venta (ej.: 6 %). Si pagás un monto fijo por mes, poné 0 y sumalo en costos fijos",
             "valorPorDefecto": 0
           },
           {
@@ -647,7 +647,7 @@
             "tipo": "moneda",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Alquiler, luz, internet, contador, DAS del MEI…",
+            "ayuda": "Alquiler, luz, internet, contador, impuestos fijos…",
             "valorPorDefecto": 0.00
           },
           {
@@ -656,7 +656,7 @@
             "tipo": "porcentaje",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Simples Nacional: tu alícuota (ej.: 6 %). MEI: 0 y sumá el DAS en costos fijos",
+            "ayuda": "Tu porcentaje de impuestos sobre la venta (ej.: 6 %). Si pagás un monto fijo por mes, poné 0 y sumalo en costos fijos",
             "valorPorDefecto": 0
           },
           {
@@ -821,7 +821,7 @@
             "tipo": "moneda",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Alquiler, luz, internet, contador, DAS del MEI…",
+            "ayuda": "Alquiler, luz, internet, contador, impuestos fijos…",
             "valorPorDefecto": 0.00
           },
           {
@@ -830,7 +830,7 @@
             "tipo": "porcentaje",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Simples Nacional: tu alícuota (ej.: 6 %). MEI: 0 y sumá el DAS en costos fijos",
+            "ayuda": "Tu porcentaje de impuestos sobre la venta (ej.: 6 %). Si pagás un monto fijo por mes, poné 0 y sumalo en costos fijos",
             "valorPorDefecto": 0
           },
           {
@@ -1048,7 +1048,7 @@
             "tipo": "moneda",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Alquiler, luz, internet, contador, DAS del MEI…",
+            "ayuda": "Alquiler, luz, internet, contador, impuestos fijos…",
             "valorPorDefecto": 0.00
           },
           {
@@ -1057,7 +1057,7 @@
             "tipo": "porcentaje",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Simples Nacional: tu alícuota (ej.: 6 %). MEI: 0 y sumá el DAS en costos fijos",
+            "ayuda": "Tu porcentaje de impuestos sobre la venta (ej.: 6 %). Si pagás un monto fijo por mes, poné 0 y sumalo en costos fijos",
             "valorPorDefecto": 0
           },
           {
@@ -1241,7 +1241,7 @@
             "tipo": "moneda",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Alquiler, luz, internet, contador, DAS del MEI…",
+            "ayuda": "Alquiler, luz, internet, contador, impuestos fijos…",
             "valorPorDefecto": 0.00
           },
           {
@@ -1250,7 +1250,7 @@
             "tipo": "porcentaje",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Simples Nacional: tu alícuota (ej.: 6 %). MEI: 0 y sumá el DAS en costos fijos",
+            "ayuda": "Tu porcentaje de impuestos sobre la venta (ej.: 6 %). Si pagás un monto fijo por mes, poné 0 y sumalo en costos fijos",
             "valorPorDefecto": 0
           },
           {

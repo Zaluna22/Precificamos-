@@ -276,11 +276,12 @@
           },
           {
             "nombre": "unidadesMensualesNegocio",
-            "etiqueta": "Total de unidades que vende todo el negocio por mes",
+            "etiqueta": "Total de unidades que vende todo el negocio por mes (todos los productos)",
             "tipo": "entero",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Sirve para repartir los costos fijos entre todos tus productos. Vacío = igual al anterior"
+            "ayuda": "Sumá las unidades de TODOS tus productos o servicios: así cada producto paga solo su parte de los costos fijos. Si lo dejás vacío, todos los costos fijos se cargan en este producto.",
+            "destacado": true
           },
           {
             "nombre": "costosFijosMensuales",
@@ -635,11 +636,12 @@
           },
           {
             "nombre": "unidadesMensualesNegocio",
-            "etiqueta": "Total de unidades que vende todo el negocio por mes",
+            "etiqueta": "Total de unidades que vende todo el negocio por mes (todos los productos)",
             "tipo": "entero",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Sirve para repartir los costos fijos entre todos tus productos. Vacío = igual al anterior"
+            "ayuda": "Sumá las unidades de TODOS tus productos o servicios: así cada producto paga solo su parte de los costos fijos. Si lo dejás vacío, todos los costos fijos se cargan en este producto.",
+            "destacado": true
           },
           {
             "nombre": "costosFijosMensuales",
@@ -809,11 +811,12 @@
           },
           {
             "nombre": "unidadesMensualesNegocio",
-            "etiqueta": "Total de unidades que vende todo el negocio por mes",
+            "etiqueta": "Total de unidades que vende todo el negocio por mes (todos los productos)",
             "tipo": "entero",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Sirve para repartir los costos fijos entre todos tus productos. Vacío = igual al anterior"
+            "ayuda": "Sumá las unidades de TODOS tus productos o servicios: así cada producto paga solo su parte de los costos fijos. Si lo dejás vacío, todos los costos fijos se cargan en este producto.",
+            "destacado": true
           },
           {
             "nombre": "costosFijosMensuales",
@@ -1036,11 +1039,12 @@
           },
           {
             "nombre": "unidadesMensualesNegocio",
-            "etiqueta": "Total de unidades que vende todo el negocio por mes",
+            "etiqueta": "Total de unidades que vende todo el negocio por mes (todos los productos)",
             "tipo": "entero",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Sirve para repartir los costos fijos entre todos tus productos. Vacío = igual al anterior"
+            "ayuda": "Sumá las unidades de TODOS tus productos o servicios: así cada producto paga solo su parte de los costos fijos. Si lo dejás vacío, todos los costos fijos se cargan en este producto.",
+            "destacado": true
           },
           {
             "nombre": "costosFijosMensuales",
@@ -1229,11 +1233,12 @@
           },
           {
             "nombre": "unidadesMensualesNegocio",
-            "etiqueta": "Total de unidades que vende todo el negocio por mes",
+            "etiqueta": "Total de unidades que vende todo el negocio por mes (todos los productos)",
             "tipo": "entero",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Sirve para repartir los costos fijos entre todos tus productos. Vacío = igual al anterior"
+            "ayuda": "Sumá las unidades de TODOS tus productos o servicios: así cada producto paga solo su parte de los costos fijos. Si lo dejás vacío, todos los costos fijos se cargan en este producto.",
+            "destacado": true
           },
           {
             "nombre": "costosFijosMensuales",

@@ -18,11 +18,17 @@ import java.util.List;
  * @param valorPorDefecto valor sugerido
  * @param opciones        valores posibles para {@code seleccion}
  * @param subcampos       columnas de cada fila para {@code lista}
+ * @param destacado       si el frontend lo tiene que resaltar (nulo = no)
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public record CampoFormulario(
         String nombre, String etiqueta, String tipo, String grupo, boolean obligatorio, String ayuda,
-        Object valorPorDefecto, List<Opcion> opciones, List<CampoFormulario> subcampos) {
+        Object valorPorDefecto, List<Opcion> opciones, List<CampoFormulario> subcampos, Boolean destacado) {
+
+    public CampoFormulario(String nombre, String etiqueta, String tipo, String grupo, boolean obligatorio, String ayuda,
+                           Object valorPorDefecto, List<Opcion> opciones, List<CampoFormulario> subcampos) {
+        this(nombre, etiqueta, tipo, grupo, obligatorio, ayuda, valorPorDefecto, opciones, subcampos, null);
+    }
 
     /** Opción de un campo de selección. {@code extra} puede llevar, por ejemplo, el margen por defecto. */
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -45,6 +51,11 @@ public record CampoFormulario(
 
     /** Copia del campo marcado como parte de los parámetros comunes. */
     public CampoFormulario comun() {
-        return new CampoFormulario(nombre, etiqueta, tipo, "comun", obligatorio, ayuda, valorPorDefecto, opciones, subcampos);
+        return new CampoFormulario(nombre, etiqueta, tipo, "comun", obligatorio, ayuda, valorPorDefecto, opciones, subcampos, destacado);
+    }
+
+    /** Copia del campo marcado para resaltarlo en el formulario. */
+    public CampoFormulario destacar() {
+        return new CampoFormulario(nombre, etiqueta, tipo, grupo, obligatorio, ayuda, valorPorDefecto, opciones, subcampos, true);
     }
 }

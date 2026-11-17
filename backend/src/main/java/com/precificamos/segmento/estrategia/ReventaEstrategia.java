@@ -19,7 +19,7 @@ import static com.precificamos.i18n.Textos.t;
  * Reventa / comercio minorista de productos comprados listos.
  *
  * <p>Costo puesto en el local = compra × (1 + impuestos de entrada) + flete + otros. El precio
- * sugerido sale del markup; además se calcula un precio de liquidación (sin cargar costos
+ * sugerido sale del markup sobre ese costo variable, más la parte de costos fijos al costo; además se calcula un precio de liquidación (sin cargar costos
  * fijos, que se pagan igual) que respeta el margen mínimo, y la rotación del stock.</p>
  */
 @Component
@@ -69,12 +69,13 @@ public class ReventaEstrategia implements EstrategiaPrecificacion<EntradaReventa
 
     @Override
     public PropuestaPrecio proponerPrecio(EntradaReventa e, CostoVariable costo, ComunesResueltos c) {
-        BigDecimal precio = precioPorMarkup(costo.total().add(rateo(c)), c.porcentajeSobreVenta(), e.markup());
+        // El markup multiplica solo el costo variable; la parte de costos fijos se suma al costo.
+        BigDecimal precio = precioPorMarkup(costo.total(), rateo(c), c.porcentajeSobreVenta(), e.markup());
         // En una liquidación los costos fijos ya están pagos: solo se exige cubrir el costo variable y el margen mínimo.
         BigDecimal liquidacion = precioPorMargen(costo.total(), c.porcentajeSobreVenta(), e.margenMinimoLiquidacionPct());
 
         PropuestaPrecio p = new PropuestaPrecio(precio,
-                t("Markup de {0}× sobre el costo total, más impuestos y tasas", Textos.numero(e.markup())));
+                t("Markup de {0}× sobre el costo variable, más la parte de costos fijos (sin markup) e impuestos y tasas", Textos.numero(e.markup())));
         p.extras().add(LineaDesglose.moneda("precioLiquidacion", "Precio mínimo de liquidación", r(liquidacion)));
         p.extras().add(LineaDesglose.porcentaje("descuentoMaximoPct", "Descuento máximo posible",
                 r(BigDecimal.ONE.subtract(liquidacion.divide(precio, MC)).multiply(CIEN))));

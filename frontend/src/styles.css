@@ -154,6 +154,9 @@ button, input, select { font: inherit; }
 .campo-check input { width: 1.4rem; height: 1.4rem; accent-color: var(--color-primario); }
 .campo-check .ayuda { flex-basis: 100%; font-weight: 400; }
 .ayuda { color: var(--color-texto-suave); font-size: .85rem; }
+/* Campo clave resaltado (por ejemplo, el total de unidades del negocio que reparte los costos fijos). */
+.campo-destacado { padding: .8rem; border: 2px solid var(--color-primario); border-radius: 10px; background: #f0fdfa; background: color-mix(in srgb, var(--color-primario) 6%, transparent); }
+.campo-destacado .ayuda { color: inherit; font-size: .9rem; }
 .obligatorio { color: var(--color-error); }
 .con-error input[type="text"], .con-error input[type="email"], .con-error input[type="password"], .con-error select, .con-error .entrada-numero { border-color: var(--color-error); }
 .error-campo { color: var(--color-error); font-size: .85rem; font-weight: 600; margin: 0; }

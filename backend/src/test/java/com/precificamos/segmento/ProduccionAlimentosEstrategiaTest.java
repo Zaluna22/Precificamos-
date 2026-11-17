@@ -37,7 +37,7 @@ class ProduccionAlimentosEstrategiaTest {
         Fixtures.Resultado r = calcular(est, torta(null), comunes()); // CMV por defecto 30 %
         assertEquals(bd("6.39"), r.precio());
         assertEquals(bd("30.00"), r.extra("cmvRealPct"));
-        assertEquals(395, r.analisis().puntoEquilibrioUnidades());
+        assertEquals(79, r.analisis().puntoEquilibrioUnidades()); // parte de fijos 200 / contribución 2,53
         assertTrue(r.propuesta().avisos().isEmpty());
     }
 

@@ -63,7 +63,7 @@ class SegmentoApiTest {
 
     @Test
     void serviciosDevuelveValoresExactos() throws Exception {
-        // Costo 88 + prorrateo 2 = 90; 90 / (1 - 0,10 - 0,30) = 150
+        // 88 / (1 - 0,10 - 0,30) + prorrateo 2 / 0,9 = 148,89 (los fijos no llevan margen)
         String datos = "{\"nombreServicio\":\"Coloración\",\"horasPorServicio\":1.5,\"valorHora\":30,"
                 + "\"materiales\":[{\"nombre\":\"Tintura\",\"costo\":18}],\"kmDesplazamiento\":20,\"costoPorKm\":1,"
                 + "\"otrosGastosDesplazamiento\":5,\"margenPct\":30}";
@@ -72,10 +72,73 @@ class SegmentoApiTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.costoVariableUnitario").value(88.00))
                 .andExpect(jsonPath("$.rateoCostosFijos").value(2.00))
-                .andExpect(jsonPath("$.precioSugerido").value(150.00))
-                .andExpect(jsonPath("$.margenRealPct").value(30.00))
-                .andExpect(jsonPath("$.puntoEquilibrioUnidades").value(22))
-                .andExpect(jsonPath("$.lucroMensualEstimado").value(4500.00));
+                .andExpect(jsonPath("$.precioSugerido").value(148.89))
+                .andExpect(jsonPath("$.margenRealPct").value(29.55))
+                .andExpect(jsonPath("$.puntoEquilibrioUnidades").value(5))
+                .andExpect(jsonPath("$.lucroMensualEstimado").value(4400.10))
+                .andExpect(jsonPath("$.avisos", hasSize(0)));
+    }
+
+    private static final String REVENTA_SIMPLE = "\"datos\":{\"nombreProducto\":\"Simple\",\"costoCompra\":20,\"markup\":2}";
+
+    private static String comunSimple(String extra) {
+        return "\"comun\":{\"costosFijosMensuales\":600,\"impuestoPct\":0,\"tarjetaPct\":0,\"marketplacePct\":0,"
+                + "\"comisionPct\":0,\"ventasMensualesProducto\":3" + extra + "}";
+    }
+
+    @Test
+    void reventaSinTotalDelNegocioCargaTodosLosFijosYAvisa() throws Exception {
+        mvc.perform(post("/api/segmentos/REVENTA/calcular").contentType(MediaType.APPLICATION_JSON)
+                        .content("{" + comunSimple("") + "," + REVENTA_SIMPLE + "}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.rateoCostosFijos").value(200.00))
+                .andExpect(jsonPath("$.precioSugerido").value(240.00))      // 20 × 2 + 200
+                .andExpect(jsonPath("$.puntoEquilibrioUnidades").value(3))  // 600 / 220
+                .andExpect(jsonPath("$.lucroMensualEstimado").value(60.00))
+                .andExpect(jsonPath("$.avisos", hasItem(containsString("costos fijos están todos"))));
+    }
+
+    @Test
+    void reventaConTotalDelNegocioYTarjeta() throws Exception {
+        mvc.perform(post("/api/segmentos/REVENTA/calcular").contentType(MediaType.APPLICATION_JSON)
+                        .content("{" + comunSimple(",\"unidadesMensualesNegocio\":150") + "," + REVENTA_SIMPLE + "}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.precioSugerido").value(44.00))       // 20 × 2 + 4
+                .andExpect(jsonPath("$.puntoEquilibrioUnidades").value(1))  // (4 × 3) / 24
+                .andExpect(jsonPath("$.lucroMensualEstimado").value(60.00))
+                .andExpect(jsonPath("$.avisos", hasSize(0)));
+        String conTarjeta = comunSimple(",\"unidadesMensualesNegocio\":150").replace("\"tarjetaPct\":0", "\"tarjetaPct\":3.5");
+        mvc.perform(post("/api/segmentos/REVENTA/calcular").contentType(MediaType.APPLICATION_JSON)
+                        .content("{" + conTarjeta + "," + REVENTA_SIMPLE + "}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.precioSugerido").value(45.60));      // 44 / 0,965
+    }
+
+    @Test
+    void avisoDeFijosTraducido() throws Exception {
+        mvc.perform(post("/api/segmentos/REVENTA/calcular").header("Accept-Language", "pt-BR")
+                        .contentType(MediaType.APPLICATION_JSON).content("{" + comunSimple("") + "," + REVENTA_SIMPLE + "}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.avisos", hasItem("Os custos fixos estão todos neste produto. Se você vende outros produtos, preencha o total de unidades do negócio.")));
+    }
+
+    @Test
+    void simuladorCoincideConElCalculo() throws Exception {
+        mvc.perform(post("/api/segmentos/REVENTA/simular").contentType(MediaType.APPLICATION_JSON)
+                        .content("{" + comunSimple(",\"unidadesMensualesNegocio\":150") + "," + REVENTA_SIMPLE + ",\"precio\":44}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.puntoEquilibrioUnidades").value(1))
+                .andExpect(jsonPath("$.lucroMensual").value(60.00))
+                .andExpect(jsonPath("$.cubreCostos").value(true));
+    }
+
+    @Test
+    void campoDeUnidadesDelNegocioDestacado() throws Exception {
+        mvc.perform(get("/api/segmentos/reventa"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.pasos[-1].campos[1].nombre").value("unidadesMensualesNegocio"))
+                .andExpect(jsonPath("$.pasos[-1].campos[1].destacado").value(true))
+                .andExpect(jsonPath("$.pasos[-1].campos[0].destacado").doesNotExist());
     }
 
     @Test

@@ -21,7 +21,9 @@ import static com.precificamos.i18n.Textos.t;
  *
  * <p>Costo por porción = (ingredientes × factor de merma + energía) / rendimiento + embalaje.
  * El precio sale del CMV objetivo: {@code precio = mercadería por porción / CMV%}. Si ese precio
- * no alcanza a cubrir el costo total más impuestos y tasas, se sube al precio mínimo y se avisa.</p>
+ * no alcanza a cubrir el costo total más impuestos y tasas, se sube al precio mínimo y se avisa.
+ * Los costos fijos nunca se multiplican: entran al costo en el precio mínimo
+ * ({@code (costo variable + rateo) / (1 - tasas)}).</p>
  */
 @Component
 public class ProduccionAlimentosEstrategia implements EstrategiaPrecificacion<EntradaProduccionAlimentos> {

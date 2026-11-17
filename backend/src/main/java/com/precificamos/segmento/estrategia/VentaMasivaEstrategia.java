@@ -23,7 +23,7 @@ import static com.precificamos.i18n.Textos.t;
  * Venta masiva multi-categoría de alto giro (supermercado, almacén, autoservicio).
  *
  * <p>Costo = compra ÷ (1 − pérdida). El margen depende de la categoría de góndola (configurable),
- * el precio se puede redondear a ,99 y se analiza la promoción "lleve N pague M".</p>
+ * aplicado al costo variable (la parte de costos fijos se suma al costo, sin margen), el precio se puede redondear a ,99 y se analiza la promoción "lleve N pague M".</p>
  */
 @Component
 public class VentaMasivaEstrategia implements EstrategiaPrecificacion<EntradaVentaMasiva> {
@@ -94,13 +94,13 @@ public class VentaMasivaEstrategia implements EstrategiaPrecificacion<EntradaVen
     @Override
     public PropuestaPrecio proponerPrecio(EntradaVentaMasiva e, CostoVariable costo, ComunesResueltos c) {
         BigDecimal margen = margenDe(e);
-        BigDecimal base = precioPorMargen(costo.total().add(rateo(c)), c.porcentajeSobreVenta(), margen);
+        BigDecimal base = precioPorMargen(costo.total(), rateo(c), c.porcentajeSobreVenta(), margen);
         BigDecimal precio = Boolean.TRUE.equals(e.redondeoPsicologico()) ? redondearA99(base) : base;
         String categoria = t(NOMBRES.getOrDefault(e.categoria().toUpperCase(), e.categoria()));
 
         PropuestaPrecio p = new PropuestaPrecio(precio, Boolean.TRUE.equals(e.redondeoPsicologico())
-                ? t("Margen de {0} % para la categoría {1}, redondeado a ,99", Textos.numero(margen), categoria)
-                : t("Margen de {0} % para la categoría {1}", Textos.numero(margen), categoria));
+                ? t("Margen de {0} % para la categoría {1} sobre el costo variable (costos fijos sumados al costo), redondeado a ,99", Textos.numero(margen), categoria)
+                : t("Margen de {0} % para la categoría {1} sobre el costo variable (costos fijos sumados al costo)", Textos.numero(margen), categoria));
         p.extras().add(LineaDesglose.porcentaje("margenCategoriaPct", "Margen de la categoría", r(margen)));
         p.extras().add(LineaDesglose.moneda("precioSinRedondeo", "Precio sin redondeo", r(base)));
 

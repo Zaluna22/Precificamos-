@@ -35,9 +35,11 @@ class FabricacionEstrategiaTest {
     @Test
     void calculaPrecioMinoristaYMayorista() {
         Fixtures.Resultado r = calcular(est, remera(UnidadMedida.CM), comunes());
-        assertEquals(bd("102.13"), r.precio());          // 51,06 / (1 - 0,10 - 0,40)
-        assertEquals(bd("72.95"), r.extra("precioMayorista")); // 51,06 / (1 - 0,10 - 0,20)
-        assertEquals(bd("40.00"), CalculadoraBase.r(r.analisis().margenPct()));
+        assertEquals(bd("100.35"), r.precio());          // 49,06 / (1 - 0,10 - 0,40) + 2 / 0,9
+        assertEquals(bd("72.31"), r.extra("precioMayorista")); // 49,06 / (1 - 0,10 - 0,20) + 2 / 0,9
+        // El margen de 40 % se aplica a la parte variable del precio (98,13): ganancia 39,25 = 39,11 % del precio
+        assertEquals(bd("39.25"), CalculadoraBase.r(r.analisis().lucro()));
+        assertEquals(bd("39.11"), CalculadoraBase.r(r.analisis().margenPct()));
     }
 
     @Test

@@ -78,18 +78,18 @@ class IdiomaApiTest {
         mvc.perform(post("/api/segmentos/SERVICIOS/calcular").header("Accept-Language", "en")
                         .contentType(MediaType.APPLICATION_JSON).content("{" + COMUN + ",\"datos\":" + datos + "}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.metodo").value("30% margin on the price"))
+                .andExpect(jsonPath("$.metodo").value("30% margin applied to variable cost; the fixed-cost share is added at cost, plus taxes and fees"))
                 .andExpect(jsonPath("$.desglose[0].concepto").value("Your time"))
                 .andExpect(jsonPath("$.extras[0].concepto").value("Equivalent price per hour"))
                 // El nombre que cargó el usuario no se traduce.
                 .andExpect(jsonPath("$.nombre").value("Corte"));
         mvc.perform(post("/api/segmentos/SERVICIOS/calcular").header("Accept-Language", "pt-BR")
                         .contentType(MediaType.APPLICATION_JSON).content("{" + COMUN + ",\"datos\":" + datos + "}"))
-                .andExpect(jsonPath("$.metodo").value("Margem de 30% sobre o preço"))
+                .andExpect(jsonPath("$.metodo").value("Margem de 30% aplicada ao custo variável; a parte dos custos fixos é somada ao custo, mais impostos e taxas"))
                 .andExpect(jsonPath("$.desglose[0].concepto").value("Seu tempo"));
         mvc.perform(post("/api/segmentos/SERVICIOS/calcular")
                         .contentType(MediaType.APPLICATION_JSON).content("{" + COMUN + ",\"datos\":" + datos + "}"))
-                .andExpect(jsonPath("$.metodo").value("Margen de 30 % sobre el precio"))
+                .andExpect(jsonPath("$.metodo").value("Margen de 30 % aplicado al costo variable; la parte de costos fijos se suma al costo, más impuestos y tasas"))
                 .andExpect(jsonPath("$.desglose[0].concepto").value("Tu tiempo"));
     }
 

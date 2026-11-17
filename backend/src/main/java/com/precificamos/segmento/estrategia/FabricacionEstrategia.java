@@ -21,7 +21,8 @@ import static com.precificamos.i18n.Textos.t;
  * Fabricación o confección propia (ropa, artesanías, cosméticos, muebles…).
  *
  * <p>Costo por pieza = materias primas × factor de merma + insumos + minutos × costo por minuto.
- * Se calculan dos precios por margen: minorista (sugerido) y mayorista (extra).</p>
+ * Se calculan dos precios por margen: minorista (sugerido) y mayorista (extra). El margen se aplica
+ * al costo variable y la parte de costos fijos se suma al costo (sin margen).</p>
  */
 @Component
 public class FabricacionEstrategia implements EstrategiaPrecificacion<EntradaFabricacion> {
@@ -97,12 +98,14 @@ public class FabricacionEstrategia implements EstrategiaPrecificacion<EntradaFab
 
     @Override
     public PropuestaPrecio proponerPrecio(EntradaFabricacion e, CostoVariable costo, ComunesResueltos c) {
-        BigDecimal costoTotal = costo.total().add(rateo(c));
-        BigDecimal minorista = precioPorMargen(costoTotal, c.porcentajeSobreVenta(), e.margenMinoristaPct());
-        BigDecimal mayorista = precioPorMargen(costoTotal, c.porcentajeSobreVenta(), e.margenMayoristaPct());
+        // El margen se aplica solo al costo variable; la parte de costos fijos se suma al costo.
+        BigDecimal rateo = rateo(c);
+        BigDecimal costoTotal = costo.total().add(rateo);
+        BigDecimal minorista = precioPorMargen(costo.total(), rateo, c.porcentajeSobreVenta(), e.margenMinoristaPct());
+        BigDecimal mayorista = precioPorMargen(costo.total(), rateo, c.porcentajeSobreVenta(), e.margenMayoristaPct());
 
         PropuestaPrecio p = new PropuestaPrecio(minorista,
-                t("Margen minorista de {0} % sobre el precio", Textos.numero(e.margenMinoristaPct())));
+                t("Margen minorista de {0} % aplicado al costo variable; la parte de costos fijos se suma al costo, más impuestos y tasas", Textos.numero(e.margenMinoristaPct())));
         p.extras().add(LineaDesglose.moneda("precioMayorista", "Precio mayorista", r(mayorista)));
         p.extras().add(LineaDesglose.porcentaje("descuentoMayoristaPct", "Descuento mayorista sobre el minorista",
                 r(BigDecimal.ONE.subtract(mayorista.divide(minorista, MC)).multiply(CIEN))));

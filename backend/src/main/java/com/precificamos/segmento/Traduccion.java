@@ -35,7 +35,7 @@ final class Traduccion {
         List<CampoFormulario.Opcion> opciones = c.opciones() == null ? null : c.opciones().stream()
                 .map(o -> new CampoFormulario.Opcion(o.valor(), t(o.etiqueta()), o.extra())).toList();
         return new CampoFormulario(c.nombre(), t(c.etiqueta()), c.tipo(), c.grupo(), c.obligatorio(), t(c.ayuda()),
-                c.valorPorDefecto(), opciones, campos(c.subcampos()));
+                c.valorPorDefecto(), opciones, campos(c.subcampos()), c.destacado());
     }
 
     static List<LineaDesglose> lineas(List<LineaDesglose> lineas) {

@@ -73,9 +73,9 @@ public class SegmentoService {
                 "Lo que comparte todo tu negocio. Se completa con tu Configuración y tus Costos fijos.", List.of(
                 CampoFormulario.de("ventasMensualesProducto", "¿Cuántas unidades de esto vendés por mes?", "entero", true,
                         "Piezas, porciones o servicios. Si no sabés, poné una estimación", null).comun(),
-                CampoFormulario.de("unidadesMensualesNegocio", "Total de unidades que vende todo el negocio por mes", "entero", false,
-                        "Sirve para repartir los costos fijos entre todos tus productos. Vacío = igual al anterior",
-                        c.getTotalUnidadesMes() != null && c.getTotalUnidadesMes() > 0 ? c.getTotalUnidadesMes() : null).comun(),
+                CampoFormulario.de("unidadesMensualesNegocio", "Total de unidades que vende todo el negocio por mes (todos los productos)", "entero", false,
+                        "Sumá las unidades de TODOS tus productos o servicios: así cada producto paga solo su parte de los costos fijos. Si lo dejás vacío, todos los costos fijos se cargan en este producto.",
+                        c.getTotalUnidadesMes() != null && c.getTotalUnidadesMes() > 0 ? c.getTotalUnidadesMes() : null).comun().destacar(),
                 CampoFormulario.de("costosFijosMensuales", "Costos fijos del mes", "moneda", false,
                         "Alquiler, luz, internet, contador, impuestos fijos…", r(precificacao.totalFixo(usuarioId))).comun(),
                 CampoFormulario.de("impuestoPct", "Impuestos sobre la venta (%)", "porcentaje", false,
@@ -110,8 +110,11 @@ public class SegmentoService {
         BigDecimal precio = r(p.precio());
         Analisis a = analizar(precio, costo.total(), c);
         List<String> avisos = new ArrayList<>(p.avisos());
-        if (a.puntoEquilibrioUnidades() != null && a.puntoEquilibrioUnidades() > c.ventasMensualesProducto()
-                && c.unidadesMensualesNegocio() == c.ventasMensualesProducto()) {
+        if (fijosConcentradosEnElProducto(c, costo.total())) {
+            avisos.add(t("Los costos fijos están todos cargados en este producto. Si vendés otros productos, completá el total de unidades del negocio."));
+        }
+        // El punto de equilibrio usa la parte de fijos de este producto, igual que la ganancia mensual.
+        if (a.puntoEquilibrioUnidades() != null && a.puntoEquilibrioUnidades() > c.ventasMensualesProducto()) {
             avisos.add(t("Con {0} unidades por mes no llegás al punto de equilibrio ({1}). Vendé más, bajá costos o subí el precio.",
                     c.ventasMensualesProducto(), a.puntoEquilibrioUnidades()));
         }
@@ -163,12 +166,13 @@ public class SegmentoService {
             throw new DatosInvalidosException(t("Indicá cuántas unidades vendés por mes"),
                     Map.of("comun.ventasMensualesProducto", t("es obligatorio")));
         }
+        boolean unidadesInformadas = p.unidadesMensualesNegocio() != null || unidadesCfg != null;
         int unidades = p.unidadesMensualesNegocio() != null ? p.unidadesMensualesNegocio()
                 : unidadesCfg != null ? unidadesCfg : ventas;
         if (pct.compareTo(BigDecimal.ONE) >= 0) {
             throw new RegraDeNegocioException(t("Impuestos y tasas suman 100 % o más del precio"));
         }
-        return new ComunesResueltos(fijos, pct, ventas, unidades, cero(cfg.getValorHora()));
+        return new ComunesResueltos(fijos, pct, ventas, unidades, cero(cfg.getValorHora()), unidadesInformadas);
     }
 
     private void validar(Object objeto, String prefijo) {

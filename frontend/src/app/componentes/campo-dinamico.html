@@ -34,7 +34,7 @@
     </label>
   }
   @case ('seleccion') {
-    <div class="campo" [class.con-error]="err">
+    <div class="campo" [class.con-error]="err" [class.campo-destacado]="c.destacado">
       <label [for]="id">{{ c.etiqueta }} @if (c.obligatorio) { <span class="obligatorio" aria-hidden="true">*</span> }</label>
       <select [id]="id" [(ngModel)]="m[c.nombre]" [ngModelOptions]="{ standalone: true }" [required]="c.obligatorio">
         @for (o of c.opciones ?? []; track o.valor) {
@@ -46,7 +46,7 @@
     </div>
   }
   @case ('texto') {
-    <div class="campo" [class.con-error]="err">
+    <div class="campo" [class.con-error]="err" [class.campo-destacado]="c.destacado">
       <label [for]="id">{{ c.etiqueta }} @if (c.obligatorio) { <span class="obligatorio" aria-hidden="true">*</span> }</label>
       <input type="text" [id]="id" [(ngModel)]="m[c.nombre]" [ngModelOptions]="{ standalone: true }" [required]="c.obligatorio" autocomplete="off" />
       @if (c.ayuda) { <small class="ayuda">{{ c.ayuda }}</small> }
@@ -54,7 +54,7 @@
     </div>
   }
   @default {
-    <div class="campo" [class.con-error]="err">
+    <div class="campo" [class.con-error]="err" [class.campo-destacado]="c.destacado">
       <label [for]="id">{{ c.etiqueta }} @if (c.obligatorio) { <span class="obligatorio" aria-hidden="true">*</span> }</label>
       <div class="entrada-numero">
         @if (c.tipo === 'moneda') { <span class="prefijo" aria-hidden="true">{{ simbolo }}</span> }

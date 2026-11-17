@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * @param fletePorUnidad              flete de compra prorrateado por unidad
  * @param impuestosEntradaPct         impuestos de entrada sobre el costo de compra (ICMS-ST, DIFAL, importación…)
  * @param otrosCostosUnidad           embalaje, bolsa, etiqueta por unidad vendida
- * @param markup                      multiplicador sobre el costo total (2 = precio del doble del costo, antes de tasas)
+ * @param markup                      multiplicador sobre el costo variable (2 = precio del doble del costo, antes de tasas); la parte de costos fijos se suma sin multiplicar
  * @param margenMinimoLiquidacionPct  margen mínimo aceptable para liquidar stock parado (% del precio)
  * @param stockActual                 unidades en stock, para calcular la rotación
  */

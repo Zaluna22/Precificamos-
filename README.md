@@ -15,6 +15,12 @@ Sirve para cualquier negocio porque trabaja con **categorías amplias**, según 
 Todas comparten la misma base: **costos fijos**, **impuestos** (Simples Nacional %, o MEI como
 costo fijo), **tasas de tarjeta y marketplace**, **comisiones**, **punto de equilibrio** y **simulador**.
 
+La parte de costos fijos de cada unidad (`costosFijosMensuales ÷ unidadesMensualesNegocio`) se suma
+**al costo**: el markup o el margen se aplican solo al costo variable, y después se agregan impuestos
+y tasas. Por ejemplo, en reventa: `precio = (costoVariable × markup + rateo) ÷ (1 − tasas)`. El punto de
+equilibrio usa la misma parte de fijos que la ganancia mensual (`rateo × ventas del producto`). Si no
+se informa el total de unidades del negocio, todos los costos fijos caen sobre el producto y se avisa.
+
 ## Estructura del repositorio
 
 ```
@@ -89,7 +95,7 @@ curl -X POST http://localhost:8080/api/segmentos/SERVICIOS/calcular \
                   "materiales": [{"nombre": "Tintura", "costo": 18}],
                   "kmDesplazamiento": 20, "costoPorKm": 1, "otrosGastosDesplazamiento": 5, "margenPct": 30}
       }'
-# → precioSugerido 150.00, margenRealPct 30.00, puntoEquilibrioUnidades 22
+# → precioSugerido 148.89, margenRealPct 29.55, puntoEquilibrioUnidades 5, lucroMensualEstimado 4400.10
 ```
 
 Los campos de `comun` que no se envían se completan, si hay sesión, con `/api/configuracao` y con

@@ -25,14 +25,14 @@ class VentaMasivaEstrategiaTest {
     void usaMargenDeLaCategoriaYRedondeaA99() {
         Fixtures.Resultado r = calcular(est, gaseosa(null, null, null), c);
         assertEquals(bd("25.00"), r.extra("margenCategoriaPct"));
-        assertEquals(bd("4.86"), r.extra("precioSinRedondeo")); // 3,16 / (1 - 0,10 - 0,25)
+        assertEquals(bd("4.82"), r.extra("precioSinRedondeo")); // 3,06 / (1 - 0,10 - 0,25) + 0,10 / 0,9
         assertEquals(bd("4.99"), r.precio());
     }
 
     @Test
     void margenPorCategoriaConfigurable() {
         Fixtures.Resultado r = calcular(est, gaseosa(Map.of("BEBIDAS", bd("30")), null, null), c);
-        assertEquals(bd("5.99"), r.precio()); // 3,16 / 0,6 = 5,27 → 5,99
+        assertEquals(bd("5.99"), r.precio()); // 3,06 / 0,6 + 0,10 / 0,9 = 5,21 → 5,99
     }
 
     @Test

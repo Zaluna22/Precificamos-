@@ -18,7 +18,8 @@ import static com.precificamos.i18n.Textos.t;
  * Servicios profesionales o técnicos.
  *
  * <p>Costo por servicio = horas × valor hora + materiales + km × costo por km + otros gastos de
- * desplazamiento. El precio sale del margen deseado sobre el precio.</p>
+ * desplazamiento. El precio sale del margen deseado aplicado al costo variable, más la parte de
+ * costos fijos sumada al costo (sin margen).</p>
  */
 @Component
 public class ServiciosEstrategia implements EstrategiaPrecificacion<EntradaServicios> {
@@ -66,9 +67,9 @@ public class ServiciosEstrategia implements EstrategiaPrecificacion<EntradaServi
 
     @Override
     public PropuestaPrecio proponerPrecio(EntradaServicios e, CostoVariable costo, ComunesResueltos c) {
-        BigDecimal precio = precioPorMargen(costo.total().add(rateo(c)), c.porcentajeSobreVenta(), e.margenPct());
+        BigDecimal precio = precioPorMargen(costo.total(), rateo(c), c.porcentajeSobreVenta(), e.margenPct());
         PropuestaPrecio p = new PropuestaPrecio(precio,
-                t("Margen de {0} % sobre el precio", Textos.numero(e.margenPct())));
+                t("Margen de {0} % aplicado al costo variable; la parte de costos fijos se suma al costo, más impuestos y tasas", Textos.numero(e.margenPct())));
         p.extras().add(LineaDesglose.moneda("precioPorHora", "Precio equivalente por hora",
                 r(precio.divide(e.horasPorServicio(), MC))));
         BigDecimal valorHora = e.valorHora() != null ? e.valorHora() : c.valorHora();

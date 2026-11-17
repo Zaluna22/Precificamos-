@@ -276,11 +276,12 @@
           },
           {
             "nombre": "unidadesMensualesNegocio",
-            "etiqueta": "Total de unidades que o negócio inteiro vende por mês",
+            "etiqueta": "Total de unidades que o negócio inteiro vende por mês (todos os produtos)",
             "tipo": "entero",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Serve para dividir os custos fixos entre todos os seus produtos. Vazio = igual ao anterior"
+            "ayuda": "Some as unidades de TODOS os seus produtos ou serviços: assim cada produto paga só a sua parte dos custos fixos. Se deixar vazio, todos os custos fixos ficam neste produto.",
+            "destacado": true
           },
           {
             "nombre": "costosFijosMensuales",
@@ -635,11 +636,12 @@
           },
           {
             "nombre": "unidadesMensualesNegocio",
-            "etiqueta": "Total de unidades que o negócio inteiro vende por mês",
+            "etiqueta": "Total de unidades que o negócio inteiro vende por mês (todos os produtos)",
             "tipo": "entero",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Serve para dividir os custos fixos entre todos os seus produtos. Vazio = igual ao anterior"
+            "ayuda": "Some as unidades de TODOS os seus produtos ou serviços: assim cada produto paga só a sua parte dos custos fixos. Se deixar vazio, todos os custos fixos ficam neste produto.",
+            "destacado": true
           },
           {
             "nombre": "costosFijosMensuales",
@@ -809,11 +811,12 @@
           },
           {
             "nombre": "unidadesMensualesNegocio",
-            "etiqueta": "Total de unidades que o negócio inteiro vende por mês",
+            "etiqueta": "Total de unidades que o negócio inteiro vende por mês (todos os produtos)",
             "tipo": "entero",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Serve para dividir os custos fixos entre todos os seus produtos. Vazio = igual ao anterior"
+            "ayuda": "Some as unidades de TODOS os seus produtos ou serviços: assim cada produto paga só a sua parte dos custos fixos. Se deixar vazio, todos os custos fixos ficam neste produto.",
+            "destacado": true
           },
           {
             "nombre": "costosFijosMensuales",
@@ -1036,11 +1039,12 @@
           },
           {
             "nombre": "unidadesMensualesNegocio",
-            "etiqueta": "Total de unidades que o negócio inteiro vende por mês",
+            "etiqueta": "Total de unidades que o negócio inteiro vende por mês (todos os produtos)",
             "tipo": "entero",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Serve para dividir os custos fixos entre todos os seus produtos. Vazio = igual ao anterior"
+            "ayuda": "Some as unidades de TODOS os seus produtos ou serviços: assim cada produto paga só a sua parte dos custos fixos. Se deixar vazio, todos os custos fixos ficam neste produto.",
+            "destacado": true
           },
           {
             "nombre": "costosFijosMensuales",
@@ -1229,11 +1233,12 @@
           },
           {
             "nombre": "unidadesMensualesNegocio",
-            "etiqueta": "Total de unidades que o negócio inteiro vende por mês",
+            "etiqueta": "Total de unidades que o negócio inteiro vende por mês (todos os produtos)",
             "tipo": "entero",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Serve para dividir os custos fixos entre todos os seus produtos. Vazio = igual ao anterior"
+            "ayuda": "Some as unidades de TODOS os seus produtos ou serviços: assim cada produto paga só a sua parte dos custos fixos. Se deixar vazio, todos os custos fixos ficam neste produto.",
+            "destacado": true
           },
           {
             "nombre": "costosFijosMensuales",

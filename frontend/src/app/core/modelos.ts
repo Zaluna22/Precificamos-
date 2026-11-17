@@ -19,6 +19,8 @@ export interface CampoFormulario {
   valorPorDefecto?: unknown;
   opciones?: Opcion[];
   subcampos?: CampoFormulario[];
+  /** Campo clave que el formulario resalta (por ejemplo, el total de unidades del negocio). */
+  destacado?: boolean;
 }
 
 export interface PasoFormulario {

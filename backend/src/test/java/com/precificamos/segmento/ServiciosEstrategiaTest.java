@@ -31,9 +31,9 @@ class ServiciosEstrategiaTest {
     @Test
     void precioPorMargenYPuntoDeEquilibrio() {
         Fixtures.Resultado r = calcular(est, coloracion(null), comunes());
-        assertEquals(bd("150.00"), r.precio());
-        assertEquals(bd("100.00"), r.extra("precioPorHora"));
-        assertEquals(22, r.analisis().puntoEquilibrioUnidades());
+        assertEquals(bd("148.89"), r.precio());          // 88 / (1 - 0,10 - 0,30) + 2 / 0,9
+        assertEquals(bd("99.26"), r.extra("precioPorHora"));
+        assertEquals(5, r.analisis().puntoEquilibrioUnidades()); // parte de fijos 200 / contribución 46
     }
 
     @Test

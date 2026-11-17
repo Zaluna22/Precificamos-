@@ -22,8 +22,26 @@ class ReventaEstrategiaTest {
     @Test
     void precioPorMarkupYLiquidacion() {
         Fixtures.Resultado r = calcular(est, perfume(0), comunes());
-        assertEquals(bd("133.33"), r.precio());                   // 60 / 0,9 × 2
+        assertEquals(bd("131.11"), r.precio());                   // (58 × 2 + 2) / 0,9
         assertEquals(bd("68.24"), r.extra("precioLiquidacion"));  // 58 / (1 - 0,10 - 0,05)
+    }
+
+    /** Ejemplo del dueño: compra 20, markup 2, fijos 600, 3 ventas por mes, sin otros datos. */
+    private static EntradaReventa simple() {
+        return new EntradaReventa("Simple", bd("20"), null, null, null, bd("2"), null, null);
+    }
+
+    @Test
+    void costosFijosSeSumanAlCostoSinMarkup() {
+        // Sin total del negocio: rateo = 600 / 3 = 200 → 20 × 2 + 200 = 240
+        ComunesResueltos sinTotal = new ComunesResueltos(bd("600"), bd("0"), 3, 3, bd("0"), false);
+        assertEquals(bd("240.00"), calcular(est, simple(), sinTotal).precio());
+        // Con 150 unidades del negocio: rateo = 4 → 20 × 2 + 4 = 44
+        ComunesResueltos conTotal = new ComunesResueltos(bd("600"), bd("0"), 3, 150, bd("0"));
+        assertEquals(bd("44.00"), calcular(est, simple(), conTotal).precio());
+        // Con tarjeta 3,5 %: 44 / 0,965 = 45,60
+        ComunesResueltos conTarjeta = new ComunesResueltos(bd("600"), bd("0.035"), 3, 150, bd("0"));
+        assertEquals(bd("45.60"), calcular(est, simple(), conTarjeta).precio());
     }
 
     @Test

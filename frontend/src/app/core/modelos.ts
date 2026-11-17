@@ -120,3 +120,33 @@ export interface RespuestaAuth {
   token: string;
   usuario: Usuario;
 }
+
+/** Producto guardado en "Mis productos" (/api/meus-produtos). */
+export interface ProductoGuardado {
+  id: number;
+  /** Código de la categoría (REVENTA, FABRICACION…). */
+  segmento: string;
+  nombre: string;
+  comun: Record<string, unknown>;
+  datos: Record<string, unknown>;
+  precioSugerido: number | null;
+  costoTotalUnitario: number | null;
+  margenRealPct: number | null;
+  lucroUnitario: number | null;
+  precioFinal: number | null;
+  creadoEn: string;
+  actualizadoEn: string;
+}
+
+/** Cuerpo para crear o reemplazar un producto guardado. */
+export interface SolicitudProductoGuardado {
+  segmento: string;
+  nombre: string;
+  comun: Record<string, unknown>;
+  datos: Record<string, unknown>;
+  precioSugerido: number;
+  costoTotalUnitario: number;
+  margenRealPct: number;
+  lucroUnitario: number;
+  precioFinal: number;
+}

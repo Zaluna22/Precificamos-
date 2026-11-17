@@ -301,5 +301,9 @@
   "El nombre puede tener hasta 100 caracteres": "The name can be up to 100 characters",
   "Ingresá una contraseña": "Enter a password",
   "La contraseña tiene que tener entre 8 y 72 caracteres": "The password must be between 8 and 72 characters",
+  "Indicá la categoría": "Choose a category",
+  "Poné un nombre al producto": "Give the product a name",
+  "El nombre del producto puede tener hasta 120 caracteres": "The product name can be up to 120 characters",
+  "El precio final no puede ser negativo": "The final price can't be negative",
   "Los costos fijos están todos cargados en este producto. Si vendés otros productos, completá el total de unidades del negocio.": "All your fixed costs are falling on this product. If you sell other products, fill in the total units for the whole business."
 }

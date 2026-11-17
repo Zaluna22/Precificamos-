@@ -211,6 +211,29 @@ button, input, select { font: inherit; }
 .calculadora-hora[open] summary { margin-bottom: .75rem; }
 .formulario h2:not(:first-child) { margin-top: 1.25rem; }
 
+/* ---------- Mis productos ---------- */
+.guardar-producto h2 { margin-top: 0; }
+.guardar-anonimo p { margin-top: 0; }
+.acciones-guardar { display: flex; flex-wrap: wrap; gap: .5rem; }
+.editando-producto a { font-weight: 600; margin-left: .25rem; }
+.barra-productos { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; padding: .75rem 1rem; }
+.seleccionar-todos { margin: 0; }
+.productos-vacio { text-align: center; }
+.lista-productos { list-style: none; padding: 0; margin: 0; }
+.producto-guardado { display: grid; grid-template-columns: auto 1fr; gap: .5rem .75rem; align-items: center; padding: .85rem 1rem; margin-bottom: .5rem; border: 2px solid transparent; }
+.producto-guardado.producto-seleccionado { border-color: var(--color-primario-suave); }
+.producto-check { width: 1.4rem; height: 1.4rem; accent-color: var(--color-primario); }
+.producto-info { display: flex; flex-direction: column; min-width: 0; }
+.producto-nombre { overflow-wrap: anywhere; }
+.producto-meta { font-size: .82rem; color: var(--color-texto-suave); }
+.producto-precio { grid-column: 2; display: flex; flex-direction: column; }
+.producto-precio-etiqueta { font-size: .75rem; color: var(--color-texto-suave); }
+.producto-precio-valor { align-self: flex-start; border: 0; background: transparent; padding: 0; cursor: pointer; font-size: 1.2rem; font-weight: 800; color: var(--color-primario); }
+.precio-edicion { display: flex; align-items: center; gap: .25rem; }
+.precio-edicion .entrada-numero { max-width: 11rem; min-height: 44px; border: 2px solid var(--color-primario); border-radius: 12px; background: #fff; }
+.producto-acciones { grid-column: 2; display: flex; align-items: center; gap: .5rem; }
+.producto-acciones .boton { min-height: 40px; padding: .4rem 1rem; }
+
 /* ---------- Cuenta (entrar y registro) ---------- */
 .pagina-auth { max-width: 440px; margin: 0 auto; }
 .boton-ancho { width: 100%; }
@@ -229,6 +252,10 @@ button, input, select { font: inherit; }
   .indicador-ancho { grid-column: auto; }
   .paso-titulo { display: inline; }
   .navegacion-pasos .boton, .acciones .boton { flex: 0 0 auto; min-width: 160px; }
+  .producto-guardado { grid-template-columns: auto 1fr auto auto; }
+  .producto-precio, .producto-acciones { grid-column: auto; }
+  .producto-precio { align-items: flex-end; text-align: right; }
+  .producto-precio-valor { align-self: flex-end; }
 }
 @media (min-width: 900px) {
   .nav-escritorio { display: flex; }

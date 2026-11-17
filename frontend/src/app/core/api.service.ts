@@ -4,8 +4,8 @@ import { Observable, catchError, from, map, of, shareReplay, throwError } from '
 import { environment } from '../../environments/environment';
 import { Idioma, idioma, t } from './i18n/i18n';
 import {
-  Configuracion, CostoFijo, DefinicionSegmento, ErrorApi, ResultadoSegmento, ResultadoSimulacion,
-  SolicitudCalculo,
+  Configuracion, CostoFijo, DefinicionSegmento, ErrorApi, ProductoGuardado, ResultadoSegmento, ResultadoSimulacion,
+  SolicitudCalculo, SolicitudProductoGuardado,
 } from './modelos';
 
 /** Acceso al backend de Precificamos. La URL base sale del archivo de entorno. */
@@ -84,6 +84,33 @@ export class ApiService {
 
   guardarConfiguracion(c: Configuracion): Observable<Configuracion> {
     return this.http.put<Configuracion>(`${this.base}/configuracao`, c).pipe(catchError((e) => this.error(e)));
+  }
+
+  // ---------- Mis productos (requiere sesión) ----------
+
+  productosGuardados(): Observable<ProductoGuardado[]> {
+    return this.http.get<ProductoGuardado[]>(`${this.base}/meus-produtos`).pipe(catchError((e) => this.error(e)));
+  }
+
+  productoGuardado(id: number): Observable<ProductoGuardado> {
+    return this.http.get<ProductoGuardado>(`${this.base}/meus-produtos/${id}`).pipe(catchError((e) => this.error(e)));
+  }
+
+  guardarProducto(p: SolicitudProductoGuardado): Observable<ProductoGuardado> {
+    return this.http.post<ProductoGuardado>(`${this.base}/meus-produtos`, p).pipe(catchError((e) => this.error(e)));
+  }
+
+  actualizarProducto(id: number, p: SolicitudProductoGuardado): Observable<ProductoGuardado> {
+    return this.http.put<ProductoGuardado>(`${this.base}/meus-produtos/${id}`, p).pipe(catchError((e) => this.error(e)));
+  }
+
+  /** Cambia solo el nombre o el precio final. */
+  cambiarProducto(id: number, cambio: { nombre?: string; precioFinal?: number }): Observable<ProductoGuardado> {
+    return this.http.patch<ProductoGuardado>(`${this.base}/meus-produtos/${id}`, cambio).pipe(catchError((e) => this.error(e)));
+  }
+
+  borrarProducto(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.base}/meus-produtos/${id}`).pipe(catchError((e) => this.error(e)));
   }
 
   /** Invalida la caché de categorías (los valores por defecto dependen de la configuración). */

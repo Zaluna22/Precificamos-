@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, inject, input, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject, input, output, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { NumeroDecimal } from '../core/numero-decimal';
@@ -22,6 +22,8 @@ export class Simulador implements OnInit {
   readonly solicitud = input.required<SolicitudCalculo>();
   readonly precioSugerido = input.required<number>();
   readonly ventasIniciales = input<number>(1);
+  /** Avisa el precio que el usuario va probando (se usa como precio final al guardar el producto). */
+  readonly precioElegido = output<number>();
 
   protected readonly precio = signal(0);
   protected readonly ventas = signal(1);
@@ -59,7 +61,11 @@ export class Simulador implements OnInit {
     this.cambios.next();
   }
 
-  protected cambiarPrecio(v: number): void { this.precio.set(Number(v)); this.cambios.next(); }
+  protected cambiarPrecio(v: number): void {
+    this.precio.set(Number(v));
+    this.cambios.next();
+    if (Number(v) > 0) this.precioElegido.emit(Number(v));
+  }
   protected cambiarVentas(v: number): void { this.ventas.set(Number(v)); this.cambios.next(); }
   protected volverAlSugerido(): void { this.cambiarPrecio(this.precioSugerido()); }
 }

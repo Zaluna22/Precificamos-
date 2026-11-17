@@ -28,7 +28,7 @@ import java.util.Map;
  * <ul>
  *   <li>Públicos: registro, login y todo {@code /api/segmentos/**} (calcular y simular). Si llega un
  *       token válido, el cálculo usa los costos fijos y la configuración de ese usuario.</li>
- *   <li>Con sesión: {@code /api/auth/yo}, costos fijos, configuración y productos (401 sin token).</li>
+ *   <li>Con sesión: {@code /api/auth/yo}, costos fijos, configuración, productos y "Meus produtos" (401 sin token).</li>
  * </ul>
  *
  * <p>CORS se sigue configurando en {@link CorsConfig}; Spring Security lo aplica antes de
@@ -51,7 +51,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/auth/registro", "/api/auth/login").permitAll()
                         .requestMatchers("/api/segmentos", "/api/segmentos/**").permitAll()
                         .requestMatchers("/api/auth/yo", "/api/custos-fixos/**", "/api/configuracao/**",
-                                "/api/produtos/**").authenticated()
+                                "/api/produtos/**", "/api/meus-produtos", "/api/meus-produtos/**").authenticated()
                         .anyRequest().permitAll())
                 .exceptionHandling(e -> e.authenticationEntryPoint(entrada))
                 .addFilterBefore(new FiltroJwt(jwt), UsernamePasswordAuthenticationFilter.class)

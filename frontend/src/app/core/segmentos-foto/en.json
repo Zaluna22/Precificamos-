@@ -288,7 +288,7 @@
             "tipo": "moneda",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Rent, electricity, internet, accountant, MEI tax (DAS)…",
+            "ayuda": "Rent, electricity, internet, accountant, fixed taxes…",
             "valorPorDefecto": 0.00
           },
           {
@@ -297,7 +297,7 @@
             "tipo": "porcentaje",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Your sales tax rate (e.g. 6%). In Brazil, MEI: 0 and add the DAS to fixed costs",
+            "ayuda": "Your tax percentage on sales (e.g. 6%). If you pay a fixed monthly amount, enter 0 and add it to fixed costs",
             "valorPorDefecto": 0
           },
           {
@@ -647,7 +647,7 @@
             "tipo": "moneda",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Rent, electricity, internet, accountant, MEI tax (DAS)…",
+            "ayuda": "Rent, electricity, internet, accountant, fixed taxes…",
             "valorPorDefecto": 0.00
           },
           {
@@ -656,7 +656,7 @@
             "tipo": "porcentaje",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Your sales tax rate (e.g. 6%). In Brazil, MEI: 0 and add the DAS to fixed costs",
+            "ayuda": "Your tax percentage on sales (e.g. 6%). If you pay a fixed monthly amount, enter 0 and add it to fixed costs",
             "valorPorDefecto": 0
           },
           {
@@ -821,7 +821,7 @@
             "tipo": "moneda",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Rent, electricity, internet, accountant, MEI tax (DAS)…",
+            "ayuda": "Rent, electricity, internet, accountant, fixed taxes…",
             "valorPorDefecto": 0.00
           },
           {
@@ -830,7 +830,7 @@
             "tipo": "porcentaje",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Your sales tax rate (e.g. 6%). In Brazil, MEI: 0 and add the DAS to fixed costs",
+            "ayuda": "Your tax percentage on sales (e.g. 6%). If you pay a fixed monthly amount, enter 0 and add it to fixed costs",
             "valorPorDefecto": 0
           },
           {
@@ -1048,7 +1048,7 @@
             "tipo": "moneda",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Rent, electricity, internet, accountant, MEI tax (DAS)…",
+            "ayuda": "Rent, electricity, internet, accountant, fixed taxes…",
             "valorPorDefecto": 0.00
           },
           {
@@ -1057,7 +1057,7 @@
             "tipo": "porcentaje",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Your sales tax rate (e.g. 6%). In Brazil, MEI: 0 and add the DAS to fixed costs",
+            "ayuda": "Your tax percentage on sales (e.g. 6%). If you pay a fixed monthly amount, enter 0 and add it to fixed costs",
             "valorPorDefecto": 0
           },
           {
@@ -1241,7 +1241,7 @@
             "tipo": "moneda",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Rent, electricity, internet, accountant, MEI tax (DAS)…",
+            "ayuda": "Rent, electricity, internet, accountant, fixed taxes…",
             "valorPorDefecto": 0.00
           },
           {
@@ -1250,7 +1250,7 @@
             "tipo": "porcentaje",
             "grupo": "comun",
             "obligatorio": false,
-            "ayuda": "Your sales tax rate (e.g. 6%). In Brazil, MEI: 0 and add the DAS to fixed costs",
+            "ayuda": "Your tax percentage on sales (e.g. 6%). If you pay a fixed monthly amount, enter 0 and add it to fixed costs",
             "valorPorDefecto": 0
           },
           {

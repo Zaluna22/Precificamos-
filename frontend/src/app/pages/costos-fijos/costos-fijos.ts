@@ -7,7 +7,7 @@ import { CostoFijo } from '../../core/modelos';
 import { TraducirPipe, t } from '../../core/i18n/i18n';
 
 /** Sugerencias para que el usuario no se olvide de ningún costo fijo (en español; se muestran traducidas). */
-const SUGERENCIAS = ['Alquiler', 'Luz', 'Agua', 'Internet y celular', 'Contador', 'DAS del MEI', 'Sistema / app de gestión',
+const SUGERENCIAS = ['Alquiler', 'Luz', 'Agua', 'Internet y celular', 'Contador', 'Impuesto mensual fijo', 'Sistema / app de gestión',
   'Publicidad', 'Sueldos fijos', 'Mantenimiento de equipos'];
 
 /** Lista, alta y baja de costos fijos mensuales. */

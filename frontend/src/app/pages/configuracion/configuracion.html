@@ -49,7 +49,7 @@
       <div class="campo">
         <label for="cfg-imp">{{ 'Impuestos (%)' | t }}</label>
         <div class="entrada-numero"><input id="cfg-imp" name="impostoPct" type="text" decimal inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.impostoPct" /><span class="sufijo">%</span></div>
-        <small class="ayuda">{{ 'Simples Nacional: tu alícuota. MEI: dejá 0 y cargá el DAS en Costos fijos.' | t }}</small>
+        <small class="ayuda">{{ 'El porcentaje de impuestos que pagás sobre cada venta. Si pagás un monto fijo por mes, dejá 0 y cargalo en Costos fijos.' | t }}</small>
       </div>
       <div class="campo">
         <label for="cfg-tarjeta">{{ 'Tarjeta / medio de pago (%)' | t }}</label>

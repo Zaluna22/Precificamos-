@@ -18,10 +18,18 @@
 
   <app-pista-sesion />
 
+  @if (productoGuardado(); as pg) {
+    <p class="alerta editando-producto">✏️ {{ 'Editando “{0}” de Mis productos.' | t: pg.nombre }}
+      <a routerLink="/meus-produtos">{{ 'Volver a Mis productos' | t }}</a></p>
+  }
+
   @if (resultado(); as r) {
     <app-tarjeta-resultado [resultado]="r" />
     <app-simulador [codigo]="def.codigo" [solicitud]="solicitudEnviada()!" [precioSugerido]="r.precioSugerido"
-                   [ventasIniciales]="ventasDelModelo()" />
+                   [ventasIniciales]="ventasDelModelo()" (precioElegido)="precioElegido.set($event)" />
+    <app-guardar-producto [codigo]="def.codigo" [solicitud]="solicitudEnviada()!" [resultado]="r"
+                          [precioElegido]="precioElegido()" [productoId]="productoGuardado()?.id ?? null"
+                          [nombreGuardado]="productoGuardado()?.nombre ?? null" (guardado)="alGuardar($event)" />
     <div class="acciones">
       <button type="button" class="boton boton-secundario" (click)="editar()">{{ 'Editar datos' | t }}</button>
       <button type="button" class="boton boton-texto" (click)="empezarDeNuevo()">{{ 'Calcular otro producto' | t }}</button>

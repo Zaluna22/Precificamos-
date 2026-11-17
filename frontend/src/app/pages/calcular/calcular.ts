@@ -3,11 +3,13 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../core/api.service';
 import { BorradorService } from '../../core/borrador.service';
-import { CampoFormulario, DefinicionSegmento, ResultadoSegmento, SolicitudCalculo } from '../../core/modelos';
+import { CampoFormulario, DefinicionSegmento, ProductoGuardado, ResultadoSegmento, SolicitudCalculo } from '../../core/modelos';
 import { CampoDinamico, filaVacia } from '../../componentes/campo-dinamico';
 import { TarjetaResultado } from '../../componentes/tarjeta-resultado';
 import { Simulador } from '../../componentes/simulador';
 import { PistaSesion } from '../../componentes/pista-sesion';
+import { CLAVE_RECALCULAR, GuardarProducto } from '../../componentes/guardar-producto';
+import { AuthService } from '../../core/auth.service';
 import { TraducirPipe, idioma, t } from '../../core/i18n/i18n';
 
 interface Modelo {
@@ -23,15 +25,18 @@ const vacio = (v: unknown) => v === null || v === undefined || (typeof v === 'st
  */
 @Component({
   selector: 'app-calcular',
-  imports: [FormsModule, RouterLink, CampoDinamico, TarjetaResultado, Simulador, PistaSesion, TraducirPipe],
+  imports: [FormsModule, RouterLink, CampoDinamico, TarjetaResultado, Simulador, PistaSesion, GuardarProducto, TraducirPipe],
   templateUrl: './calcular.html',
 })
 export class Calcular implements OnInit {
   private readonly api = inject(ApiService);
   private readonly borradores = inject(BorradorService);
+  private readonly auth = inject(AuthService);
 
   /** Código de la categoría, tomado de la ruta /calcular/:codigo. */
   readonly codigo = input.required<string>();
+  /** Id de un producto de "Mis productos" para editarlo (/calcular/:codigo?producto=12). */
+  readonly producto = input<string | undefined>();
 
   protected readonly definicion = signal<DefinicionSegmento | null>(null);
   protected readonly cargando = signal(true);
@@ -42,6 +47,10 @@ export class Calcular implements OnInit {
   protected readonly resultado = signal<ResultadoSegmento | null>(null);
   protected readonly solicitudEnviada = signal<SolicitudCalculo | null>(null);
   protected modelo: Modelo = { datos: {}, comun: {} };
+  /** Producto guardado que se está editando (o el que se acaba de guardar): guardar de nuevo lo actualiza. */
+  protected readonly productoGuardado = signal<ProductoGuardado | null>(null);
+  /** Precio que el usuario eligió en el simulador (o el precio final guardado, al editar). */
+  protected readonly precioElegido = signal<number | null>(null);
 
   protected readonly totalPasos = computed(() => this.definicion()?.pasos.length ?? 0);
   protected readonly pasoActual = computed(() => this.definicion()?.pasos[this.paso()] ?? null);
@@ -68,12 +77,55 @@ export class Calcular implements OnInit {
           this.errorGeneral.set(t('Esa categoría no existe. Volvé al inicio y elegí una.'));
         } else {
           this.definicion.set(def);
+          const id = Number(this.producto());
+          if (id > 0 && this.auth.logueado()) {
+            this.cargarGuardado(def, id);
+            return;
+          }
           this.modelo = this.borradores.leer<Modelo>(def.codigo) ?? this.modeloInicial(def);
+          if (this.debeRecalcular(def)) this.calcular();
         }
         this.cargando.set(false);
       },
       error: (e) => { this.errorGeneral.set(e.erro); this.cargando.set(false); },
     });
+  }
+
+  /** Abre un producto de "Mis productos": completa el formulario con lo que se guardó. */
+  private cargarGuardado(def: DefinicionSegmento, id: number): void {
+    this.api.productoGuardado(id).subscribe({
+      next: (p) => {
+        const m = this.modeloInicial(def);
+        Object.assign(m.comun, p.comun ?? {});
+        Object.assign(m.datos, p.datos ?? {});
+        this.modelo = m;
+        this.productoGuardado.set(p);
+        this.precioElegido.set(p.precioFinal);
+        this.cargando.set(false);
+      },
+      error: (e) => {
+        // Si no se encuentra, se sigue con un cálculo nuevo y se avisa.
+        this.modelo = this.borradores.leer<Modelo>(def.codigo) ?? this.modeloInicial(def);
+        this.errorGeneral.set(e.erro);
+        this.cargando.set(false);
+      },
+    });
+  }
+
+  /** Volvió de crear la cuenta o entrar para guardar: recalcula con el borrador para mostrar el resultado. */
+  private debeRecalcular(def: DefinicionSegmento): boolean {
+    try {
+      const pendiente = sessionStorage.getItem(CLAVE_RECALCULAR);
+      if (pendiente === null) return false;
+      sessionStorage.removeItem(CLAVE_RECALCULAR);
+      return pendiente === def.codigo && this.auth.logueado() && this.borradores.leer(def.codigo) !== null;
+    } catch {
+      return false;
+    }
+  }
+
+  protected alGuardar(p: ProductoGuardado): void {
+    this.productoGuardado.set(p);
   }
 
   private buscar(lista: DefinicionSegmento[]): DefinicionSegmento | undefined {
@@ -148,6 +200,8 @@ export class Calcular implements OnInit {
     if (!def) return;
     this.borradores.borrar(def.codigo);
     this.modelo = this.modeloInicial(def);
+    this.productoGuardado.set(null);
+    this.precioElegido.set(null);
     this.errores.set({});
     this.errorGeneral.set(null);
     this.editar();
@@ -235,7 +289,8 @@ export class Calcular implements OnInit {
 
   private guardarBorrador(): void {
     const def = this.definicion();
-    if (def) this.borradores.guardar(def.codigo, this.modelo);
+    // Al editar un producto guardado no se pisa el borrador de la categoría.
+    if (def && !this.productoGuardado()) this.borradores.guardar(def.codigo, this.modelo);
   }
 
   private subir(): void {

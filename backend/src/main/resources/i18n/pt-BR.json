@@ -300,5 +300,9 @@
   "Ingresá tu nombre": "Informe seu nome",
   "El nombre puede tener hasta 100 caracteres": "O nome pode ter até 100 caracteres",
   "Ingresá una contraseña": "Informe uma senha",
-  "La contraseña tiene que tener entre 8 y 72 caracteres": "A senha precisa ter entre 8 e 72 caracteres"
+  "La contraseña tiene que tener entre 8 y 72 caracteres": "A senha precisa ter entre 8 e 72 caracteres",
+  "Indicá la categoría": "Informe a categoria",
+  "Poné un nombre al producto": "Dê um nome ao produto",
+  "El nombre del producto puede tener hasta 120 caracteres": "O nome do produto pode ter até 120 caracteres",
+  "El precio final no puede ser negativo": "O preço final não pode ser negativo"
 }

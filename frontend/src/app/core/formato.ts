@@ -62,3 +62,13 @@ export class FormatoPipe implements PipeTransform {
 export function simboloMoneda(): string {
   return formato().moneda.formatToParts(0).find((p) => p.type === 'currency')?.value ?? '$';
 }
+
+const LOCALE_FECHA: Record<Idioma, string> = { es: 'es-AR', 'pt-BR': 'pt-BR', en: 'en-US' };
+
+/** Fecha corta en el formato del idioma actual (17/11/2026 o 11/17/2026). */
+export function formatearFecha(fecha: string | Date | null | undefined): string {
+  if (!fecha) return '—';
+  const d = typeof fecha === 'string' ? new Date(fecha) : fecha;
+  if (Number.isNaN(d.getTime())) return '—';
+  return new Intl.DateTimeFormat(LOCALE_FECHA[idioma()], { day: '2-digit', month: '2-digit', year: 'numeric' }).format(d);
+}

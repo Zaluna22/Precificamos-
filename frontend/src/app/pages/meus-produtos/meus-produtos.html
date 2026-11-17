@@ -1,0 +1,66 @@
+<header class="encabezado-pagina">
+  <span class="segmento-icono" aria-hidden="true">📦</span>
+  <div>
+    <h1>{{ 'Mis productos' | t }}</h1>
+    <p>{{ 'Los productos que guardaste desde la calculadora, con el precio final que elegiste.' | t }}</p>
+  </div>
+</header>
+
+@if (error()) { <p class="alerta alerta-error" role="alert">{{ error() }}</p> }
+
+@if (cargando()) {
+  <div class="tarjeta esqueleto" aria-busy="true"></div>
+} @else if (!productos().length) {
+  <section class="tarjeta productos-vacio">
+    <p class="vacio">{{ 'Todavía no guardaste productos. Calculá un precio y tocá “Guardar producto”.' | t }}</p>
+    <a routerLink="/" class="boton">{{ 'Calcular precio' | t }}</a>
+  </section>
+} @else {
+  <div class="barra-productos tarjeta">
+    <label class="campo-check seleccionar-todos">
+      <input type="checkbox" [checked]="todosSeleccionados()" (change)="alternarTodos()" />
+      {{ 'Seleccionar todos' | t }}
+    </label>
+    <button type="button" class="boton" (click)="descargarPdf()" [disabled]="!cantidadSeleccionados() || generando()">
+      📄 {{ (generando() ? 'Generando PDF…' : 'Descargar PDF') | t }}
+      @if (cantidadSeleccionados()) { ({{ cantidadSeleccionados() }}) }
+    </button>
+  </div>
+
+  <ul class="lista-productos">
+    @for (p of productos(); track p.id) {
+      <li class="tarjeta producto-guardado" [class.producto-seleccionado]="seleccionado(p.id)">
+        <input type="checkbox" class="producto-check" [checked]="seleccionado(p.id)" (change)="alternar(p.id)"
+               [attr.aria-label]="'Seleccionar {0}' | t: p.nombre" />
+        <div class="producto-info">
+          <strong class="producto-nombre">{{ p.nombre }}</strong>
+          <span class="producto-meta">{{ categoria(p.segmento) }} · {{ fecha(p) }}</span>
+        </div>
+        <div class="producto-precio">
+          @if (editandoPrecio() === p.id) {
+            <form class="precio-edicion" (ngSubmit)="guardarPrecio(p)" novalidate>
+              <div class="entrada-numero">
+                <span class="prefijo" aria-hidden="true">{{ simbolo }}</span>
+                <input type="text" decimal inputmode="decimal" min="0" step="any" name="precio"
+                       [(ngModel)]="precioEditado" [attr.aria-label]="'Precio final' | t" />
+              </div>
+              <button type="submit" class="boton-icono" [attr.aria-label]="'Guardar precio' | t">✔️</button>
+              <button type="button" class="boton-icono" (click)="cancelarEdicionPrecio()" [attr.aria-label]="'Cancelar' | t">✖️</button>
+            </form>
+          } @else {
+            <span class="producto-precio-etiqueta">{{ 'Precio final' | t }}</span>
+            <button type="button" class="producto-precio-valor" (click)="empezarEdicionPrecio(p)"
+                    [attr.aria-label]="'Cambiar el precio final de {0}' | t: p.nombre">{{ precio(p) | fmt }} ✏️</button>
+            @if (p.precioSugerido !== null && p.precioFinal !== p.precioSugerido) {
+              <span class="producto-meta">{{ 'Sugerido: {0}' | t: (p.precioSugerido | fmt) }}</span>
+            }
+          }
+        </div>
+        <div class="producto-acciones">
+          <a class="boton boton-secundario" [routerLink]="['/calcular', p.segmento]" [queryParams]="{ producto: p.id }">{{ 'Editar' | t }}</a>
+          <button type="button" class="boton-icono" (click)="borrar(p)" [attr.aria-label]="'Borrar {0}' | t: p.nombre">🗑️</button>
+        </div>
+      </li>
+    }
+  </ul>
+}

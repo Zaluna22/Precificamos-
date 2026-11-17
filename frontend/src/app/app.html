@@ -5,6 +5,7 @@
   </a>
   <nav class="nav-escritorio" [attr.aria-label]="'Principal' | t">
     <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">{{ 'Calcular precio' | t }}</a>
+    <a routerLink="/meus-produtos" routerLinkActive="activo">{{ 'Mis productos' | t }}</a>
     <a routerLink="/costos-fijos" routerLinkActive="activo">{{ 'Costos fijos' | t }}</a>
     <a routerLink="/configuracion" routerLinkActive="activo">{{ 'Configuración' | t }}</a>
   </nav>
@@ -29,6 +30,7 @@
   <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">
     <span aria-hidden="true">🧮</span>{{ 'Calcular' | t }}
   </a>
+  <a routerLink="/meus-produtos" routerLinkActive="activo"><span aria-hidden="true">📦</span>{{ 'Mis productos' | t }}</a>
   <a routerLink="/costos-fijos" routerLinkActive="activo"><span aria-hidden="true">🏠</span>{{ 'Costos fijos' | t }}</a>
   <a routerLink="/configuracion" routerLinkActive="activo"><span aria-hidden="true">⚙️</span>{{ 'Ajustes' | t }}</a>
 </nav>

@@ -4,8 +4,8 @@ import { Idioma, idioma, t } from './i18n/i18n';
 
 /**
  * Formato de números y montos según el idioma elegido. Es el único lugar que decide la moneda:
- * español y portugués usan la moneda configurada en el entorno (reales, como siempre) y el
- * inglés usa dólares con formato de EE. UU. ($1,234.56).
+ * portugués usa la moneda configurada en el entorno (reales, R$ 1.234,56), español muestra solo
+ * el signo $ con formato rioplatense ($ 1.234,56) y el inglés usa dólares de EE. UU. ($1,234.56).
  */
 interface Formato {
   moneda: Intl.NumberFormat;
@@ -15,7 +15,8 @@ interface Formato {
 }
 
 const CONFIG: Record<Idioma, { moneda: string; localeMoneda: string; localeNumero: string; espacioPorcentaje: string }> = {
-  es: { moneda: environment.moneda, localeMoneda: environment.localeMoneda, localeNumero: 'es', espacioPorcentaje: ' ' },
+  // Español: solo el signo $ (narrowSymbol), sin "R$" ni "US$".
+  es: { moneda: 'USD', localeMoneda: 'es-AR', localeNumero: 'es', espacioPorcentaje: ' ' },
   'pt-BR': { moneda: environment.moneda, localeMoneda: environment.localeMoneda, localeNumero: 'pt-BR', espacioPorcentaje: '' },
   en: { moneda: 'USD', localeMoneda: 'en-US', localeNumero: 'en-US', espacioPorcentaje: '' },
 };
@@ -28,7 +29,7 @@ function formato(): Formato {
   if (!f) {
     const c = CONFIG[i];
     f = {
-      moneda: new Intl.NumberFormat(c.localeMoneda, { style: 'currency', currency: c.moneda }),
+      moneda: new Intl.NumberFormat(c.localeMoneda, { style: 'currency', currency: c.moneda, currencyDisplay: 'narrowSymbol' }),
       numero: new Intl.NumberFormat(c.localeNumero, { maximumFractionDigits: 2 }),
       espacioPorcentaje: c.espacioPorcentaje,
     };

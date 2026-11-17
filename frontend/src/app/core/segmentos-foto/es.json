@@ -1,0 +1,1286 @@
+[
+  {
+    "codigo": "PRODUCCION_ALIMENTOS",
+    "nombre": "Producción de alimentos",
+    "descripcion": "Gastronomía y alimentos o bebidas elaborados: trabajás con recetas, ingredientes y porciones.",
+    "icono": "🍰",
+    "ejemplos": [
+      "Confitería y tortas",
+      "Panadería",
+      "Viandas y comida casera",
+      "Hamburguesería / food truck",
+      "Pizzería",
+      "Restaurante o bar",
+      "Heladería",
+      "Cervecería artesanal",
+      "Dulces y conservas",
+      "Brigadeiros y salgados para fiestas"
+    ],
+    "pasos": [
+      {
+        "titulo": "Tu receta",
+        "descripcion": "Contanos qué preparás y cuántas porciones salen.",
+        "campos": [
+          {
+            "nombre": "nombreReceta",
+            "etiqueta": "Nombre de la receta o producto",
+            "tipo": "texto",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "Ej.: Torta de chocolate, Hamburguesa clásica"
+          },
+          {
+            "nombre": "rendimientoPorciones",
+            "etiqueta": "¿Cuántas porciones o unidades rinde?",
+            "tipo": "entero",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "Ej.: una torta de 12 porciones → 12",
+            "valorPorDefecto": 12
+          }
+        ]
+      },
+      {
+        "titulo": "Ingredientes",
+        "descripcion": "Cargá cada ingrediente: cuánto pagaste por el paquete y cuánto usás.",
+        "campos": [
+          {
+            "nombre": "ingredientes",
+            "etiqueta": "Ingredientes",
+            "tipo": "lista",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "Ej.: Harina, pagué 6,50 por 1 kg y uso 500 g",
+            "subcampos": [
+              {
+                "nombre": "nombre",
+                "etiqueta": "Ingrediente",
+                "tipo": "texto",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "precioCompra",
+                "etiqueta": "Precio del paquete",
+                "tipo": "moneda",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "cantidadCompra",
+                "etiqueta": "Tamaño del paquete",
+                "tipo": "numero",
+                "grupo": "datos",
+                "obligatorio": true,
+                "valorPorDefecto": 1
+              },
+              {
+                "nombre": "unidadCompra",
+                "etiqueta": "Unidad del paquete",
+                "tipo": "seleccion",
+                "grupo": "datos",
+                "obligatorio": true,
+                "valorPorDefecto": "KG",
+                "opciones": [
+                  {
+                    "valor": "G",
+                    "etiqueta": "gramos (g)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "KG",
+                    "etiqueta": "kilos (kg)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "ML",
+                    "etiqueta": "mililitros (ml)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "L",
+                    "etiqueta": "litros (l)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "CM",
+                    "etiqueta": "centímetros (cm)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "M",
+                    "etiqueta": "metros (m)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "CM2",
+                    "etiqueta": "cm²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "M2",
+                    "etiqueta": "m²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "UNIDAD",
+                    "etiqueta": "unidades",
+                    "extra": "UNIDADES"
+                  },
+                  {
+                    "valor": "DOCENA",
+                    "etiqueta": "docenas",
+                    "extra": "UNIDADES"
+                  }
+                ]
+              },
+              {
+                "nombre": "cantidadUsada",
+                "etiqueta": "Cantidad usada",
+                "tipo": "numero",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "unidadUsada",
+                "etiqueta": "Unidad usada",
+                "tipo": "seleccion",
+                "grupo": "datos",
+                "obligatorio": true,
+                "valorPorDefecto": "G",
+                "opciones": [
+                  {
+                    "valor": "G",
+                    "etiqueta": "gramos (g)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "KG",
+                    "etiqueta": "kilos (kg)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "ML",
+                    "etiqueta": "mililitros (ml)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "L",
+                    "etiqueta": "litros (l)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "CM",
+                    "etiqueta": "centímetros (cm)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "M",
+                    "etiqueta": "metros (m)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "CM2",
+                    "etiqueta": "cm²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "M2",
+                    "etiqueta": "m²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "UNIDAD",
+                    "etiqueta": "unidades",
+                    "extra": "UNIDADES"
+                  },
+                  {
+                    "valor": "DOCENA",
+                    "etiqueta": "docenas",
+                    "extra": "UNIDADES"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titulo": "Elaboración",
+        "descripcion": "Pérdidas, gas/luz y embalaje.",
+        "campos": [
+          {
+            "nombre": "mermaPct",
+            "etiqueta": "Merma o desperdicio (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Lo que se pierde al pelar, cortar o cocinar. Suele ser 5–10 %",
+            "valorPorDefecto": 5
+          },
+          {
+            "nombre": "minutosPreparacion",
+            "etiqueta": "Minutos de horno/hornalla",
+            "tipo": "numero",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Tiempo total de equipos encendidos para toda la receta",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "costoEnergiaHora",
+            "etiqueta": "Costo de gas y luz por hora",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Un horno doméstico a gas ronda 2 a 4 por hora",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "embalajePorPorcion",
+            "etiqueta": "Embalaje por porción",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Caja, bandeja, etiqueta, servilleta",
+            "valorPorDefecto": 0
+          }
+        ]
+      },
+      {
+        "titulo": "Objetivo de precio",
+        "descripcion": "El CMV es cuánto del precio se va en ingredientes.",
+        "campos": [
+          {
+            "nombre": "cmvObjetivoPct",
+            "etiqueta": "CMV objetivo (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "En gastronomía se usa 25–35 %. Más bajo = precio más alto",
+            "valorPorDefecto": 30
+          }
+        ]
+      },
+      {
+        "titulo": "Ventas, costos fijos e impuestos",
+        "descripcion": "Lo que comparte todo tu negocio. Se completa con tu Configuración y tus Costos fijos.",
+        "campos": [
+          {
+            "nombre": "ventasMensualesProducto",
+            "etiqueta": "¿Cuántas unidades de esto vendés por mes?",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": true,
+            "ayuda": "Piezas, porciones o servicios. Si no sabés, poné una estimación"
+          },
+          {
+            "nombre": "unidadesMensualesNegocio",
+            "etiqueta": "Total de unidades que vende todo el negocio por mes",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Sirve para repartir los costos fijos entre todos tus productos. Vacío = igual al anterior"
+          },
+          {
+            "nombre": "costosFijosMensuales",
+            "etiqueta": "Costos fijos del mes",
+            "tipo": "moneda",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Alquiler, luz, internet, contador, DAS del MEI…",
+            "valorPorDefecto": 0.00
+          },
+          {
+            "nombre": "impuestoPct",
+            "etiqueta": "Impuestos sobre la venta (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Simples Nacional: tu alícuota (ej.: 6 %). MEI: 0 y sumá el DAS en costos fijos",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "tarjetaPct",
+            "etiqueta": "Tasa de tarjeta / medio de pago (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Débito ~1–2 %, crédito ~3–5 %",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "marketplacePct",
+            "etiqueta": "Comisión de marketplace o app (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Mercado Libre, Shopee, iFood… 0 si vendés directo",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "comisionPct",
+            "etiqueta": "Comisión de vendedores (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "valorPorDefecto": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "codigo": "FABRICACION",
+    "nombre": "Fabricación propia",
+    "descripcion": "Fabricás o confeccionás piezas con materias primas, insumos y mano de obra.",
+    "icono": "🧵",
+    "ejemplos": [
+      "Ropa y confección",
+      "Artesanías",
+      "Cosmética y jabones naturales",
+      "Muebles y carpintería",
+      "Bijouterie y joyería",
+      "Velas y aromas",
+      "Impresión 3D",
+      "Calzado y marroquinería",
+      "Lazos y accesorios para el pelo",
+      "Estampado y sublimación"
+    ],
+    "pasos": [
+      {
+        "titulo": "Tu pieza",
+        "descripcion": "¿Qué fabricás?",
+        "campos": [
+          {
+            "nombre": "nombreProducto",
+            "etiqueta": "Nombre del producto",
+            "tipo": "texto",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "Ej.: Remera estampada, Jabón de lavanda, Mesa ratona"
+          }
+        ]
+      },
+      {
+        "titulo": "Materias primas",
+        "descripcion": "Lo que se mide: tela, madera, cera, aceites, hilo…",
+        "campos": [
+          {
+            "nombre": "materiasPrimas",
+            "etiqueta": "Materias primas",
+            "tipo": "lista",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Ej.: Tela, pagué 30 por 1 m y uso 80 cm por pieza",
+            "subcampos": [
+              {
+                "nombre": "nombre",
+                "etiqueta": "Materia prima",
+                "tipo": "texto",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "precioCompra",
+                "etiqueta": "Precio pagado",
+                "tipo": "moneda",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "cantidadCompra",
+                "etiqueta": "Cantidad comprada",
+                "tipo": "numero",
+                "grupo": "datos",
+                "obligatorio": true,
+                "valorPorDefecto": 1
+              },
+              {
+                "nombre": "unidadCompra",
+                "etiqueta": "Unidad de compra",
+                "tipo": "seleccion",
+                "grupo": "datos",
+                "obligatorio": true,
+                "valorPorDefecto": "M",
+                "opciones": [
+                  {
+                    "valor": "G",
+                    "etiqueta": "gramos (g)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "KG",
+                    "etiqueta": "kilos (kg)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "ML",
+                    "etiqueta": "mililitros (ml)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "L",
+                    "etiqueta": "litros (l)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "CM",
+                    "etiqueta": "centímetros (cm)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "M",
+                    "etiqueta": "metros (m)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "CM2",
+                    "etiqueta": "cm²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "M2",
+                    "etiqueta": "m²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "UNIDAD",
+                    "etiqueta": "unidades",
+                    "extra": "UNIDADES"
+                  },
+                  {
+                    "valor": "DOCENA",
+                    "etiqueta": "docenas",
+                    "extra": "UNIDADES"
+                  }
+                ]
+              },
+              {
+                "nombre": "consumoPorPieza",
+                "etiqueta": "Consumo por pieza",
+                "tipo": "numero",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "unidadConsumo",
+                "etiqueta": "Unidad de consumo",
+                "tipo": "seleccion",
+                "grupo": "datos",
+                "obligatorio": true,
+                "valorPorDefecto": "CM",
+                "opciones": [
+                  {
+                    "valor": "G",
+                    "etiqueta": "gramos (g)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "KG",
+                    "etiqueta": "kilos (kg)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "ML",
+                    "etiqueta": "mililitros (ml)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "L",
+                    "etiqueta": "litros (l)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "CM",
+                    "etiqueta": "centímetros (cm)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "M",
+                    "etiqueta": "metros (m)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "CM2",
+                    "etiqueta": "cm²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "M2",
+                    "etiqueta": "m²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "UNIDAD",
+                    "etiqueta": "unidades",
+                    "extra": "UNIDADES"
+                  },
+                  {
+                    "valor": "DOCENA",
+                    "etiqueta": "docenas",
+                    "extra": "UNIDADES"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titulo": "Insumos y avíos",
+        "descripcion": "Lo que se cuenta por unidad: botones, cierres, etiquetas, frascos.",
+        "campos": [
+          {
+            "nombre": "insumos",
+            "etiqueta": "Insumos",
+            "tipo": "lista",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Ej.: Botón, 0,20 cada uno, 4 por pieza",
+            "subcampos": [
+              {
+                "nombre": "nombre",
+                "etiqueta": "Insumo",
+                "tipo": "texto",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "costoUnitario",
+                "etiqueta": "Costo por unidad",
+                "tipo": "moneda",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "cantidadPorPieza",
+                "etiqueta": "Cantidad por pieza",
+                "tipo": "numero",
+                "grupo": "datos",
+                "obligatorio": true,
+                "valorPorDefecto": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titulo": "Mano de obra y merma",
+        "descripcion": "Tu tiempo también se cobra.",
+        "campos": [
+          {
+            "nombre": "minutosManoObra",
+            "etiqueta": "Minutos de trabajo por pieza",
+            "tipo": "numero",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Ej.: 45 minutos para coser una remera",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "costoPorMinuto",
+            "etiqueta": "Costo por minuto de mano de obra",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Vacío = tu valor hora de Configuración ÷ 60"
+          },
+          {
+            "nombre": "mermaPct",
+            "etiqueta": "Merma de materia prima (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Recortes y piezas falladas. Suele ser 5–15 %",
+            "valorPorDefecto": 5
+          }
+        ]
+      },
+      {
+        "titulo": "Márgenes",
+        "descripcion": "Precio para el consumidor final y para revendedores.",
+        "campos": [
+          {
+            "nombre": "margenMinoristaPct",
+            "etiqueta": "Margen minorista (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Ganancia sobre el precio al consumidor final",
+            "valorPorDefecto": 40
+          },
+          {
+            "nombre": "margenMayoristaPct",
+            "etiqueta": "Margen mayorista (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Menor que el minorista: el revendedor también tiene que ganar",
+            "valorPorDefecto": 20
+          }
+        ]
+      },
+      {
+        "titulo": "Ventas, costos fijos e impuestos",
+        "descripcion": "Lo que comparte todo tu negocio. Se completa con tu Configuración y tus Costos fijos.",
+        "campos": [
+          {
+            "nombre": "ventasMensualesProducto",
+            "etiqueta": "¿Cuántas unidades de esto vendés por mes?",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": true,
+            "ayuda": "Piezas, porciones o servicios. Si no sabés, poné una estimación"
+          },
+          {
+            "nombre": "unidadesMensualesNegocio",
+            "etiqueta": "Total de unidades que vende todo el negocio por mes",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Sirve para repartir los costos fijos entre todos tus productos. Vacío = igual al anterior"
+          },
+          {
+            "nombre": "costosFijosMensuales",
+            "etiqueta": "Costos fijos del mes",
+            "tipo": "moneda",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Alquiler, luz, internet, contador, DAS del MEI…",
+            "valorPorDefecto": 0.00
+          },
+          {
+            "nombre": "impuestoPct",
+            "etiqueta": "Impuestos sobre la venta (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Simples Nacional: tu alícuota (ej.: 6 %). MEI: 0 y sumá el DAS en costos fijos",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "tarjetaPct",
+            "etiqueta": "Tasa de tarjeta / medio de pago (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Débito ~1–2 %, crédito ~3–5 %",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "marketplacePct",
+            "etiqueta": "Comisión de marketplace o app (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Mercado Libre, Shopee, iFood… 0 si vendés directo",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "comisionPct",
+            "etiqueta": "Comisión de vendedores (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "valorPorDefecto": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "codigo": "REVENTA",
+    "nombre": "Reventa / comercio minorista",
+    "descripcion": "Comprás productos listos a un proveedor y los revendés.",
+    "icono": "🛍️",
+    "ejemplos": [
+      "Tienda de ropa multimarca",
+      "Electrónica y accesorios para celular",
+      "Juguetería",
+      "Tienda online / dropshipping",
+      "Revendedora de cosméticos por catálogo",
+      "Librería y papelería",
+      "Pet shop (productos)",
+      "Ferretería",
+      "Importados",
+      "Venta en Mercado Libre / Shopee"
+    ],
+    "pasos": [
+      {
+        "titulo": "El producto",
+        "descripcion": "¿Qué revendés y cuánto te cuesta?",
+        "campos": [
+          {
+            "nombre": "nombreProducto",
+            "etiqueta": "Nombre del producto",
+            "tipo": "texto",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "Ej.: Funda de celular, Perfume 100 ml"
+          },
+          {
+            "nombre": "costoCompra",
+            "etiqueta": "Precio de compra por unidad",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "Lo que le pagás al proveedor por cada unidad"
+          }
+        ]
+      },
+      {
+        "titulo": "Costos de entrada",
+        "descripcion": "Lo que pagás hasta tener el producto en tu local.",
+        "campos": [
+          {
+            "nombre": "fletePorUnidad",
+            "etiqueta": "Flete por unidad",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Flete total ÷ unidades compradas",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "impuestosEntradaPct",
+            "etiqueta": "Impuestos de entrada (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "ICMS-ST, DIFAL o impuestos de importación sobre el costo",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "otrosCostosUnidad",
+            "etiqueta": "Embalaje u otros por unidad",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Bolsa, caja, etiqueta",
+            "valorPorDefecto": 0
+          }
+        ]
+      },
+      {
+        "titulo": "Precio y stock",
+        "descripcion": "Cuánto querés multiplicar tu costo y cómo rota tu stock.",
+        "campos": [
+          {
+            "nombre": "markup",
+            "etiqueta": "Markup (multiplicador)",
+            "tipo": "numero",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "2 = vender al doble del costo. En ropa se usa 2 a 2,5; en electrónica 1,3 a 1,6",
+            "valorPorDefecto": 2
+          },
+          {
+            "nombre": "margenMinimoLiquidacionPct",
+            "etiqueta": "Margen mínimo para liquidar (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Para ofertas de stock parado sin perder plata",
+            "valorPorDefecto": 5
+          },
+          {
+            "nombre": "stockActual",
+            "etiqueta": "Unidades en stock",
+            "tipo": "entero",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Para saber cuántos días tardás en venderlas",
+            "valorPorDefecto": 0
+          }
+        ]
+      },
+      {
+        "titulo": "Ventas, costos fijos e impuestos",
+        "descripcion": "Lo que comparte todo tu negocio. Se completa con tu Configuración y tus Costos fijos.",
+        "campos": [
+          {
+            "nombre": "ventasMensualesProducto",
+            "etiqueta": "¿Cuántas unidades de esto vendés por mes?",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": true,
+            "ayuda": "Piezas, porciones o servicios. Si no sabés, poné una estimación"
+          },
+          {
+            "nombre": "unidadesMensualesNegocio",
+            "etiqueta": "Total de unidades que vende todo el negocio por mes",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Sirve para repartir los costos fijos entre todos tus productos. Vacío = igual al anterior"
+          },
+          {
+            "nombre": "costosFijosMensuales",
+            "etiqueta": "Costos fijos del mes",
+            "tipo": "moneda",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Alquiler, luz, internet, contador, DAS del MEI…",
+            "valorPorDefecto": 0.00
+          },
+          {
+            "nombre": "impuestoPct",
+            "etiqueta": "Impuestos sobre la venta (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Simples Nacional: tu alícuota (ej.: 6 %). MEI: 0 y sumá el DAS en costos fijos",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "tarjetaPct",
+            "etiqueta": "Tasa de tarjeta / medio de pago (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Débito ~1–2 %, crédito ~3–5 %",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "marketplacePct",
+            "etiqueta": "Comisión de marketplace o app (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Mercado Libre, Shopee, iFood… 0 si vendés directo",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "comisionPct",
+            "etiqueta": "Comisión de vendedores (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "valorPorDefecto": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "codigo": "VENTA_MASIVA",
+    "nombre": "Venta masiva / autoservicio",
+    "descripcion": "Muchos productos de distintas categorías y alto giro, con margen por categoría.",
+    "icono": "🛒",
+    "ejemplos": [
+      "Supermercado",
+      "Almacén / mercadito de barrio",
+      "Autoservicio",
+      "Kiosco y drugstore",
+      "Verdulería",
+      "Distribuidora mayorista",
+      "Farmacia (perfumería y venta libre)",
+      "Tienda de conveniencia",
+      "Dietética a granel",
+      "Minimercado de condominio"
+    ],
+    "pasos": [
+      {
+        "titulo": "El artículo",
+        "descripcion": "¿Qué artículo y en qué góndola?",
+        "campos": [
+          {
+            "nombre": "nombreProducto",
+            "etiqueta": "Nombre del artículo",
+            "tipo": "texto",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "Ej.: Arroz 1 kg, Gaseosa 2 l"
+          },
+          {
+            "nombre": "categoria",
+            "etiqueta": "Categoría",
+            "tipo": "seleccion",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "Cada categoría trae un margen de referencia que podés cambiar",
+            "valorPorDefecto": "ALMACEN",
+            "opciones": [
+              {
+                "valor": "ALMACEN",
+                "etiqueta": "Almacén (secos)",
+                "extra": 22
+              },
+              {
+                "valor": "BEBIDAS",
+                "etiqueta": "Bebidas",
+                "extra": 25
+              },
+              {
+                "valor": "LACTEOS",
+                "etiqueta": "Lácteos y fiambres",
+                "extra": 20
+              },
+              {
+                "valor": "CARNES",
+                "etiqueta": "Carnicería",
+                "extra": 28
+              },
+              {
+                "valor": "FRUTAS_VERDURAS",
+                "etiqueta": "Frutas y verduras",
+                "extra": 35
+              },
+              {
+                "valor": "PANADERIA",
+                "etiqueta": "Panadería",
+                "extra": 40
+              },
+              {
+                "valor": "CONGELADOS",
+                "etiqueta": "Congelados",
+                "extra": 25
+              },
+              {
+                "valor": "LIMPIEZA",
+                "etiqueta": "Limpieza",
+                "extra": 30
+              },
+              {
+                "valor": "PERFUMERIA",
+                "etiqueta": "Perfumería e higiene",
+                "extra": 32
+              },
+              {
+                "valor": "BAZAR",
+                "etiqueta": "Bazar y hogar",
+                "extra": 40
+              },
+              {
+                "valor": "OTROS",
+                "etiqueta": "Otros",
+                "extra": 25
+              }
+            ]
+          },
+          {
+            "nombre": "costoCompra",
+            "etiqueta": "Costo de compra por unidad",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": true
+          }
+        ]
+      },
+      {
+        "titulo": "Pérdidas y margen",
+        "descripcion": "Vencimientos, roturas y el margen de la categoría.",
+        "campos": [
+          {
+            "nombre": "perdidaPct",
+            "etiqueta": "Pérdida por vencimiento/rotura (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Perecederos 5–10 %, secos 1–2 %",
+            "valorPorDefecto": 2
+          },
+          {
+            "nombre": "margenPct",
+            "etiqueta": "Margen para este artículo (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Vacío = margen de referencia de la categoría"
+          }
+        ]
+      },
+      {
+        "titulo": "Precio en góndola y promoción",
+        "descripcion": "Redondeo y ofertas.",
+        "campos": [
+          {
+            "nombre": "redondeoPsicologico",
+            "etiqueta": "Redondear a ,99",
+            "tipo": "booleano",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Ej.: 4,32 → 4,99",
+            "valorPorDefecto": true
+          },
+          {
+            "nombre": "promoLleva",
+            "etiqueta": "Promo: lleve",
+            "tipo": "entero",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Ej.: lleve 3…"
+          },
+          {
+            "nombre": "promoPaga",
+            "etiqueta": "Promo: pague",
+            "tipo": "entero",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "…pague 2"
+          }
+        ]
+      },
+      {
+        "titulo": "Ventas, costos fijos e impuestos",
+        "descripcion": "Lo que comparte todo tu negocio. Se completa con tu Configuración y tus Costos fijos.",
+        "campos": [
+          {
+            "nombre": "ventasMensualesProducto",
+            "etiqueta": "¿Cuántas unidades de esto vendés por mes?",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": true,
+            "ayuda": "Piezas, porciones o servicios. Si no sabés, poné una estimación"
+          },
+          {
+            "nombre": "unidadesMensualesNegocio",
+            "etiqueta": "Total de unidades que vende todo el negocio por mes",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Sirve para repartir los costos fijos entre todos tus productos. Vacío = igual al anterior"
+          },
+          {
+            "nombre": "costosFijosMensuales",
+            "etiqueta": "Costos fijos del mes",
+            "tipo": "moneda",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Alquiler, luz, internet, contador, DAS del MEI…",
+            "valorPorDefecto": 0.00
+          },
+          {
+            "nombre": "impuestoPct",
+            "etiqueta": "Impuestos sobre la venta (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Simples Nacional: tu alícuota (ej.: 6 %). MEI: 0 y sumá el DAS en costos fijos",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "tarjetaPct",
+            "etiqueta": "Tasa de tarjeta / medio de pago (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Débito ~1–2 %, crédito ~3–5 %",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "marketplacePct",
+            "etiqueta": "Comisión de marketplace o app (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Mercado Libre, Shopee, iFood… 0 si vendés directo",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "comisionPct",
+            "etiqueta": "Comisión de vendedores (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "valorPorDefecto": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "codigo": "SERVICIOS",
+    "nombre": "Servicios",
+    "descripcion": "Vendés tu tiempo y conocimiento: cobrás por hora o por servicio realizado.",
+    "icono": "🛠️",
+    "ejemplos": [
+      "Peluquería y estética",
+      "Manicura y uñas",
+      "Electricista / plomero",
+      "Diseño gráfico y web",
+      "Programación freelance",
+      "Clases particulares",
+      "Limpieza",
+      "Fotografía",
+      "Mecánica",
+      "Consultoría y contabilidad"
+    ],
+    "pasos": [
+      {
+        "titulo": "Tu servicio",
+        "descripcion": "¿Qué hacés y cuánto tiempo te lleva?",
+        "campos": [
+          {
+            "nombre": "nombreServicio",
+            "etiqueta": "Nombre del servicio",
+            "tipo": "texto",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "Ej.: Corte y peinado, Instalación eléctrica, Logo para marca"
+          },
+          {
+            "nombre": "horasPorServicio",
+            "etiqueta": "Horas por servicio",
+            "tipo": "numero",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "Incluí preparación y limpieza. 1 h 30 min = 1,5",
+            "valorPorDefecto": 1
+          },
+          {
+            "nombre": "valorHora",
+            "etiqueta": "Valor de tu hora",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Vacío = el valor hora de Configuración"
+          }
+        ]
+      },
+      {
+        "titulo": "Materiales",
+        "descripcion": "Lo que gastás en cada servicio.",
+        "campos": [
+          {
+            "nombre": "materiales",
+            "etiqueta": "Materiales",
+            "tipo": "lista",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Ej.: Tintura, 18",
+            "subcampos": [
+              {
+                "nombre": "nombre",
+                "etiqueta": "Material",
+                "tipo": "texto",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "costo",
+                "etiqueta": "Costo por servicio",
+                "tipo": "moneda",
+                "grupo": "datos",
+                "obligatorio": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titulo": "Desplazamiento",
+        "descripcion": "Si vas a domicilio o al cliente.",
+        "campos": [
+          {
+            "nombre": "kmDesplazamiento",
+            "etiqueta": "Kilómetros (ida y vuelta)",
+            "tipo": "numero",
+            "grupo": "datos",
+            "obligatorio": false,
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "costoPorKm",
+            "etiqueta": "Costo por km",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Combustible + desgaste. Un auto ronda 0,80 a 1,20 por km",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "otrosGastosDesplazamiento",
+            "etiqueta": "Peajes, estacionamiento, pasajes",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "valorPorDefecto": 0
+          }
+        ]
+      },
+      {
+        "titulo": "Margen",
+        "descripcion": "Lo que querés que quede de ganancia.",
+        "campos": [
+          {
+            "nombre": "margenPct",
+            "etiqueta": "Margen deseado (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Sobre el precio final, después de impuestos y tasas",
+            "valorPorDefecto": 30
+          }
+        ]
+      },
+      {
+        "titulo": "Ventas, costos fijos e impuestos",
+        "descripcion": "Lo que comparte todo tu negocio. Se completa con tu Configuración y tus Costos fijos.",
+        "campos": [
+          {
+            "nombre": "ventasMensualesProducto",
+            "etiqueta": "¿Cuántas unidades de esto vendés por mes?",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": true,
+            "ayuda": "Piezas, porciones o servicios. Si no sabés, poné una estimación"
+          },
+          {
+            "nombre": "unidadesMensualesNegocio",
+            "etiqueta": "Total de unidades que vende todo el negocio por mes",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Sirve para repartir los costos fijos entre todos tus productos. Vacío = igual al anterior"
+          },
+          {
+            "nombre": "costosFijosMensuales",
+            "etiqueta": "Costos fijos del mes",
+            "tipo": "moneda",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Alquiler, luz, internet, contador, DAS del MEI…",
+            "valorPorDefecto": 0.00
+          },
+          {
+            "nombre": "impuestoPct",
+            "etiqueta": "Impuestos sobre la venta (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Simples Nacional: tu alícuota (ej.: 6 %). MEI: 0 y sumá el DAS en costos fijos",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "tarjetaPct",
+            "etiqueta": "Tasa de tarjeta / medio de pago (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Débito ~1–2 %, crédito ~3–5 %",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "marketplacePct",
+            "etiqueta": "Comisión de marketplace o app (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Mercado Libre, Shopee, iFood… 0 si vendés directo",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "comisionPct",
+            "etiqueta": "Comisión de vendedores (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "valorPorDefecto": 0
+          }
+        ]
+      }
+    ]
+  }
+]

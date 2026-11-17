@@ -6,6 +6,7 @@
     "config:env": "node scripts/configurar-entorno.mjs",
     "start": "ng serve",
     "build": "npm run config:env && ng build",
+    "segmentos:foto": "node scripts/actualizar-segmentos.mjs",
     "watch": "ng build --watch --configuration development"
   },
   "private": true,

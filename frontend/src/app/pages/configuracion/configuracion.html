@@ -20,7 +20,7 @@
       <label for="cfg-hora">{{ 'Valor de tu hora de trabajo' | t }}</label>
       <div class="entrada-numero">
         <span class="prefijo" aria-hidden="true">{{ simbolo }}</span>
-        <input id="cfg-hora" name="valorHora" type="number" inputmode="decimal" min="0" step="any" [(ngModel)]="config.valorHora" />
+        <input id="cfg-hora" name="valorHora" type="text" decimal inputmode="decimal" min="0" step="any" [(ngModel)]="config.valorHora" />
       </div>
       <small class="ayuda">{{ '¿No sabés? Calculalo abajo con lo que querés ganar por mes.' | t }}</small>
     </div>
@@ -31,13 +31,13 @@
           <label for="cfg-sueldo">{{ 'Quiero ganar por mes' | t }}</label>
           <div class="entrada-numero">
             <span class="prefijo" aria-hidden="true">{{ simbolo }}</span>
-            <input id="cfg-sueldo" name="sueldo" type="number" inputmode="decimal" min="0" [(ngModel)]="sueldoDeseado" />
+            <input id="cfg-sueldo" name="sueldo" type="text" decimal inputmode="decimal" min="0" [(ngModel)]="sueldoDeseado" />
           </div>
         </div>
         <div class="campo">
           <label for="cfg-horas">{{ 'Horas que trabajo por mes' | t }}</label>
           <div class="entrada-numero">
-            <input id="cfg-horas" name="horas" type="number" inputmode="numeric" min="1" [(ngModel)]="horasMes" />
+            <input id="cfg-horas" name="horas" type="text" decimal inputmode="numeric" min="1" [(ngModel)]="horasMes" />
           </div>
         </div>
       </div>
@@ -48,27 +48,27 @@
     <div class="fila-campos">
       <div class="campo">
         <label for="cfg-imp">{{ 'Impuestos (%)' | t }}</label>
-        <div class="entrada-numero"><input id="cfg-imp" name="impostoPct" type="number" inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.impostoPct" /><span class="sufijo">%</span></div>
+        <div class="entrada-numero"><input id="cfg-imp" name="impostoPct" type="text" decimal inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.impostoPct" /><span class="sufijo">%</span></div>
         <small class="ayuda">{{ 'Simples Nacional: tu alícuota. MEI: dejá 0 y cargá el DAS en Costos fijos.' | t }}</small>
       </div>
       <div class="campo">
         <label for="cfg-tarjeta">{{ 'Tarjeta / medio de pago (%)' | t }}</label>
-        <div class="entrada-numero"><input id="cfg-tarjeta" name="taxaCartaoPct" type="number" inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.taxaCartaoPct" /><span class="sufijo">%</span></div>
+        <div class="entrada-numero"><input id="cfg-tarjeta" name="taxaCartaoPct" type="text" decimal inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.taxaCartaoPct" /><span class="sufijo">%</span></div>
       </div>
       <div class="campo">
         <label for="cfg-mkt">{{ 'Marketplace o app (%)' | t }}</label>
-        <div class="entrada-numero"><input id="cfg-mkt" name="taxaMarketplacePct" type="number" inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.taxaMarketplacePct" /><span class="sufijo">%</span></div>
+        <div class="entrada-numero"><input id="cfg-mkt" name="taxaMarketplacePct" type="text" decimal inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.taxaMarketplacePct" /><span class="sufijo">%</span></div>
       </div>
       <div class="campo">
         <label for="cfg-com">{{ 'Comisión de vendedores (%)' | t }}</label>
-        <div class="entrada-numero"><input id="cfg-com" name="comissaoPct" type="number" inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.comissaoPct" /><span class="sufijo">%</span></div>
+        <div class="entrada-numero"><input id="cfg-com" name="comissaoPct" type="text" decimal inputmode="decimal" min="0" max="99" step="any" [(ngModel)]="config.comissaoPct" /><span class="sufijo">%</span></div>
       </div>
     </div>
 
     <h2>{{ 'Volumen del negocio' | t }}</h2>
     <div class="campo">
       <label for="cfg-unidades">{{ 'Unidades que vende todo el negocio por mes' | t }}</label>
-      <div class="entrada-numero"><input id="cfg-unidades" name="totalUnidadesMes" type="number" inputmode="numeric" min="0" step="1" [(ngModel)]="config.totalUnidadesMes" /></div>
+      <div class="entrada-numero"><input id="cfg-unidades" name="totalUnidadesMes" type="text" decimal inputmode="numeric" min="0" step="1" [(ngModel)]="config.totalUnidadesMes" /></div>
       <small class="ayuda">{{ 'Sirve para repartir los costos fijos entre todos tus productos. 0 = se pide en cada cálculo.' | t }}</small>
     </div>
 

@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { NumeroDecimal } from '../../core/numero-decimal';
 import { ApiService } from '../../core/api.service';
 import { FormatoPipe, simboloMoneda } from '../../core/formato';
 import { CostoFijo } from '../../core/modelos';
@@ -12,7 +13,7 @@ const SUGERENCIAS = ['Alquiler', 'Luz', 'Agua', 'Internet y celular', 'Contador'
 /** Lista, alta y baja de costos fijos mensuales. */
 @Component({
   selector: 'app-costos-fijos',
-  imports: [FormsModule, FormatoPipe, TraducirPipe],
+  imports: [FormsModule, NumeroDecimal, FormatoPipe, TraducirPipe],
   templateUrl: './costos-fijos.html',
 })
 export class CostosFijos {

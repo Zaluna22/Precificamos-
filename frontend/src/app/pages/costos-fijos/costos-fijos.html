@@ -22,7 +22,7 @@
       <label for="costo-valor">{{ 'Valor mensual' | t }}</label>
       <div class="entrada-numero">
         <span class="prefijo" aria-hidden="true">{{ simbolo }}</span>
-        <input id="costo-valor" name="valorMensal" type="number" inputmode="decimal" min="0" step="any" [(ngModel)]="nuevo.valorMensal" />
+        <input id="costo-valor" name="valorMensal" type="text" decimal inputmode="decimal" min="0" step="any" [(ngModel)]="nuevo.valorMensal" />
       </div>
     </div>
   </div>

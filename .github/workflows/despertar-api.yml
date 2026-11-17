@@ -1,0 +1,13 @@
+name: despertar-api
+# El plan gratuito de Render duerme el servidor tras ~15 min sin visitas y tarda en despertar.
+# Este ping cada 10 minutos lo mantiene despierto. (GitHub puede atrasar unos minutos los cron
+# y los pausa si el repo pasa 60 días sin actividad.)
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -fsS --max-time 120 -o /dev/null -w "%{http_code} %{time_total}s\n" https://precificamos-api.onrender.com/api/segmentos

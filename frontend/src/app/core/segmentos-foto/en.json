@@ -1,0 +1,1286 @@
+[
+  {
+    "codigo": "PRODUCCION_ALIMENTOS",
+    "nombre": "Food production",
+    "descripcion": "Food service and prepared food or drinks: you work with recipes, ingredients and portions.",
+    "icono": "🍰",
+    "ejemplos": [
+      "Bakery and cakes",
+      "Bakery",
+      "Meal prep and home cooking",
+      "Burger joint / food truck",
+      "Pizzeria",
+      "Restaurant or bar",
+      "Ice cream shop",
+      "Craft brewery",
+      "Sweets and preserves",
+      "Party sweets and savory snacks"
+    ],
+    "pasos": [
+      {
+        "titulo": "Your recipe",
+        "descripcion": "Tell us what you make and how many portions it yields.",
+        "campos": [
+          {
+            "nombre": "nombreReceta",
+            "etiqueta": "Recipe or product name",
+            "tipo": "texto",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "E.g. Chocolate cake, Classic burger"
+          },
+          {
+            "nombre": "rendimientoPorciones",
+            "etiqueta": "How many portions or units does it yield?",
+            "tipo": "entero",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "E.g. a 12-slice cake → 12",
+            "valorPorDefecto": 12
+          }
+        ]
+      },
+      {
+        "titulo": "Ingredients",
+        "descripcion": "Enter each ingredient: what you paid for the package and how much you use.",
+        "campos": [
+          {
+            "nombre": "ingredientes",
+            "etiqueta": "Ingredients",
+            "tipo": "lista",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "E.g. Flour, I paid $6.50 for 1 kg and use 500 g",
+            "subcampos": [
+              {
+                "nombre": "nombre",
+                "etiqueta": "Ingredient",
+                "tipo": "texto",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "precioCompra",
+                "etiqueta": "Package price",
+                "tipo": "moneda",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "cantidadCompra",
+                "etiqueta": "Package size",
+                "tipo": "numero",
+                "grupo": "datos",
+                "obligatorio": true,
+                "valorPorDefecto": 1
+              },
+              {
+                "nombre": "unidadCompra",
+                "etiqueta": "Package unit",
+                "tipo": "seleccion",
+                "grupo": "datos",
+                "obligatorio": true,
+                "valorPorDefecto": "KG",
+                "opciones": [
+                  {
+                    "valor": "G",
+                    "etiqueta": "grams (g)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "KG",
+                    "etiqueta": "kilograms (kg)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "ML",
+                    "etiqueta": "milliliters (ml)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "L",
+                    "etiqueta": "liters (l)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "CM",
+                    "etiqueta": "centimeters (cm)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "M",
+                    "etiqueta": "meters (m)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "CM2",
+                    "etiqueta": "cm²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "M2",
+                    "etiqueta": "m²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "UNIDAD",
+                    "etiqueta": "units",
+                    "extra": "UNIDADES"
+                  },
+                  {
+                    "valor": "DOCENA",
+                    "etiqueta": "dozens",
+                    "extra": "UNIDADES"
+                  }
+                ]
+              },
+              {
+                "nombre": "cantidadUsada",
+                "etiqueta": "Amount used",
+                "tipo": "numero",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "unidadUsada",
+                "etiqueta": "Unit used",
+                "tipo": "seleccion",
+                "grupo": "datos",
+                "obligatorio": true,
+                "valorPorDefecto": "G",
+                "opciones": [
+                  {
+                    "valor": "G",
+                    "etiqueta": "grams (g)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "KG",
+                    "etiqueta": "kilograms (kg)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "ML",
+                    "etiqueta": "milliliters (ml)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "L",
+                    "etiqueta": "liters (l)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "CM",
+                    "etiqueta": "centimeters (cm)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "M",
+                    "etiqueta": "meters (m)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "CM2",
+                    "etiqueta": "cm²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "M2",
+                    "etiqueta": "m²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "UNIDAD",
+                    "etiqueta": "units",
+                    "extra": "UNIDADES"
+                  },
+                  {
+                    "valor": "DOCENA",
+                    "etiqueta": "dozens",
+                    "extra": "UNIDADES"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titulo": "Preparation",
+        "descripcion": "Waste, gas/electricity and packaging.",
+        "campos": [
+          {
+            "nombre": "mermaPct",
+            "etiqueta": "Waste or spoilage (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "What's lost when peeling, cutting or cooking. Usually 5–10%",
+            "valorPorDefecto": 5
+          },
+          {
+            "nombre": "minutosPreparacion",
+            "etiqueta": "Minutes of oven/stove",
+            "tipo": "numero",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Total time equipment is on for the whole recipe",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "costoEnergiaHora",
+            "etiqueta": "Gas and electricity cost per hour",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "A home gas oven costs about $2 to $4 per hour",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "embalajePorPorcion",
+            "etiqueta": "Packaging per portion",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Box, tray, label, napkin",
+            "valorPorDefecto": 0
+          }
+        ]
+      },
+      {
+        "titulo": "Price target",
+        "descripcion": "Food cost % is how much of the price goes to ingredients.",
+        "campos": [
+          {
+            "nombre": "cmvObjetivoPct",
+            "etiqueta": "Target food cost (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Restaurants use 25–35%. Lower = higher price",
+            "valorPorDefecto": 30
+          }
+        ]
+      },
+      {
+        "titulo": "Sales, fixed costs and taxes",
+        "descripcion": "What your whole business shares. It's filled in from your Settings and your Fixed costs.",
+        "campos": [
+          {
+            "nombre": "ventasMensualesProducto",
+            "etiqueta": "How many units of this do you sell per month?",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": true,
+            "ayuda": "Items, portions or jobs. If you don't know, enter an estimate"
+          },
+          {
+            "nombre": "unidadesMensualesNegocio",
+            "etiqueta": "Total units the whole business sells per month",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Used to split fixed costs across all your products. Empty = same as above"
+          },
+          {
+            "nombre": "costosFijosMensuales",
+            "etiqueta": "Monthly fixed costs",
+            "tipo": "moneda",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Rent, electricity, internet, accountant, MEI tax (DAS)…",
+            "valorPorDefecto": 0.00
+          },
+          {
+            "nombre": "impuestoPct",
+            "etiqueta": "Sales taxes (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Your sales tax rate (e.g. 6%). In Brazil, MEI: 0 and add the DAS to fixed costs",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "tarjetaPct",
+            "etiqueta": "Card / payment fee (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Debit ~1–2%, credit ~3–5%",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "marketplacePct",
+            "etiqueta": "Marketplace or app commission (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Mercado Libre, Shopee, iFood… 0 if you sell directly",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "comisionPct",
+            "etiqueta": "Sales commission (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "valorPorDefecto": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "codigo": "FABRICACION",
+    "nombre": "Own manufacturing",
+    "descripcion": "You make or sew items with raw materials, supplies and labor.",
+    "icono": "🧵",
+    "ejemplos": [
+      "Clothing and sewing",
+      "Crafts",
+      "Cosmetics and natural soaps",
+      "Furniture and woodworking",
+      "Costume jewelry and jewelry",
+      "Candles and scents",
+      "3D printing",
+      "Footwear and leather goods",
+      "Bows and hair accessories",
+      "Printing and sublimation"
+    ],
+    "pasos": [
+      {
+        "titulo": "Your item",
+        "descripcion": "What do you make?",
+        "campos": [
+          {
+            "nombre": "nombreProducto",
+            "etiqueta": "Product name",
+            "tipo": "texto",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "E.g. Printed T-shirt, Lavender soap, Coffee table"
+          }
+        ]
+      },
+      {
+        "titulo": "Raw materials",
+        "descripcion": "What you measure: fabric, wood, wax, oils, thread…",
+        "campos": [
+          {
+            "nombre": "materiasPrimas",
+            "etiqueta": "Raw materials",
+            "tipo": "lista",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "E.g. Fabric, I paid $30 for 1 m and use 80 cm per item",
+            "subcampos": [
+              {
+                "nombre": "nombre",
+                "etiqueta": "Raw material",
+                "tipo": "texto",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "precioCompra",
+                "etiqueta": "Price paid",
+                "tipo": "moneda",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "cantidadCompra",
+                "etiqueta": "Quantity bought",
+                "tipo": "numero",
+                "grupo": "datos",
+                "obligatorio": true,
+                "valorPorDefecto": 1
+              },
+              {
+                "nombre": "unidadCompra",
+                "etiqueta": "Purchase unit",
+                "tipo": "seleccion",
+                "grupo": "datos",
+                "obligatorio": true,
+                "valorPorDefecto": "M",
+                "opciones": [
+                  {
+                    "valor": "G",
+                    "etiqueta": "grams (g)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "KG",
+                    "etiqueta": "kilograms (kg)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "ML",
+                    "etiqueta": "milliliters (ml)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "L",
+                    "etiqueta": "liters (l)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "CM",
+                    "etiqueta": "centimeters (cm)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "M",
+                    "etiqueta": "meters (m)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "CM2",
+                    "etiqueta": "cm²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "M2",
+                    "etiqueta": "m²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "UNIDAD",
+                    "etiqueta": "units",
+                    "extra": "UNIDADES"
+                  },
+                  {
+                    "valor": "DOCENA",
+                    "etiqueta": "dozens",
+                    "extra": "UNIDADES"
+                  }
+                ]
+              },
+              {
+                "nombre": "consumoPorPieza",
+                "etiqueta": "Usage per item",
+                "tipo": "numero",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "unidadConsumo",
+                "etiqueta": "Usage unit",
+                "tipo": "seleccion",
+                "grupo": "datos",
+                "obligatorio": true,
+                "valorPorDefecto": "CM",
+                "opciones": [
+                  {
+                    "valor": "G",
+                    "etiqueta": "grams (g)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "KG",
+                    "etiqueta": "kilograms (kg)",
+                    "extra": "MASA"
+                  },
+                  {
+                    "valor": "ML",
+                    "etiqueta": "milliliters (ml)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "L",
+                    "etiqueta": "liters (l)",
+                    "extra": "VOLUMEN"
+                  },
+                  {
+                    "valor": "CM",
+                    "etiqueta": "centimeters (cm)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "M",
+                    "etiqueta": "meters (m)",
+                    "extra": "LONGITUD"
+                  },
+                  {
+                    "valor": "CM2",
+                    "etiqueta": "cm²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "M2",
+                    "etiqueta": "m²",
+                    "extra": "AREA"
+                  },
+                  {
+                    "valor": "UNIDAD",
+                    "etiqueta": "units",
+                    "extra": "UNIDADES"
+                  },
+                  {
+                    "valor": "DOCENA",
+                    "etiqueta": "dozens",
+                    "extra": "UNIDADES"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titulo": "Supplies and trims",
+        "descripcion": "What you count per unit: buttons, zippers, labels, jars.",
+        "campos": [
+          {
+            "nombre": "insumos",
+            "etiqueta": "Supplies",
+            "tipo": "lista",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "E.g. Button, $0.20 each, 4 per item",
+            "subcampos": [
+              {
+                "nombre": "nombre",
+                "etiqueta": "Supply",
+                "tipo": "texto",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "costoUnitario",
+                "etiqueta": "Cost per unit",
+                "tipo": "moneda",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "cantidadPorPieza",
+                "etiqueta": "Quantity per item",
+                "tipo": "numero",
+                "grupo": "datos",
+                "obligatorio": true,
+                "valorPorDefecto": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titulo": "Labor and waste",
+        "descripcion": "Your time is worth money too.",
+        "campos": [
+          {
+            "nombre": "minutosManoObra",
+            "etiqueta": "Minutes of work per item",
+            "tipo": "numero",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "E.g. 45 minutes to sew a T-shirt",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "costoPorMinuto",
+            "etiqueta": "Labor cost per minute",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Empty = your hourly rate from Settings ÷ 60"
+          },
+          {
+            "nombre": "mermaPct",
+            "etiqueta": "Raw material waste (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Offcuts and defective items. Usually 5–15%",
+            "valorPorDefecto": 5
+          }
+        ]
+      },
+      {
+        "titulo": "Margins",
+        "descripcion": "Price for end customers and for resellers.",
+        "campos": [
+          {
+            "nombre": "margenMinoristaPct",
+            "etiqueta": "Retail margin (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Profit on the end-customer price",
+            "valorPorDefecto": 40
+          },
+          {
+            "nombre": "margenMayoristaPct",
+            "etiqueta": "Wholesale margin (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Lower than retail: the reseller needs to profit too",
+            "valorPorDefecto": 20
+          }
+        ]
+      },
+      {
+        "titulo": "Sales, fixed costs and taxes",
+        "descripcion": "What your whole business shares. It's filled in from your Settings and your Fixed costs.",
+        "campos": [
+          {
+            "nombre": "ventasMensualesProducto",
+            "etiqueta": "How many units of this do you sell per month?",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": true,
+            "ayuda": "Items, portions or jobs. If you don't know, enter an estimate"
+          },
+          {
+            "nombre": "unidadesMensualesNegocio",
+            "etiqueta": "Total units the whole business sells per month",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Used to split fixed costs across all your products. Empty = same as above"
+          },
+          {
+            "nombre": "costosFijosMensuales",
+            "etiqueta": "Monthly fixed costs",
+            "tipo": "moneda",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Rent, electricity, internet, accountant, MEI tax (DAS)…",
+            "valorPorDefecto": 0.00
+          },
+          {
+            "nombre": "impuestoPct",
+            "etiqueta": "Sales taxes (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Your sales tax rate (e.g. 6%). In Brazil, MEI: 0 and add the DAS to fixed costs",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "tarjetaPct",
+            "etiqueta": "Card / payment fee (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Debit ~1–2%, credit ~3–5%",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "marketplacePct",
+            "etiqueta": "Marketplace or app commission (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Mercado Libre, Shopee, iFood… 0 if you sell directly",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "comisionPct",
+            "etiqueta": "Sales commission (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "valorPorDefecto": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "codigo": "REVENTA",
+    "nombre": "Resale / retail",
+    "descripcion": "You buy finished products from a supplier and resell them.",
+    "icono": "🛍️",
+    "ejemplos": [
+      "Multi-brand clothing store",
+      "Electronics and phone accessories",
+      "Toy store",
+      "Online store / dropshipping",
+      "Catalog cosmetics reseller",
+      "Bookstore and stationery",
+      "Pet shop (products)",
+      "Hardware store",
+      "Imported goods",
+      "Selling on Mercado Libre / Shopee"
+    ],
+    "pasos": [
+      {
+        "titulo": "The product",
+        "descripcion": "What do you resell and what does it cost you?",
+        "campos": [
+          {
+            "nombre": "nombreProducto",
+            "etiqueta": "Product name",
+            "tipo": "texto",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "E.g. Phone case, 100 ml perfume"
+          },
+          {
+            "nombre": "costoCompra",
+            "etiqueta": "Purchase price per unit",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "What you pay the supplier for each unit"
+          }
+        ]
+      },
+      {
+        "titulo": "Inbound costs",
+        "descripcion": "What you pay until the product is in your store.",
+        "campos": [
+          {
+            "nombre": "fletePorUnidad",
+            "etiqueta": "Shipping per unit",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Total shipping ÷ units bought",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "impuestosEntradaPct",
+            "etiqueta": "Import/inbound taxes (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Import duties or other taxes on the cost (in Brazil: ICMS-ST, DIFAL)",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "otrosCostosUnidad",
+            "etiqueta": "Packaging or other per unit",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Bag, box, label",
+            "valorPorDefecto": 0
+          }
+        ]
+      },
+      {
+        "titulo": "Price and stock",
+        "descripcion": "How much you want to multiply your cost and how your stock turns over.",
+        "campos": [
+          {
+            "nombre": "markup",
+            "etiqueta": "Markup (multiplier)",
+            "tipo": "numero",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "2 = sell at twice the cost. Clothing uses 2 to 2.5; electronics 1.3 to 1.6",
+            "valorPorDefecto": 2
+          },
+          {
+            "nombre": "margenMinimoLiquidacionPct",
+            "etiqueta": "Minimum clearance margin (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "For clearing slow stock without losing money",
+            "valorPorDefecto": 5
+          },
+          {
+            "nombre": "stockActual",
+            "etiqueta": "Units in stock",
+            "tipo": "entero",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "To know how many days it takes you to sell them",
+            "valorPorDefecto": 0
+          }
+        ]
+      },
+      {
+        "titulo": "Sales, fixed costs and taxes",
+        "descripcion": "What your whole business shares. It's filled in from your Settings and your Fixed costs.",
+        "campos": [
+          {
+            "nombre": "ventasMensualesProducto",
+            "etiqueta": "How many units of this do you sell per month?",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": true,
+            "ayuda": "Items, portions or jobs. If you don't know, enter an estimate"
+          },
+          {
+            "nombre": "unidadesMensualesNegocio",
+            "etiqueta": "Total units the whole business sells per month",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Used to split fixed costs across all your products. Empty = same as above"
+          },
+          {
+            "nombre": "costosFijosMensuales",
+            "etiqueta": "Monthly fixed costs",
+            "tipo": "moneda",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Rent, electricity, internet, accountant, MEI tax (DAS)…",
+            "valorPorDefecto": 0.00
+          },
+          {
+            "nombre": "impuestoPct",
+            "etiqueta": "Sales taxes (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Your sales tax rate (e.g. 6%). In Brazil, MEI: 0 and add the DAS to fixed costs",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "tarjetaPct",
+            "etiqueta": "Card / payment fee (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Debit ~1–2%, credit ~3–5%",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "marketplacePct",
+            "etiqueta": "Marketplace or app commission (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Mercado Libre, Shopee, iFood… 0 if you sell directly",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "comisionPct",
+            "etiqueta": "Sales commission (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "valorPorDefecto": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "codigo": "VENTA_MASIVA",
+    "nombre": "Mass retail / self-service",
+    "descripcion": "Many fast-moving products across categories, with a margin per category.",
+    "icono": "🛒",
+    "ejemplos": [
+      "Supermarket",
+      "Grocery / corner store",
+      "Self-service store",
+      "Newsstand and drugstore",
+      "Greengrocer",
+      "Wholesale distributor",
+      "Pharmacy (toiletries and over-the-counter)",
+      "Convenience store",
+      "Bulk health food store",
+      "Building mini-market"
+    ],
+    "pasos": [
+      {
+        "titulo": "The item",
+        "descripcion": "Which item and on which shelf?",
+        "campos": [
+          {
+            "nombre": "nombreProducto",
+            "etiqueta": "Item name",
+            "tipo": "texto",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "E.g. Rice 1 kg, Soda 2 l"
+          },
+          {
+            "nombre": "categoria",
+            "etiqueta": "Category",
+            "tipo": "seleccion",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "Each category comes with a reference margin you can change",
+            "valorPorDefecto": "ALMACEN",
+            "opciones": [
+              {
+                "valor": "ALMACEN",
+                "etiqueta": "Pantry (dry goods)",
+                "extra": 22
+              },
+              {
+                "valor": "BEBIDAS",
+                "etiqueta": "Beverages",
+                "extra": 25
+              },
+              {
+                "valor": "LACTEOS",
+                "etiqueta": "Dairy and deli",
+                "extra": 20
+              },
+              {
+                "valor": "CARNES",
+                "etiqueta": "Meat",
+                "extra": 28
+              },
+              {
+                "valor": "FRUTAS_VERDURAS",
+                "etiqueta": "Fruits and vegetables",
+                "extra": 35
+              },
+              {
+                "valor": "PANADERIA",
+                "etiqueta": "Bakery",
+                "extra": 40
+              },
+              {
+                "valor": "CONGELADOS",
+                "etiqueta": "Frozen",
+                "extra": 25
+              },
+              {
+                "valor": "LIMPIEZA",
+                "etiqueta": "Cleaning",
+                "extra": 30
+              },
+              {
+                "valor": "PERFUMERIA",
+                "etiqueta": "Toiletries and hygiene",
+                "extra": 32
+              },
+              {
+                "valor": "BAZAR",
+                "etiqueta": "Housewares and home",
+                "extra": 40
+              },
+              {
+                "valor": "OTROS",
+                "etiqueta": "Other",
+                "extra": 25
+              }
+            ]
+          },
+          {
+            "nombre": "costoCompra",
+            "etiqueta": "Purchase cost per unit",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": true
+          }
+        ]
+      },
+      {
+        "titulo": "Losses and margin",
+        "descripcion": "Expiration, breakage and the category margin.",
+        "campos": [
+          {
+            "nombre": "perdidaPct",
+            "etiqueta": "Loss from expiration/breakage (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Perishables 5–10%, dry goods 1–2%",
+            "valorPorDefecto": 2
+          },
+          {
+            "nombre": "margenPct",
+            "etiqueta": "Margin for this item (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Empty = the category's reference margin"
+          }
+        ]
+      },
+      {
+        "titulo": "Shelf price and promotion",
+        "descripcion": "Rounding and deals.",
+        "campos": [
+          {
+            "nombre": "redondeoPsicologico",
+            "etiqueta": "Round to .99",
+            "tipo": "booleano",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "E.g. 4.32 → 4.99",
+            "valorPorDefecto": true
+          },
+          {
+            "nombre": "promoLleva",
+            "etiqueta": "Deal: buy",
+            "tipo": "entero",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "E.g. buy 3…"
+          },
+          {
+            "nombre": "promoPaga",
+            "etiqueta": "Deal: pay for",
+            "tipo": "entero",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "…pay for 2"
+          }
+        ]
+      },
+      {
+        "titulo": "Sales, fixed costs and taxes",
+        "descripcion": "What your whole business shares. It's filled in from your Settings and your Fixed costs.",
+        "campos": [
+          {
+            "nombre": "ventasMensualesProducto",
+            "etiqueta": "How many units of this do you sell per month?",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": true,
+            "ayuda": "Items, portions or jobs. If you don't know, enter an estimate"
+          },
+          {
+            "nombre": "unidadesMensualesNegocio",
+            "etiqueta": "Total units the whole business sells per month",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Used to split fixed costs across all your products. Empty = same as above"
+          },
+          {
+            "nombre": "costosFijosMensuales",
+            "etiqueta": "Monthly fixed costs",
+            "tipo": "moneda",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Rent, electricity, internet, accountant, MEI tax (DAS)…",
+            "valorPorDefecto": 0.00
+          },
+          {
+            "nombre": "impuestoPct",
+            "etiqueta": "Sales taxes (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Your sales tax rate (e.g. 6%). In Brazil, MEI: 0 and add the DAS to fixed costs",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "tarjetaPct",
+            "etiqueta": "Card / payment fee (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Debit ~1–2%, credit ~3–5%",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "marketplacePct",
+            "etiqueta": "Marketplace or app commission (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Mercado Libre, Shopee, iFood… 0 if you sell directly",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "comisionPct",
+            "etiqueta": "Sales commission (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "valorPorDefecto": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "codigo": "SERVICIOS",
+    "nombre": "Services",
+    "descripcion": "You sell your time and know-how: you charge by the hour or per job.",
+    "icono": "🛠️",
+    "ejemplos": [
+      "Hair salon and beauty",
+      "Manicure and nails",
+      "Electrician / plumber",
+      "Graphic and web design",
+      "Freelance programming",
+      "Private lessons",
+      "Cleaning",
+      "Photography",
+      "Auto repair",
+      "Consulting and accounting"
+    ],
+    "pasos": [
+      {
+        "titulo": "Your service",
+        "descripcion": "What do you do and how long does it take?",
+        "campos": [
+          {
+            "nombre": "nombreServicio",
+            "etiqueta": "Service name",
+            "tipo": "texto",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "E.g. Cut and style, Electrical installation, Brand logo"
+          },
+          {
+            "nombre": "horasPorServicio",
+            "etiqueta": "Hours per job",
+            "tipo": "numero",
+            "grupo": "datos",
+            "obligatorio": true,
+            "ayuda": "Include setup and cleanup. 1 h 30 min = 1.5",
+            "valorPorDefecto": 1
+          },
+          {
+            "nombre": "valorHora",
+            "etiqueta": "Your hourly rate",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Empty = the hourly rate from Settings"
+          }
+        ]
+      },
+      {
+        "titulo": "Materials",
+        "descripcion": "What you spend on each job.",
+        "campos": [
+          {
+            "nombre": "materiales",
+            "etiqueta": "Materials",
+            "tipo": "lista",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "E.g. Hair dye, $18",
+            "subcampos": [
+              {
+                "nombre": "nombre",
+                "etiqueta": "Material",
+                "tipo": "texto",
+                "grupo": "datos",
+                "obligatorio": true
+              },
+              {
+                "nombre": "costo",
+                "etiqueta": "Cost per job",
+                "tipo": "moneda",
+                "grupo": "datos",
+                "obligatorio": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titulo": "Travel",
+        "descripcion": "If you go to the customer's place.",
+        "campos": [
+          {
+            "nombre": "kmDesplazamiento",
+            "etiqueta": "Kilometers (round trip)",
+            "tipo": "numero",
+            "grupo": "datos",
+            "obligatorio": false,
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "costoPorKm",
+            "etiqueta": "Cost per km",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "Fuel + wear. A car costs about $0.80 to $1.20 per km",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "otrosGastosDesplazamiento",
+            "etiqueta": "Tolls, parking, fares",
+            "tipo": "moneda",
+            "grupo": "datos",
+            "obligatorio": false,
+            "valorPorDefecto": 0
+          }
+        ]
+      },
+      {
+        "titulo": "Margin",
+        "descripcion": "What you want left over as profit.",
+        "campos": [
+          {
+            "nombre": "margenPct",
+            "etiqueta": "Desired margin (%)",
+            "tipo": "porcentaje",
+            "grupo": "datos",
+            "obligatorio": false,
+            "ayuda": "On the final price, after taxes and fees",
+            "valorPorDefecto": 30
+          }
+        ]
+      },
+      {
+        "titulo": "Sales, fixed costs and taxes",
+        "descripcion": "What your whole business shares. It's filled in from your Settings and your Fixed costs.",
+        "campos": [
+          {
+            "nombre": "ventasMensualesProducto",
+            "etiqueta": "How many units of this do you sell per month?",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": true,
+            "ayuda": "Items, portions or jobs. If you don't know, enter an estimate"
+          },
+          {
+            "nombre": "unidadesMensualesNegocio",
+            "etiqueta": "Total units the whole business sells per month",
+            "tipo": "entero",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Used to split fixed costs across all your products. Empty = same as above"
+          },
+          {
+            "nombre": "costosFijosMensuales",
+            "etiqueta": "Monthly fixed costs",
+            "tipo": "moneda",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Rent, electricity, internet, accountant, MEI tax (DAS)…",
+            "valorPorDefecto": 0.00
+          },
+          {
+            "nombre": "impuestoPct",
+            "etiqueta": "Sales taxes (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Your sales tax rate (e.g. 6%). In Brazil, MEI: 0 and add the DAS to fixed costs",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "tarjetaPct",
+            "etiqueta": "Card / payment fee (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Debit ~1–2%, credit ~3–5%",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "marketplacePct",
+            "etiqueta": "Marketplace or app commission (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "ayuda": "Mercado Libre, Shopee, iFood… 0 if you sell directly",
+            "valorPorDefecto": 0
+          },
+          {
+            "nombre": "comisionPct",
+            "etiqueta": "Sales commission (%)",
+            "tipo": "porcentaje",
+            "grupo": "comun",
+            "obligatorio": false,
+            "valorPorDefecto": 0
+          }
+        ]
+      }
+    ]
+  }
+]

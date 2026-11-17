@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, shareReplay, throwError } from 'rxjs';
+import { Observable, catchError, from, map, of, shareReplay, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { idioma, t } from './i18n/i18n';
+import { Idioma, idioma, t } from './i18n/i18n';
 import {
   Configuracion, CostoFijo, DefinicionSegmento, ErrorApi, ResultadoSegmento, ResultadoSimulacion,
   SolicitudCalculo,
@@ -17,17 +17,39 @@ export class ApiService {
   /** Idioma con el que se pidió la caché de categorías (los textos vienen traducidos de la API). */
   private idiomaSegmentos?: string;
 
-  /** Categorías con ejemplos y formularios (se cachea durante la sesión, por idioma). */
+  /**
+   * Categorías con ejemplos y formularios (se cachea durante la sesión, por idioma).
+   *
+   * Sin sesión se muestran al instante desde una copia incluida en la app, así el inicio no espera
+   * a que el servidor gratuito despierte. Mientras tanto se piden las categorías a la API en
+   * segundo plano: eso despierta el servidor y deja la versión viva para la próxima vez.
+   * Con sesión se piden siempre a la API, porque los valores por defecto dependen de la configuración.
+   */
   segmentos(): Observable<DefinicionSegmento[]> {
     if (this.idiomaSegmentos !== idioma()) {
       this.segmentos$ = undefined;
       this.idiomaSegmentos = idioma();
     }
-    this.segmentos$ ??= this.http.get<DefinicionSegmento[]>(`${this.base}/segmentos`).pipe(
-      catchError((e) => { this.segmentos$ = undefined; return this.error(e); }),
-      shareReplay(1),
-    );
+    if (!this.segmentos$) {
+      if (haySesion()) {
+        this.segmentos$ = this.segmentosVivos().pipe(
+          catchError((e) => { this.segmentos$ = undefined; return this.error(e); }),
+          shareReplay(1),
+        );
+      } else {
+        const lang = idioma();
+        this.segmentos$ = from(FOTOS[lang]()).pipe(map((m) => m.default as DefinicionSegmento[]), shareReplay(1));
+        this.segmentosVivos().subscribe({
+          next: (s) => { if (this.idiomaSegmentos === lang && !haySesion()) this.segmentos$ = of(s); },
+          error: () => { /* nos quedamos con la copia incluida */ },
+        });
+      }
+    }
     return this.segmentos$;
+  }
+
+  private segmentosVivos(): Observable<DefinicionSegmento[]> {
+    return this.http.get<DefinicionSegmento[]>(`${this.base}/segmentos`);
   }
 
   segmento(codigo: string): Observable<DefinicionSegmento> {
@@ -72,6 +94,21 @@ export class ApiService {
   private error(e: HttpErrorResponse): Observable<never> {
     return errorApi(e);
   }
+}
+
+/**
+ * Copia de GET /api/segmentos por idioma, incluida en la app para que el inicio cargue al instante.
+ * Se regenera con: npm run segmentos:foto (con el servidor despierto).
+ */
+const FOTOS: Record<Idioma, () => Promise<{ default: unknown }>> = {
+  es: () => import('./segmentos-foto/es.json'),
+  'pt-BR': () => import('./segmentos-foto/pt-BR.json'),
+  en: () => import('./segmentos-foto/en.json'),
+};
+
+/** Misma clave que usa AuthService (no se inyecta para evitar una dependencia circular). */
+function haySesion(): boolean {
+  try { return localStorage.getItem('precificamos.token') !== null; } catch { return false; }
 }
 
 /** Normaliza cualquier error HTTP a {@link ErrorApi} con un mensaje entendible. */

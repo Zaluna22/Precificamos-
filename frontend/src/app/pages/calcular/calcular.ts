@@ -112,6 +112,7 @@ export class Calcular implements OnInit {
 
   protected siguiente(): void {
     if (!this.validarPaso()) return;
+    this.limpiarAlerta();
     this.guardarBorrador();
     if (this.esUltimo()) {
       this.calcular();
@@ -122,18 +123,21 @@ export class Calcular implements OnInit {
   }
 
   protected anterior(): void {
+    this.limpiarAlerta();
     this.paso.update((p) => Math.max(0, p - 1));
     this.subir();
   }
 
   protected irAPaso(i: number): void {
     if (i < this.paso() || this.validarPaso()) {
+      this.limpiarAlerta();
       this.paso.set(i);
       this.subir();
     }
   }
 
   protected editar(): void {
+    this.limpiarAlerta();
     this.resultado.set(null);
     this.paso.set(0);
     this.subir();
@@ -197,6 +201,7 @@ export class Calcular implements OnInit {
     this.api.calcular(def.codigo, solicitud).subscribe({
       next: (r) => {
         this.resultado.set(r);
+        this.errores.set({});
         this.solicitudEnviada.set(solicitud);
         this.enviando.set(false);
         this.subir();
@@ -217,6 +222,15 @@ export class Calcular implements OnInit {
 
   protected ventasDelModelo(): number {
     return Number(this.modelo.comun['ventasMensualesProducto']) || 1;
+  }
+
+  /**
+   * Saca el aviso general del formulario (por ejemplo "Revisá los datos ingresados") al cambiar de
+   * paso: ya cumplió su función de llevar al usuario al campo con error y, si sigue mal, el próximo
+   * cálculo lo vuelve a mostrar.
+   */
+  private limpiarAlerta(): void {
+    if (this.definicion()) this.errorGeneral.set(null);
   }
 
   private guardarBorrador(): void {

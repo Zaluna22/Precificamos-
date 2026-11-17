@@ -58,7 +58,7 @@
       <label [for]="id">{{ c.etiqueta }} @if (c.obligatorio) { <span class="obligatorio" aria-hidden="true">*</span> }</label>
       <div class="entrada-numero">
         @if (c.tipo === 'moneda') { <span class="prefijo" aria-hidden="true">{{ simbolo }}</span> }
-        <input type="number" [id]="id" [(ngModel)]="m[c.nombre]" [ngModelOptions]="{ standalone: true }" [required]="c.obligatorio" min="0" [step]="paso()"
+        <input type="text" decimal [id]="id" [(ngModel)]="m[c.nombre]" [ngModelOptions]="{ standalone: true }" [required]="c.obligatorio" min="0" [step]="paso()"
                [attr.inputmode]="modoTeclado()" />
         @if (sufijo()) { <span class="sufijo" aria-hidden="true">{{ sufijo() }}</span> }
       </div>

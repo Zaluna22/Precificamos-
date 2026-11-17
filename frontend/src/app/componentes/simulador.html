@@ -8,7 +8,7 @@
     <div class="sim-fila">
       <div class="entrada-numero">
         <span class="prefijo" aria-hidden="true">{{ simbolo }}</span>
-        <input type="number" inputmode="decimal" min="0" step="any" [attr.aria-label]="'Precio exacto' | t"
+        <input type="text" decimal inputmode="decimal" min="0" step="any" [attr.aria-label]="'Precio exacto' | t"
                [ngModel]="precio()" (ngModelChange)="cambiarPrecio($event)" />
       </div>
       <button type="button" class="boton boton-secundario" (click)="volverAlSugerido()">{{ 'Volver al sugerido' | t }}</button>
@@ -18,7 +18,7 @@
   <div class="campo">
     <label for="sim-ventas">{{ 'Unidades vendidas por mes' | t }}</label>
     <div class="entrada-numero">
-      <input id="sim-ventas" type="number" inputmode="numeric" min="1" step="1"
+      <input id="sim-ventas" type="text" decimal inputmode="numeric" min="1" step="1"
              [ngModel]="ventas()" (ngModelChange)="cambiarVentas($event)" />
     </div>
   </div>

@@ -1,6 +1,7 @@
 import { Component, DestroyRef, OnInit, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
+import { NumeroDecimal } from '../core/numero-decimal';
 import { Subject, catchError, debounceTime, of, switchMap } from 'rxjs';
 import { ApiService } from '../core/api.service';
 import { FormatoPipe, simboloMoneda } from '../core/formato';
@@ -10,7 +11,7 @@ import { ResultadoSimulacion, SolicitudCalculo } from '../core/modelos';
 /** Simulador: el usuario mueve el precio y las ventas y ve al instante su ganancia. */
 @Component({
   selector: 'app-simulador',
-  imports: [FormsModule, FormatoPipe, TraducirPipe],
+  imports: [FormsModule, NumeroDecimal, FormatoPipe, TraducirPipe],
   templateUrl: './simulador.html',
 })
 export class Simulador implements OnInit {

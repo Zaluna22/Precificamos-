@@ -1,5 +1,6 @@
 import { Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { NumeroDecimal } from '../core/numero-decimal';
 import { CampoFormulario, Opcion } from '../core/modelos';
 import { formatear, simboloMoneda } from '../core/formato';
 import { TraducirPipe } from '../core/i18n/i18n';
@@ -17,7 +18,7 @@ export function filaVacia(campo: CampoFormulario): Record<string, unknown> {
  */
 @Component({
   selector: 'app-campo-dinamico',
-  imports: [FormsModule, CampoDinamico, TraducirPipe],
+  imports: [FormsModule, NumeroDecimal, CampoDinamico, TraducirPipe],
   templateUrl: './campo-dinamico.html',
 })
 export class CampoDinamico {

@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { NumeroDecimal } from '../../core/numero-decimal';
 import { ApiService } from '../../core/api.service';
 import { simboloMoneda } from '../../core/formato';
 import { Configuracion } from '../../core/modelos';
@@ -9,7 +10,7 @@ import { SelectorIdioma } from '../../componentes/selector-idioma';
 /** Ajustes generales del negocio que se usan como valores por defecto en todos los cálculos. */
 @Component({
   selector: 'app-configuracion',
-  imports: [FormsModule, TraducirPipe, SelectorIdioma],
+  imports: [FormsModule, NumeroDecimal, TraducirPipe, SelectorIdioma],
   templateUrl: './configuracion.html',
 })
 export class ConfiguracionPagina {
